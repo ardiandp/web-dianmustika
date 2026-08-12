@@ -1,0 +1,63 @@
+Saya sarankan PRD Dian Mustika kita susun bertahap seperti ini:
+
+Tahap 1 — Product Definition
+Tujuan website
+Problem yang diselesaikan
+Target pengguna
+Business goal
+KPI
+Scope MVP
+Tahap 2 — Sitemap & Information Architecture
+Struktur halaman
+URL
+Navigasi
+User journey
+Internal linking
+Tahap 3 — UI/UX
+Design direction
+Warna
+Typography
+Layout
+Responsive behavior
+Component system
+CTA
+Tahap 4 — Technical Architecture
+Laravel
+PHP
+Database
+Tailwind
+Alpine/Livewire
+Storage
+Cache
+Queue bila diperlukan
+Tahap 5 — Database Design
+
+Misalnya:
+
+users
+services
+service_categories
+packages
+locations
+galleries
+testimonials
+articles
+article_categories
+faqs
+bookings
+promotions
+seo_metadata
+settings
+Tahap 6 — SEO
+Technical SEO
+On-page SEO
+Local SEO
+Schema.org
+Sitemap
+Robots
+Canonical
+Open Graph
+Breadcrumb
+Article SEO
+
+Tidak perlu React/Next.js untuk MVP ini. Untuk website profile yang mengutamakan SEO dan kecepatan, Laravel server-rendered akan jauh lebih sederhana dan efisien.

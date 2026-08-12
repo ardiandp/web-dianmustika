@@ -1,0 +1,41 @@
+Scope MVP Dian Mustika
+Yang dibuat
+PUBLIC WEBSITE
+├── Homepage
+├── Tentang Kami
+├── Layanan
+│   └── Detail Layanan
+├── Paket / Promo
+├── Galeri
+├── Testimonial
+├── Artikel
+│   └── Detail Artikel
+├── Lokasi
+│   └── Detail Lokasi
+├── FAQ
+└── Kontak
+CMS/Admin
+ADMIN
+├── Dashboard
+├── Layanan
+├── Kategori Layanan
+├── Paket / Promo
+├── Lokasi
+├── Galeri
+├── Testimonial
+├── Artikel
+├── Kategori Artikel
+├── FAQ
+└── Pengaturan Website
+Tidak dibuat pada MVP
+❌ Login customer
+❌ Online booking
+❌ Payment gateway
+❌ Membership
+❌ Customer database
+❌ Payroll
+❌ Inventory
+❌ Appointment management
+❌ Chat system
+
+CTA utama cukup diarahkan ke WhatsApp.

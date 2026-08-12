@@ -1,0 +1,38 @@
+PHASE 01
+Project Setup
+        ↓
+PHASE 02
+Database & Models
+        ↓
+PHASE 03
+Admin 
+        ↓
+PHASE 04
+Public Layout
+        ↓
+PHASE 05
+Homepage
+        ↓
+PHASE 06
+Services
+        ↓
+PHASE 07
+Locations
+        ↓
+PHASE 08
+Articles
+        ↓
+PHASE 09
+Gallery & Testimonials
+        ↓
+PHASE 10
+SEO
+        ↓
+PHASE 11
+Performance
+        ↓
+PHASE 12
+Testing
+        ↓
+PHASE 13
+Production

@@ -1,0 +1,98 @@
+Struktur PRD
+
+Saya akan membuat PRD dengan struktur berikut:
+
+01. PRODUCT OVERVIEW
+02. BUSINESS OBJECTIVES
+03. TARGET AUDIENCE
+04. USER PERSONA
+05. WEBSITE GOALS
+06. SCOPE & NON-SCOPE
+07. SITEMAP
+08. USER JOURNEY
+09. PAGE SPECIFICATION
+10. CONTENT REQUIREMENTS
+11. CMS REQUIREMENTS
+12. UI/UX REQUIREMENTS
+13. RESPONSIVE REQUIREMENTS
+14. SEO REQUIREMENTS
+15. LOCAL SEO
+16. PERFORMANCE REQUIREMENTS
+17. ACCESSIBILITY
+18. SECURITY
+19. TECHNICAL STACK
+20. DATABASE
+21. ROUTING
+22. COMPONENT ARCHITECTURE
+23. ADMIN PANEL
+24. ANALYTICS
+25. DEPLOYMENT
+26. TESTING
+27. ACCEPTANCE CRITERIA
+28. DEVELOPMENT PHASE
+29. AI AGENT RULES
+
+Prinsip utama project
+
+Saya akan memasukkan aturan ini ke PRD:
+
+1. SEO First
+
+Setiap halaman harus bisa memiliki:
+
+SEO title
+meta description
+canonical URL
+Open Graph
+structured data bila relevan
+heading hierarchy
+alt text
+SEO-friendly URL
+2. Performance First
+
+Hindari:
+
+library JS yang tidak diperlukan
+carousel berat
+video autoplay
+gambar original berukuran besar
+font terlalu banyak
+dependency yang tidak diperlukan
+3. Mobile First
+
+Mayoritas calon pelanggan kemungkinan mengakses dari smartphone.
+
+Jadi desain dimulai dari:
+
+Mobile
+ ↓
+Tablet
+ ↓
+Desktop
+4. Conversion First
+
+Setiap halaman harus mempunyai CTA yang jelas.
+
+Contoh:
+
+"Konsultasi & Info Layanan via WhatsApp"
+
+Struktur URL
+
+Saya sarankan:
+
+/
+ /tentang-kami
+ /layanan
+ /layanan/{slug}
+ /paket
+ /galeri
+ /testimoni
+ /artikel
+ /artikel/{slug}
+ /lokasi
+ /lokasi/{slug}
+ /faq
+ /kontak
+
+Ini cukup sederhana tetapi sudah bagus untuk SEO.

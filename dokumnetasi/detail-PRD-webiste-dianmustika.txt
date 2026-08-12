@@ -1,0 +1,2609 @@
+PRD Dian Mustika — Bagian 1: Product Definition
+1.1 Product Name
+
+Dian Mustika — Official Website
+
+Website resmi untuk memperkenalkan brand Dian Mustika, layanan perawatan, lokasi layanan, promo, serta mengarahkan calon pelanggan untuk melakukan konsultasi melalui WhatsApp.
+
+1.2 Product Type
+
+Company Profile + Marketing Website
+
+Website bersifat publik dan dapat diakses tanpa login.
+
+Fokus utama:
+
+Brand awareness
+Informasi layanan
+Informasi lokasi
+Promosi
+SEO
+Local SEO
+Lead generation melalui WhatsApp
+
+Website bukan aplikasi booking pada versi MVP.
+
+1.3 Business Background
+
+Dian Mustika merupakan brand yang bergerak pada bidang perawatan tubuh dan kecantikan, dengan berbagai layanan perawatan untuk pelanggan.
+
+Website dibutuhkan sebagai pusat informasi resmi yang dapat memberikan informasi yang lebih profesional, terstruktur, mudah ditemukan melalui Google, serta membantu calon pelanggan memahami layanan Dian Mustika sebelum menghubungi customer service.
+
+Saat ini informasi bisnis dapat tersebar di berbagai channel seperti media sosial dan WhatsApp. Website akan berfungsi sebagai central information hub.
+
+Konsep:
+
+Google / Social Media
+        ↓
+Website Dian Mustika
+        ↓
+Informasi layanan
+        ↓
+Kepercayaan calon pelanggan
+        ↓
+WhatsApp
+        ↓
+Customer Service
+1.4 Problem Statement
+
+Website harus menyelesaikan beberapa masalah utama:
+
+Problem 1 — Informasi layanan
+
+Calon pelanggan membutuhkan informasi mengenai:
+
+jenis perawatan
+manfaat layanan
+harga/paket jika tersedia
+durasi
+lokasi
+cara mendapatkan layanan
+
+Informasi harus disajikan secara terstruktur.
+
+Problem 2 — Brand credibility
+
+Website harus memberikan kesan:
+
+Profesional, terpercaya, nyaman, elegan, dan mudah diakses.
+
+Problem 3 — Search visibility
+
+Calon pelanggan yang mencari layanan melalui Google harus mempunyai kesempatan menemukan Dian Mustika.
+
+Contoh intent pencarian:
+
+spa wanita
+perawatan wanita
+slimming
+massage wanita
+perawatan pasca melahirkan
+spa Bintaro
+slimming Bintaro
+massage Bintaro
+
+Keyword aktual akan ditentukan melalui tahap SEO research berikutnya.
+
+Problem 4 — Conversion
+
+Website tidak hanya memberikan informasi.
+
+Website harus mendorong pengunjung untuk melakukan tindakan:
+
+Hubungi Dian Mustika melalui WhatsApp.
+
+1.5 Product Vision
+
+Visi produk:
+
+Menjadikan website Dian Mustika sebagai pusat informasi digital resmi yang profesional, cepat, mudah ditemukan di Google, dan mampu mengubah pengunjung menjadi calon pelanggan.
+
+Website harus memberikan pengalaman:
+
+Discover
+   ↓
+Explore
+   ↓
+Trust
+   ↓
+Contact
+1.6 Product Goals
+Primary Goals
+Meningkatkan kredibilitas brand Dian Mustika.
+Menampilkan layanan secara profesional.
+Memudahkan calon pelanggan menemukan informasi.
+Meningkatkan visibilitas di mesin pencari.
+Meningkatkan traffic organik.
+Menghasilkan leads melalui WhatsApp.
+Menjadi pusat informasi resmi Dian Mustika.
+Secondary Goals
+Mendukung promosi.
+Mendukung strategi content marketing.
+Mendukung Local SEO.
+Mempermudah pengelolaan konten.
+Menjadi foundation untuk pengembangan digital berikutnya.
+1.7 Non-Goals
+
+Untuk menjaga MVP tetap sederhana, fitur berikut tidak termasuk:
+
+❌ Online booking
+❌ Payment gateway
+❌ Customer login
+❌ Membership
+❌ Customer dashboard
+❌ Loyalty point
+❌ Appointment management
+❌ POS
+❌ CRM
+❌ Inventory
+❌ Payroll
+❌ Live chat
+
+Jika dibutuhkan, fitur tersebut dapat dikembangkan pada fase berikutnya.
+
+1.8 Target Audience
+
+Target audience utama:
+
+A. Wanita yang membutuhkan perawatan
+
+Mencari:
+
+relaksasi
+perawatan tubuh
+perawatan kecantikan
+slimming
+massage
+perawatan tertentu
+B. Ibu / wanita setelah melahirkan
+
+Mencari informasi mengenai:
+
+perawatan pasca melahirkan
+massage
+perawatan tubuh
+relaksasi
+C. Wanita yang ingin melakukan slimming
+
+Mencari:
+
+program slimming
+treatment tubuh
+informasi perawatan
+paket perawatan
+D. Existing Customer
+
+Pelanggan lama membutuhkan:
+
+informasi layanan
+promo
+lokasi
+kontak
+artikel
+informasi terbaru
+
+
+Status PRD Bagian 1
+
+Product Definition — DRAFT v1.0
+
+Product Type    : Company Profile + Marketing
+Primary Goal    : Branding + SEO + Lead Generation
+Primary CTA     : WhatsApp
+Booking System  : Tidak termasuk MVP
+CMS             : Filament
+Backend         : Laravel
+Frontend        : Blade + Tailwind
+Database        : MySQL
+Target          : Mobile-first + SEO + Performance
+
+
+=====================================
+
+PRD Dian Mustika — Bagian 2: Sitemap & Information Architecture
+
+Version: 1.0
+Status: Draft
+Product: Dian Mustika Official Website
+Type: Company Profile + Marketing
+
+2.1 Information Architecture
+
+Struktur informasi website dibagi menjadi 6 kelompok utama:
+
+Dian Mustika
+│
+├── Home
+│
+├── About
+│   └── Tentang Kami
+│
+├── Services
+│   ├── Semua Layanan
+│   └── Detail Layanan
+│
+├── Promotion
+│   └── Paket & Promo
+│
+├── Content
+│   ├── Galeri
+│   ├── Testimonial
+│   ├── Artikel
+│   └── FAQ
+│
+├── Locations
+│   ├── Semua Lokasi
+│   └── Detail Lokasi
+│
+└── Contact
+    └── Kontak & WhatsApp
+
+Tujuan struktur ini adalah membuat pengunjung dapat mencapai informasi penting maksimal dalam 2–3 klik dari homepage.
+
+2.2 Sitemap
+
+Sitemap public:
+
+/
+│
+├── /tentang-kami
+│
+├── /layanan
+│   └── /layanan/{slug}
+│
+├── /paket
+│
+├── /galeri
+│
+├── /testimoni
+│
+├── /artikel
+│   ├── /artikel/{slug}
+│   └── /artikel/kategori/{slug}
+│
+├── /lokasi
+│   └── /lokasi/{slug}
+│
+├── /faq
+│
+└── /kontak
+2.3 Primary Navigation
+
+Desktop navigation:
+
+┌──────────────────────────────────────────────────────────────┐
+│ LOGO │ Beranda │ Tentang │ Layanan │ Paket │ Artikel │ Lokasi │
+│                                                   [WHATSAPP] │
+└──────────────────────────────────────────────────────────────┘
+
+Menu utama:
+
+Beranda
+Tentang Kami
+Layanan
+Paket
+Artikel
+Lokasi
+CTA WhatsApp
+
+Galeri, Testimoni, FAQ, dan Kontak tidak wajib berada di primary navigation. Ketiganya dapat diakses melalui homepage/footer.
+
+Tujuannya menjaga navigasi tetap sederhana.
+
+2.4 Mobile Navigation
+
+Pada mobile menggunakan hamburger menu.
+
+┌─────────────────────────┐
+│ Logo Dian Mustika    ☰ │
+└─────────────────────────┘
+
+Menu:
+
+Beranda
+Tentang Kami
+Layanan
+Paket
+Artikel
+Lokasi
+Galeri
+Testimoni
+FAQ
+Kontak
+
+[ HUBUNGI VIA WHATSAPP ]
+
+CTA WhatsApp harus tetap mudah ditemukan.
+
+2.5 Homepage
+
+URL:
+
+/
+
+Homepage merupakan halaman utama marketing.
+
+Struktur:
+
+HEADER
+│
+├── Logo
+├── Navigation
+└── WhatsApp CTA
+│
+▼
+HERO
+│
+▼
+TRUST / BRAND VALUE
+│
+▼
+INTRODUCTION
+│
+▼
+FEATURED SERVICES
+│
+▼
+PACKAGES / PROMOTIONS
+│
+▼
+WHY DIAN MUSTIKA
+│
+▼
+GALLERY
+│
+▼
+TESTIMONIAL
+│
+▼
+LOCATIONS
+│
+▼
+LATEST ARTICLES
+│
+▼
+FINAL CTA
+│
+▼
+FOOTER
+2.6 Hero Section
+
+Hero harus menjawab tiga pertanyaan dalam beberapa detik:
+
+Siapa Dian Mustika?
+
+Apa yang ditawarkan?
+
+Apa yang harus dilakukan pengunjung?
+
+Struktur:
+
+Headline
+Subheadline
+Primary CTA
+Secondary CTA
+Hero Image
+
+Contoh konsep:
+
+Perawatan Tubuh & Kecantikan untuk Anda yang Ingin Merawat Diri
+
+CTA:
+
+[ Konsultasi via WhatsApp ]
+[ Lihat Layanan ]
+
+Copy final akan ditentukan pada tahap content/copywriting.
+
+2.7 About Page
+
+URL:
+
+/tentang-kami
+
+Isi:
+
+Hero
+│
+├── Profil Dian Mustika
+├── Cerita / Sejarah
+├── Visi & Misi
+├── Nilai / Filosofi
+├── Keunggulan
+├── Foto Tempat / Tim
+└── CTA
+
+Tujuan halaman:
+
+Trust & Brand Building
+
+2.8 Services
+
+URL:
+
+/layanan
+
+Halaman menampilkan seluruh layanan.
+
+Contoh:
+
+Layanan
+│
+├── Massage
+├── Slimming
+├── Totok
+├── Herbal Bath
+├── Perawatan Pasca Melahirkan
+└── Homecare
+
+Namun daftar tersebut bukan hard-coded.
+
+Admin dapat membuat layanan baru.
+
+2.9 Service Detail
+
+URL:
+
+/layanan/{slug}
+
+Contoh:
+
+/layanan/slimming
+/layanan/massage
+/layanan/totok
+
+Struktur:
+
+Breadcrumb
+│
+Hero
+│
+├── Nama layanan
+├── Short description
+├── Image
+└── CTA
+│
+▼
+Deskripsi
+│
+▼
+Manfaat
+│
+▼
+Informasi Treatment
+│
+├── Durasi
+├── Harga (optional)
+└── Catatan
+│
+▼
+FAQ terkait
+│
+▼
+Related Services
+│
+▼
+WhatsApp CTA
+2.10 Packages / Promotions
+
+URL:
+
+/paket
+
+Digunakan untuk:
+
+paket treatment
+paket bundling
+promo
+special offer
+
+Struktur:
+
+Hero
+│
+├── Featured Promotion
+│
+├── Package Cards
+│
+├── Promo Period
+│
+└── CTA WhatsApp
+
+Paket dapat mempunyai:
+
+Nama
+Deskripsi
+Harga normal
+Harga promo
+Tanggal mulai
+Tanggal berakhir
+Image
+Status aktif
+CTA
+2.11 Gallery
+
+URL:
+
+/galeri
+
+Kategori:
+
+Semua
+Tempat
+Treatment
+Aktivitas
+Promo
+
+Gallery harus mendukung:
+
+responsive image
+lazy loading
+optimized image
+alt text
+
+Tidak menggunakan image dengan ukuran original yang besar secara langsung.
+
+2.12 Testimonial
+
+URL:
+
+/testimoni
+
+Struktur:
+
+Hero
+│
+├── Customer Testimonials
+├── Rating
+├── Customer Name
+├── Treatment
+└── CTA
+
+Homepage menampilkan beberapa testimonial pilihan.
+
+Halaman /testimoni menampilkan seluruh testimonial yang dipublikasikan.
+
+2.13 Article
+
+URL:
+
+/artikel
+
+Halaman artikel:
+
+Hero
+│
+├── Featured Article
+│
+├── Latest Articles
+│
+├── Categories
+│
+└── Pagination
+2.14 Article Detail
+
+URL:
+
+/artikel/{slug}
+
+Struktur SEO:
+
+Breadcrumb
+│
+Article Title
+│
+├── Category
+├── Published Date
+├── Featured Image
+└── Author
+│
+▼
+Article Content
+│
+▼
+Related Articles
+│
+▼
+CTA
+
+Article harus mendukung:
+
+SEO title
+meta description
+canonical
+featured image
+alt text
+author
+published date
+updated date
+category
+tags optional
+Open Graph
+2.15 Article Category
+
+URL:
+
+/artikel/kategori/{slug}
+
+Contoh:
+
+/artikel/kategori/perawatan
+/artikel/kategori/kecantikan
+/artikel/kategori/slimming
+
+Halaman menampilkan artikel berdasarkan kategori.
+
+2.16 Location
+
+URL:
+
+/lokasi
+
+Menampilkan semua cabang/lokasi Dian Mustika.
+
+Card:
+
+Nama Lokasi
+Foto
+Alamat
+Jam Operasional
+CTA Detail
+CTA Google Maps
+CTA WhatsApp
+2.17 Location Detail
+
+URL:
+
+/lokasi/{slug}
+
+Contoh:
+
+/lokasi/bintaro
+/lokasi/tangerang
+/lokasi/balikpapan
+
+Struktur:
+
+Breadcrumb
+│
+Hero
+│
+├── Nama lokasi
+├── Foto
+└── CTA
+│
+▼
+Tentang Lokasi
+│
+▼
+Alamat
+│
+▼
+Google Maps
+│
+▼
+Jam Operasional
+│
+▼
+Layanan Tersedia
+│
+▼
+Galeri Lokasi
+│
+▼
+FAQ
+│
+▼
+CTA WhatsApp
+
+Halaman lokasi merupakan salah satu halaman prioritas SEO lokal.
+
+2.18 FAQ
+
+URL:
+
+/faq
+
+FAQ dikelompokkan berdasarkan:
+
+Umum
+Layanan
+Harga
+Lokasi
+Perawatan
+
+FAQ dapat digunakan untuk mendukung SEO dan membantu pengunjung sebelum menghubungi Dian Mustika.
+
+2.19 Contact
+
+URL:
+
+/kontak
+
+Isi:
+
+Hubungi Dian Mustika
+│
+├── WhatsApp
+├── Telepon
+├── Email (optional)
+├── Social Media
+├── Lokasi
+└── Google Maps
+
+Karena MVP bukan sistem booking, tidak perlu contact form kompleks.
+
+CTA utama tetap:
+
+WhatsApp.
+
+2.20 Footer
+
+Footer:
+
+┌─────────────────────────────────────────────┐
+│ Logo Dian Mustika                           │
+│ Short description                           │
+│                                             │
+│ NAVIGATION                                  │
+│ Beranda | Tentang | Layanan | Artikel       │
+│                                             │
+│ LOKASI                                      │
+│ Bintaro | Tangerang | Balikpapan            │
+│                                             │
+│ KONTAK                                      │
+│ WhatsApp | Social Media                     │
+│                                             │
+│ © 2026 Dian Mustika                         │
+└─────────────────────────────────────────────┘
+
+Footer harus konsisten di seluruh halaman.
+
+2.21 Breadcrumb
+
+Semua halaman internal harus menggunakan breadcrumb bila relevan.
+
+Contoh:
+
+Beranda
+  >
+Layanan
+  >
+Slimming
+
+Artikel:
+
+Beranda
+  >
+Artikel
+  >
+Perawatan
+  >
+Manfaat Massage untuk Relaksasi
+
+Lokasi:
+
+Beranda
+  >
+Lokasi
+  >
+Bintaro
+
+Breadcrumb juga dapat digunakan untuk BreadcrumbList structured data.
+
+2.22 Internal Linking
+
+Internal linking harus dirancang sejak awal.
+
+Contoh:
+
+Homepage
+   │
+   ├── Layanan
+   │      └── Slimming
+   │
+   ├── Lokasi
+   │      └── Bintaro
+   │
+   └── Artikel
+          └── Tips Slimming
+
+Artikel dapat mengarah ke layanan:
+
+Artikel
+   ↓
+Layanan Slimming
+   ↓
+Lokasi Bintaro
+   ↓
+WhatsApp
+
+Ini membantu:
+
+SEO
+navigasi
+conversion
+2.23 URL Rules
+
+Semua URL harus:
+
+lowercase
+menggunakan hyphen
+tidak menggunakan spasi
+tidak menggunakan query parameter untuk halaman utama
+mudah dibaca manusia
+
+Benar:
+
+/layanan/slimming
+/lokasi/bintaro
+/artikel/manfaat-massage
+
+Tidak:
+
+/service?id=12
+/page.php?id=5
+/layanan/Slimming
+2.24 404 Page
+
+URL yang tidak ditemukan harus menampilkan halaman 404 custom.
+
+Contoh:
+
+404
+
+Halaman Tidak Ditemukan
+
+Maaf, halaman yang Anda cari tidak tersedia.
+
+[ Kembali ke Beranda ]
+[ Lihat Layanan ]
+[ Hubungi Kami ]
+
+404 harus tetap menggunakan layout utama website.
+
+2.25 Navigation Rules
+
+AI agent harus mengikuti aturan:
+
+Tidak membuat menu yang tidak ada dalam PRD.
+Tidak membuat dropdown jika belum diperlukan.
+Menu harus responsive.
+CTA WhatsApp selalu mudah ditemukan.
+Navigation harus menggunakan route Laravel, bukan URL hard-coded.
+Active menu harus dapat dikenali.
+Semua link harus memiliki target yang valid.
+
+
+===============
+PRD Dian Mustika — Bagian 3: UI/UX & Design System
+
+Version: 1.0
+Status: Draft
+Product: Dian Mustika Official Website
+Design Direction: Elegant, Warm, Natural, Professional
+
+3.1 Design Objective
+
+Desain website harus memberikan kesan:
+
+Elegan, nyaman, terpercaya, feminin, natural, dan profesional.
+
+Pengunjung harus mendapatkan kesan bahwa Dian Mustika adalah tempat perawatan yang:
+
+profesional
+bersih
+nyaman
+terpercaya
+premium tetapi tetap approachable
+berorientasi pada pengalaman pelanggan
+
+Website tidak boleh terlihat seperti template generik salon/spa.
+
+3.2 Design Personality
+
+Gunakan 8 karakter utama:
+
+Elegant
+Warm
+Natural
+Professional
+Feminine
+Calm
+Clean
+Trustworthy
+
+Visual harus terasa tenang dan premium, bukan agresif.
+
+3.3 Design Keywords
+
+AI Agent harus menggunakan keyword berikut sebagai referensi desain:
+
+Elegant Wellness
+Modern Spa
+Natural Beauty
+Soft Luxury
+Warm Hospitality
+Clean
+Minimal
+Feminine
+
+Hindari:
+
+Cheap
+Crowded
+Colorful
+Playful
+Corporate
+Tech-heavy
+Marketplace
+
+3.11 Header
+
+Desktop header:
+
+LOGO
+
+Beranda
+Tentang
+Layanan
+Paket
+Artikel
+Lokasi
+
+[ WhatsApp ]
+
+Karakter:
+
+clean
+tidak terlalu tinggi
+sticky saat scroll
+background solid/translucent ringan
+memiliki shadow/border sangat subtle
+3.12 Sticky Header
+
+Desktop:
+
+Header dapat berubah ketika user scroll.
+
+State:
+
+Top
+transparent / minimal
+Scrolled
+background: white/cream
+shadow subtle
+
+Transisi harus ringan.
+
+Tidak boleh menggunakan animasi berat.
+
+=============
+
+PRD Dian Mustika — Bagian 4: Technical Architecture
+
+Version: 1.0
+Status: Draft
+Product: Dian Mustika Official Website
+Architecture: Laravel Monolith + Server-Side Rendering
+Target: Fast, SEO-friendly, maintainable
+
+4.1 Architecture Goal
+
+Arsitektur harus memenuhi 5 prinsip:
+
+1. Simple
+2. Fast
+3. SEO Friendly
+4. Maintainable
+5. Easy for AI Agent to Understand
+
+Karena website hanya company profile + marketing, tidak diperlukan microservices, SPA, REST API kompleks, atau frontend framework terpisah.
+
+Arsitektur yang digunakan:
+
+Browser
+   │
+   ▼
+Nginx / Apache
+   │
+   ▼
+Laravel
+   │
+   ├── Routes
+   ├── Controllers
+   ├── Services
+   ├── Models
+   ├── Views
+   └── CMS
+        │
+        ▼
+      MySQL
+4.2 Technology Stack
+
+Stack utama:
+
+Layer	Technology
+Backend	Laravel
+Language	PHP 8.3+
+Database	MySQL 8+
+Template	Blade
+CSS	Tailwind CSS
+JavaScript	Alpine.js
+Build	Vite
+CMS	Filament
+Web Server	Nginx / Apache
+Version Control	Git
+Prinsip
+
+Jangan menggunakan React, Vue, Next.js, atau SPA untuk MVP.
+
+Alasannya:
+
+tidak diperlukan
+menambah kompleksitas
+menambah JavaScript
+SEO sebenarnya sudah sangat baik dengan Blade SSR
+lebih mudah dipelihara
+lebih mudah dipahami AI Agent
+4.3 Application Architecture
+
+Gunakan pendekatan:
+
+Laravel MVC + Service Layer
+
+Request
+   │
+   ▼
+Route
+   │
+   ▼
+Controller
+   │
+   ▼
+Service
+   │
+   ├── Model
+   │
+   └── Database
+   │
+   ▼
+View
+   │
+   ▼
+HTML
+
+Untuk operasi sederhana, Controller boleh langsung menggunakan Model.
+
+Untuk business logic yang mulai kompleks, gunakan Service.
+
+4.4 Route Architecture
+
+Public routes:
+
+/
+ /tentang-kami
+ /layanan
+ /layanan/{slug}
+ /paket
+ /galeri
+ /testimoni
+ /artikel
+ /artikel/kategori/{slug}
+ /artikel/{slug}
+ /lokasi
+ /lokasi/{slug}
+ /faq
+ /kontak
+
+Admin routes akan ditangani oleh Filament.
+
+Tidak perlu membuat API route untuk public website MVP.
+
+4.5 Route Naming
+
+Semua route harus menggunakan named routes.
+
+Contoh:
+
+Route::get('/', HomeController::class)->name('home');
+
+Route::get('/tentang-kami', ...)->name('about');
+
+Route::get('/layanan', ...)->name('services.index');
+
+Route::get('/layanan/{service:slug}', ...)
+    ->name('services.show');
+
+Route::get('/artikel', ...)
+    ->name('articles.index');
+
+Route::get('/artikel/{article:slug}', ...)
+    ->name('articles.show');
+
+Route::get('/lokasi/{location:slug}', ...)
+    ->name('locations.show');
+
+Blade tidak boleh melakukan hard-code URL:
+
+<a href="/layanan/slimming">
+
+Gunakan:
+
+<a href="{{ route('services.show', $service) }}">
+4.6 Route Model Binding
+
+Gunakan slug-based route model binding untuk konten public.
+
+Contoh:
+
+/layanan/slimming
+/artikel/manfaat-massage
+/lokasi/bintaro
+
+Bukan:
+
+/layanan/12
+/artikel/25
+/lokasi/4
+
+Hal ini penting untuk:
+
+SEO
+readability
+maintainability
+4.7 Controller Architecture
+
+Controller harus tipis.
+
+Contoh:
+
+class ServiceController
+{
+    public function index()
+    {
+        $services = Service::published()
+            ->with('category')
+            ->latest()
+            ->paginate(12);
+
+        return view('pages.services.index', compact('services'));
+    }
+
+    public function show(Service $service)
+    {
+        abort_unless($service->is_published, 404);
+
+        return view('pages.services.show', compact('service'));
+    }
+}
+
+Controller tidak boleh menjadi tempat menampung business logic panjang.
+
+4.8 Service Layer
+
+Service digunakan jika terdapat proses seperti:
+
+generate WhatsApp URL
+image processing
+SEO metadata generation
+content publishing
+complex queries
+sitemap generation
+
+Contoh:
+
+app/
+└── Services/
+    ├── SeoService.php
+    ├── WhatsAppService.php
+    ├── ImageService.php
+    └── SitemapService.php
+
+Tidak semua operasi harus dipaksa masuk Service.
+
+Keep it simple.
+
+4.9 Model Architecture
+
+Model menggunakan Eloquent.
+
+Model utama:
+
+User
+Service
+ServiceCategory
+Package
+Location
+Gallery
+Testimonial
+Article
+ArticleCategory
+Faq
+Setting
+SeoMetadata
+
+Model harus menggunakan:
+
+$fillable atau guarded strategy yang jelas
+casts
+relationships
+scopes
+accessors hanya jika diperlukan
+4.10 Published Scope
+
+Konten public hanya boleh menampilkan konten yang published.
+
+Contoh:
+
+public function scopePublished($query)
+{
+    return $query
+        ->where('is_published', true)
+        ->where(function ($query) {
+            $query->whereNull('published_at')
+                  ->orWhere('published_at', '<=', now());
+        });
+}
+
+Kemudian:
+
+Service::published()->get();
+4.11 Content Status
+
+Konten seperti artikel, layanan, paket, dan testimonial menggunakan status publish.
+
+Minimal:
+
+Draft
+Published
+
+Tidak perlu workflow editorial kompleks pada MVP.
+
+4.12 Database
+
+Database:
+
+MySQL 8+
+
+Character set:
+
+utf8mb4
+
+Collation menggunakan collation utf8mb4 yang sesuai dengan versi MySQL yang digunakan.
+
+Timezone aplikasi:
+
+Asia/Jakarta
+4.13 Database Principles
+
+Database harus:
+
+normalized secukupnya
+memiliki foreign key
+memiliki index pada field penting
+menggunakan timestamps
+menggunakan soft delete hanya jika memang diperlukan
+
+Jangan membuat database terlalu kompleks untuk company profile.
+
+4.14 Slug Strategy
+
+Semua konten SEO utama menggunakan slug.
+
+Contoh:
+
+services.slug
+articles.slug
+article_categories.slug
+locations.slug
+
+Slug harus:
+
+lowercase
+URL-safe
+unique
+menggunakan hyphen
+
+Contoh:
+
+perawatan-pasca-melahirkan
+4.15 Image Architecture
+
+Gambar adalah bagian penting dari website.
+
+Gunakan Laravel Storage:
+
+storage/app/public/
+
+Kategori:
+
+images/
+├── services/
+├── packages/
+├── locations/
+├── gallery/
+├── testimonials/
+├── articles/
+└── settings/
+
+Jangan menyimpan file upload langsung di:
+
+public/uploads/
+
+kecuali ada alasan teknis yang jelas.
+
+4.16 Image Optimization
+
+Setiap upload gambar harus dioptimalkan.
+
+====================
+
+PRD Dian Mustika — Bagian 5: Database Design
+
+Version: 1.0
+Status: Draft
+Database: MySQL 8+
+ORM: Laravel Eloquent
+Admin CMS: Filament
+
+5.1 Database Objectives
+
+Database harus:
+
+sederhana
+normalized secukupnya
+mudah dipahami AI Agent
+mudah dikelola melalui Filament
+SEO-friendly
+scalable untuk kebutuhan berikutnya
+menghindari duplicate data
+memiliki relationship yang jelas
+
+Prinsip:
+
+Database dibuat sesuai kebutuhan MVP, bukan berdasarkan kemungkinan fitur yang belum tentu digunakan.
+
+5.2 Entity Relationship Overview
+
+Struktur utama:
+
+                    users
+                      │
+                      │
+                      ▼
+              ┌───────────────┐
+              │    content    │
+              └───────────────┘
+
+
+service_categories
+       │
+       │ 1:N
+       ▼
+   services
+       │
+       │ N:M
+       ▼
+   packages
+
+
+locations
+    │
+    ├───────────────┐
+    │               │
+    ▼               ▼
+ services       galleries
+
+
+article_categories
+       │
+       │ 1:N
+       ▼
+    articles
+
+
+galleries
+testimonials
+faqs
+settings
+seo_metadata
+
+Untuk MVP, tidak semua relationship perlu dipaksakan.
+
+5.3 Database Tables
+
+Database utama:
+
+users
+service_categories
+services
+packages
+package_services
+locations
+galleries
+testimonials
+article_categories
+articles
+faqs
+settings
+seo_metadata
+
+Total:
+
+13 tabel utama.
+
+5.4 users
+
+Digunakan untuk authentication admin.
+
+Laravel default users table dapat digunakan.
+
+Fields
+name
+email
+email_verified_at
+password
+remember_token
+created_at
+updated_at
+
+Jika Filament membutuhkan field tambahan, dapat ditambahkan kemudian.
+
+MVP hanya membutuhkan:
+
+Admin User
+
+5.5 service_categories
+
+Digunakan untuk mengelompokkan layanan.
+
+Contoh:
+
+Perawatan Tubuh
+Slimming
+Relaksasi
+Perawatan Pasca Melahirkan
+Homecare
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+name	VARCHAR(150)	required
+slug	VARCHAR(180)	unique
+description	TEXT	nullable
+image	VARCHAR(255)	nullable
+sort_order	INT	default 0
+is_published	BOOLEAN	default true
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+
+Index:
+
+UNIQUE(slug)
+INDEX(is_published)
+INDEX(sort_order)
+5.6 services
+
+Tabel utama layanan Dian Mustika.
+
+Contoh:
+
+Massage
+Slimming
+Totok
+Herbal Bath
+Perawatan Pasca Melahirkan
+Homecare
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+service_category_id	BIGINT	FK nullable
+name	VARCHAR(180)	required
+slug	VARCHAR(200)	unique
+short_description	VARCHAR(500)	nullable
+description	LONGTEXT	required
+benefits	LONGTEXT	nullable
+duration	VARCHAR(100)	nullable
+price	DECIMAL(15,2)	nullable
+image	VARCHAR(255)	nullable
+meta_title	VARCHAR(255)	nullable
+meta_description	VARCHAR(500)	nullable
+sort_order	INT	default 0
+is_featured	BOOLEAN	default false
+is_published	BOOLEAN	default true
+published_at	TIMESTAMP	nullable
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+5.7 Service Relationship
+ServiceCategory
+       │
+       │ 1:N
+       ▼
+    Services
+
+Eloquent:
+
+public function category()
+{
+    return $this->belongsTo(
+        ServiceCategory::class,
+        'service_category_id'
+    );
+}
+
+Category:
+
+public function services()
+{
+    return $this->hasMany(Service::class);
+}
+5.8 packages
+
+Digunakan untuk paket treatment/promosi.
+
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+name	VARCHAR(180)	required
+slug	VARCHAR(200)	unique
+description	TEXT	nullable
+image	VARCHAR(255)	nullable
+normal_price	DECIMAL(15,2)	nullable
+promo_price	DECIMAL(15,2)	nullable
+promo_label	VARCHAR(100)	nullable
+start_date	DATE	nullable
+end_date	DATE	nullable
+is_featured	BOOLEAN	default false
+is_published	BOOLEAN	default true
+sort_order	INT	default 0
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+5.9 package_services
+
+Package dapat berisi beberapa layanan.
+
+Contoh:
+
+Paket Relaksasi
+│
+├── Massage
+├── Herbal Bath
+└── Totok
+
+Relationship:
+
+Package
+   │
+   │ N:M
+   │
+Service
+
+Pivot:
+
+package_services
+
+Fields:
+
+id
+package_id
+service_id
+created_at
+updated_at
+
+Unique:
+
+UNIQUE(package_id, service_id)
+5.10 locations
+
+Menyimpan seluruh lokasi/cabang.
+
+Contoh:
+
+Dian Mustika Bintaro
+Dian Mustika Tangerang
+Dian Mustika Balikpapan
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+name	VARCHAR(180)	required
+slug	VARCHAR(200)	unique
+short_description	VARCHAR(500)	nullable
+description	LONGTEXT	nullable
+address	TEXT	required
+city	VARCHAR(100)	required
+province	VARCHAR(100)	nullable
+postal_code	VARCHAR(20)	nullable
+phone	VARCHAR(30)	nullable
+whatsapp	VARCHAR(30)	nullable
+email	VARCHAR(150)	nullable
+google_maps_url	TEXT	nullable
+latitude	DECIMAL(10,7)	nullable
+longitude	DECIMAL(10,7)	nullable
+opening_hours	JSON	nullable
+image	VARCHAR(255)	nullable
+is_featured	BOOLEAN	default false
+is_published	BOOLEAN	default true
+sort_order	INT	default 0
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP
+
+5.12 galleries
+
+Digunakan untuk foto website.
+
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+title	VARCHAR(180)	nullable
+image	VARCHAR(255)	required
+alt_text	VARCHAR(255)	required
+caption	TEXT	nullable
+category	VARCHAR(100)	nullable
+location_id	BIGINT	nullable
+sort_order	INT	default 0
+is_published	BOOLEAN	default true
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+
+Relationship optional:
+
+Location
+   │
+   └── Galleries
+5.13 Gallery Category
+
+Untuk MVP tidak perlu membuat tabel category khusus.
+
+Gunakan enum/string:
+
+place
+treatment
+activity
+promotion
+other
+
+Jika nanti kategori berkembang kompleks, baru dibuat tabel terpisah.
+
+5.14 testimonials
+
+Menyimpan testimonial pelanggan.
+
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+customer_name	VARCHAR(150)	required
+customer_photo	VARCHAR(255)	nullable
+treatment	VARCHAR(180)	nullable
+content	TEXT	required
+rating	TINYINT	default 5
+location_id	BIGINT	nullable
+is_featured	BOOLEAN	default false
+is_published	BOOLEAN	default true
+sort_order	INT	default 0
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+
+Validation:
+
+rating >= 1
+rating <= 5
+5.15 article_categories
+
+Kategori artikel.
+
+Contoh:
+
+Perawatan
+Kecantikan
+Slimming
+Lifestyle
+Tips
+
+Fields:
+
+id
+name
+slug
+description
+is_published
+created_at
+updated_at
+5.16 articles
+
+Tabel utama blog/artikel.
+
+Fields
+Field	Type	Rules
+id	BIGINT	PK
+article_category_id	BIGINT	FK nullable
+title	VARCHAR(255)	required
+slug	VARCHAR(255)	unique
+excerpt	TEXT	nullable
+content	LONGTEXT	required
+featured_image	VARCHAR(255)	nullable
+image_alt	VARCHAR(255)	nullable
+author_id	BIGINT	FK users
+meta_title	VARCHAR(255)	nullable
+meta_description	VARCHAR(500)	nullable
+canonical_url	VARCHAR(500)	nullable
+is_featured	BOOLEAN	default false
+is_published	BOOLEAN	default false
+published_at	TIMESTAMP	nullable
+created_at	TIMESTAMP	
+updated_at	TIMESTAMP	
+5.17 Article Relationship
+ArticleCategory
+      │
+      │ 1:N
+      ▼
+   Articles
+      │
+      │ N:1
+      ▼
+    User
+
+Artinya:
+
+satu category memiliki banyak artikel
+satu artikel memiliki satu author
+5.18 Article Content
+
+Untuk MVP:
+
+content = LONGTEXT
+
+Editor dapat menggunakan rich text editor di Filament.
+
+Content harus dapat menyimpan:
+
+heading
+paragraph
+list
+image
+link
+quote
+bold
+italic
+
+Tetapi output HTML harus disanitasi untuk mencegah XSS.
+
+5.19 faqs
+
+FAQ dapat digunakan secara global.
+
+Fields
+Field	Type
+id	BIGINT
+question	VARCHAR(500)
+answer	TEXT
+category	VARCHAR(100) nullable
+sort_order	INT
+is_published	BOOLEAN
+created_at	TIMESTAMP
+updated_at	TIMESTAMP
+5.20 FAQ Category
+
+Untuk MVP gunakan string:
+
+general
+service
+price
+location
+treatment
+
+Tidak perlu tabel FAQ category.
+
+5.21 settings
+
+Digunakan untuk konfigurasi website.
+
+Fields
+id
+key
+value
+type
+group
+created_at
+updated_at
+
+Contoh data:
+
+site_name
+site_description
+logo
+favicon
+whatsapp_number
+phone
+email
+instagram_url
+facebook_url
+youtube_url
+default_meta_title
+default_meta_description
+5.22 Settings Type
+
+Field:
+
+type
+
+Nilai:
+
+string
+text
+boolean
+integer
+json
+image
+url
+
+Ini memungkinkan Filament menentukan field input secara dinamis.
+
+Namun implementation detail dapat disederhanakan jika dynamic settings terlalu kompleks.
+
+5.23 seo_metadata
+
+Untuk SEO halaman yang membutuhkan metadata custom.
+
+Fields
+Field	Type
+id	BIGINT
+seoable_type	VARCHAR(255)
+seoable_id	BIGINT
+meta_title	VARCHAR(255)
+meta_description	VARCHAR(500)
+canonical_url	VARCHAR(500)
+og_title	VARCHAR(255)
+og_description	VARCHAR(500)
+og_image	VARCHAR(255)
+robots	VARCHAR(100)
+created_at	TIMESTAMP
+updated_at	TIMESTAMP
+
+Gunakan polymorphic relationship:
+
+seoable
+
+Contoh:
+
+Service → SEO
+Article → SEO
+Location → SEO
+5.24 Apakah SEO Metadata Wajib?
+
+Tidak semua record harus memiliki row seo_metadata.
+
+Jika tidak tersedia:
+
+Specific SEO
+      ↓
+Fallback
+      ↓
+Default Site SEO
+
+Contoh:
+
+Article meta title
+        ↓
+Jika kosong
+        ↓
+Article title + Site name
+5.25 Soft Delete
+
+MVP menggunakan soft delete secara selektif.
+
+Direkomendasikan:
+
+services
+packages
+locations
+articles
+testimonials
+galleries
+
+Tetapi soft delete tidak wajib untuk semua tabel.
+
+Untuk category/settings, hard delete atau restriction dapat digunakan.
+
+5.26 Foreign Key Rules
+
+Contoh:
+
+services.service_category_id
+        ↓
+service_categories.id
+
+Jika category dihapus, service tidak boleh menjadi orphan.
+
+Untuk FK optional, gunakan:
+
+ON DELETE SET NULL
+
+Untuk relationship wajib:
+
+ON DELETE RESTRICT
+
+Jangan menggunakan CASCADE secara membabi buta.
+
+5.27 Index Strategy
+
+Index penting:
+
+services.slug
+services.is_published
+services.is_featured
+
+locations.slug
+locations.is_published
+
+articles.slug
+articles.is_published
+articles.published_at
+
+packages.slug
+packages.is_published
+
+categories.slug
+
+seo_metadata(seoable_type, seoable_id)
+5.28 Unique Constraints
+
+Minimal:
+
+service_categories.slug
+services.slug
+packages.slug
+locations.slug
+article_categories.slug
+articles.slug
+settings.key
+
+Harus unique.
+
+5.29 Sorting
+
+Entity yang tampil di website dapat memiliki:
+
+sort_order
+
+Urutan:
+
+Contoh:
+
+sort_order = 1
+sort_order = 2
+sort_order = 3
+
+Admin dapat mengatur urutan melalui Filament.
+
+5.30 Featured Content
+
+Beberapa content dapat ditampilkan sebagai featured:
+
+services.is_featured
+packages.is_featured
+articles.is_featured
+locations.is_featured
+testimonials.is_featured
+
+Homepage mengambil data featured.
+
+Contoh:
+
+Service::published()
+    ->where('is_featured', true)
+    ->orderBy('sort_order')
+    ->limit(6)
+    ->get();
+5.31 Database Seeder
+
+Project harus mempunyai seeder untuk development.
+
+Minimal:
+
+AdminUserSeeder
+ServiceCategorySeeder
+ServiceSeeder
+PackageSeeder
+LocationSeeder
+FaqSeeder
+SettingSeeder
+
+Development database dapat langsung dijalankan:
+
+php artisan migrate:fresh --seed
+
+Seeder harus menggunakan data dummy yang jelas ditandai sebagai sample.
+
+5.32 Factory
+
+Factory dibuat untuk entity yang membutuhkan testing.
+
+Minimal:
+
+ServiceFactory
+ArticleFactory
+LocationFactory
+TestimonialFactory
+PackageFactory
+
+Tidak perlu membuat factory untuk setiap tabel jika tidak dibutuhkan testing.
+
+5.33 Database Naming Convention
+
+Gunakan Laravel convention:
+
+Table:
+snake_case plural
+
+Column:
+snake_case
+
+Foreign key:
+{model}_id
+
+Model:
+Singular PascalCase
+
+Contoh:
+
+services
+service_categories
+article_categories
+
+Service
+ServiceCategory
+ArticleCategory
+5.34 Relationship Summary
+ServiceCategory
+    └── hasMany Services
+
+Service
+    ├── belongsTo ServiceCategory
+    └── belongsToMany Packages
+
+Package
+    └── belongsToMany Services
+
+Location
+    ├── hasMany Galleries
+    └── hasMany Testimonials
+
+ArticleCategory
+    └── hasMany Articles
+
+Article
+    ├── belongsTo ArticleCategory
+    └── belongsTo User
+
+SEO Metadata
+    └── morphTo SEOable
+5.35 Simplified ERD
+┌──────────────────────┐
+│ service_categories   │
+├──────────────────────┤
+│ id                   │
+│ name                 │
+│ slug                 │
+└──────────┬───────────┘
+           │
+           │ 1:N
+           ▼
+┌──────────────────────┐
+│ services             │
+├──────────────────────┤
+│ id                   │
+│ category_id          │
+│ name                 │
+│ slug                 │
+│ description          │
+│ price                │
+│ image                │
+│ is_published         │
+└──────────┬───────────┘
+           │
+           │ N:M
+           ▼
+┌──────────────────────┐
+│ package_services     │
+├──────────────────────┤
+│ package_id           │
+│ service_id           │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ packages             │
+├──────────────────────┤
+│ id                   │
+│ name                 │
+│ slug                 │
+│ normal_price         │
+│ promo_price          │
+│ is_published         │
+└──────────────────────┘
+
+
+┌──────────────────────┐
+│ locations            │
+├──────────────────────┤
+│ id                   │
+│ name                 │
+│ slug                 │
+│ address              │
+│ city                 │
+│ whatsapp             │
+│ opening_hours        │
+└──────────┬───────────┘
+           │
+      ┌────┴─────┐
+      ▼          ▼
+ galleries   testimonials
+
+
+┌──────────────────────┐
+│ article_categories   │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ articles             │
+├──────────────────────┤
+│ id                   │
+│ category_id          │
+│ author_id            │
+│ title                │
+│ slug                 │
+│ content              │
+│ featured_image       │
+│ meta_title           │
+│ meta_description     │
+│ published_at         │
+└──────────────────────┘
+5.36 Database Design Principles for OpenCode
+
+AI Agent wajib mengikuti:
+
+Jangan membuat tabel baru tanpa requirement.
+Jangan membuat kolom duplicate.
+Gunakan foreign key.
+Gunakan index untuk field pencarian penting.
+Gunakan slug untuk public content.
+Gunakan timestamps.
+Gunakan soft delete hanya jika diperlukan.
+Gunakan Eloquent relationships.
+Hindari raw SQL jika Eloquent/query builder cukup.
+Jangan membuat repository layer tanpa kebutuhan.
+Migration harus reversible.
+Seeder harus idempotent atau aman dijalankan ulang dalam development.
+
+===================
+PRD Dian Mustika — Bagian 6: CMS Specification
+
+Version: 1.0
+Status: Draft
+CMS: Filament
+Admin URL: /admin
+Target User: Admin Dian Mustika
+
+6.1 CMS Objective
+
+CMS digunakan agar admin dapat mengelola seluruh konten website tanpa harus mengubah kode program.
+
+Admin harus dapat mengelola:
+
+Layanan
+Paket
+Lokasi
+Galeri
+Testimonial
+Artikel
+FAQ
+Pengaturan Website
+SEO
+
+Prinsip utama:
+
+Admin mengelola content, developer/AI Agent mengelola code.
+
+6.2 Admin Navigation
+
+Struktur sidebar:
+
+Dashboard
+
+CONTENT
+├── Layanan
+├── Paket
+├── Lokasi
+├── Galeri
+├── Testimonial
+├── FAQ
+│
+BLOG
+├── Artikel
+└── Kategori Artikel
+│
+WEBSITE
+├── Pengaturan
+└── SEO
+
+Navigation harus sederhana.
+
+Tidak perlu membuat terlalu banyak menu.
+
+6.3 Dashboard
+
+Dashboard admin tidak perlu kompleks.
+
+Tampilkan informasi penting:
+
+┌──────────────────────────────────────────┐
+│ Dashboard Dian Mustika                   │
+├──────────────────────────────────────────┤
+│                                          │
+│  Layanan      Paket       Artikel        │
+│     12          6            24           │
+│                                          │
+│  Lokasi       Gallery     Testimonial    │
+│     3           42            18          │
+│                                          │
+└──────────────────────────────────────────┘
+
+Tambahkan:
+
+Quick Actions
++ Tambah Layanan
++ Tambah Paket
++ Tambah Artikel
++ Tambah Gallery
+6.4 Dashboard Recent Content
+
+Tampilkan:
+
+Artikel Terbaru
+Layanan Terbaru
+
+Tidak perlu dashboard penuh grafik.
+
+Tujuan dashboard:
+
+Admin bisa langsung mengetahui kondisi website dan melakukan pekerjaan umum.
+
+6.5 Service Resource
+
+Resource:
+
+ServiceResource
+
+Menu:
+
+Layanan
+
+6.5.1 Service Form
+
+Form dibagi menjadi beberapa section.
+
+Basic Information
+Nama Layanan *
+Kategori
+Slug *
+Deskripsi Singkat
+Content
+Deskripsi *
+Manfaat
+Durasi
+Pricing
+Harga
+
+Harga bersifat optional.
+
+Jangan memaksa semua layanan menampilkan harga jika bisnis ingin menggunakan:
+
+Konsultasi terlebih dahulu.
+
+Media
+Foto Utama
+Alt Text
+Publishing
+Published
+Featured
+Published At
+Sort Order
+SEO
+Meta Title
+Meta Description
+Canonical URL
+OG Image
+6.5.2 Service Validation
+
+Minimal:
+
+name:
+required|max:180
+
+slug:
+required|unique
+
+description:
+required
+
+price:
+nullable|numeric|min:0
+
+meta_title:
+nullable|max:255
+
+meta_description:
+nullable|max:500
+6.5.3 Service Table
+
+Kolom:
+
+Image
+Name
+Category
+Price
+Featured
+Status
+Updated At
+
+Actions:
+
+Edit
+View
+Delete
+
+Bulk:
+
+Delete
+Publish
+Unpublish
+6.6 Service Category Resource
+
+Resource:
+
+ServiceCategoryResource
+
+Form:
+
+Name
+Slug
+Description
+Image
+Sort Order
+Published
+
+Table:
+
+Name
+Services Count
+Status
+Sort Order
+Updated At
+6.7 Package Resource
+
+Resource:
+
+PackageResource
+
+Menu:
+
+Paket
+
+6.7.1 Package Form
+Basic
+Nama Paket *
+Slug *
+Deskripsi
+Services
+
+Relationship selector:
+
+Layanan dalam Paket
+
+Admin dapat memilih:
+
+☑ Massage
+☑ Herbal Bath
+☐ Totok
+☐ Slimming
+Pricing
+Harga Normal
+Harga Promo
+Label Promo
+
+Contoh:
+
+Harga Normal:
+500000
+
+Harga Promo:
+399000
+
+Label:
+BEST VALUE
+Promotion Period
+Mulai Promo
+Berakhir Promo
+Media
+Foto
+Alt Text
+Publishing
+Featured
+Published
+Sort Order
+6.7.2 Package Price Logic
+
+Jika:
+
+promo_price < normal_price
+
+website dapat menampilkan:
+
+Rp500.000
+Rp399.000
+
+Jika promo price kosong:
+
+Rp500.000
+
+Jangan menampilkan:
+
+Rp0
+6.7.3 Package Table
+
+Kolom:
+
+Image
+Name
+Normal Price
+Promo Price
+Featured
+Status
+Period
+6.8 Location Resource
+
+Resource:
+
+LocationResource
+
+Menu:
+
+Lokasi
+
+6.8.1 Location Form
+Basic
+Nama Lokasi *
+Slug *
+Deskripsi Singkat
+Deskripsi
+Address
+Alamat *
+Kota *
+Provinsi
+Kode Pos
+Contact
+Telepon
+WhatsApp
+Email
+Map
+Google Maps URL
+Latitude
+Longitude
+Opening Hours
+
+Admin dapat mengatur:
+
+Senin
+Selasa
+Rabu
+Kamis
+Jumat
+Sabtu
+Minggu
+
+Contoh:
+
+09:00 - 20:00
+
+Tambahkan opsi:
+
+Tutup
+6.8.2 Location Media
+Foto Lokasi
+Alt Text
+6.8.3 Location Publishing
+Featured
+Published
+Sort Order
+6.8.4 Location Table
+
+Kolom:
+
+Image
+Name
+City
+WhatsApp
+Status
+Featured
+Updated At
+6.9 Gallery Resource
+
+Resource:
+
+GalleryResource
+
+Menu:
+
+Galeri
+
+6.9.1 Gallery Form
+Foto *
+Judul
+Alt Text *
+Caption
+Kategori
+Lokasi
+Sort Order
+Published
+
+Kategori:
+
+Tempat
+Treatment
+Aktivitas
+Promo
+Lainnya
+6.9.2 Gallery Table
+Thumbnail
+Title
+Category
+Location
+Status
+Sort Order
+
+Gallery harus memiliki preview image.
+
+6.9.3 Image Upload Rules
+
+Upload:
+
+jpg
+jpeg
+png
+webp
+
+Maximum file size misalnya:
+
+5 MB
+
+Image harus diproses sebelum digunakan di website.
+
+6.10 Testimonial Resource
+
+Resource:
+
+TestimonialResource
+
+Menu:
+
+Testimonial
+
+6.10.1 Form
+Nama Pelanggan *
+Foto
+Treatment
+Testimonial *
+Rating
+Lokasi
+Featured
+Published
+Sort Order
+
+Rating:
+
+1–5
+
+Default:
+
+5

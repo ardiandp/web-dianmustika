@@ -1,0 +1,51 @@
+Konten Homepage
+
+Struktur awal:
+
+HEADER
+│
+├── Logo
+├── Beranda
+├── Tentang
+├── Layanan
+├── Paket
+├── Galeri
+├── Artikel
+├── Lokasi
+└── CTA WhatsApp
+│
+▼
+HERO
+│
+▼
+TRUST / KEUNGGULAN
+│
+▼
+LAYANAN UNGGULAN
+│
+▼
+PAKET / PROMO
+│
+▼
+TENTANG DIAN MUSTIKA
+│
+▼
+MENGAPA MEMILIH KAMI
+│
+▼
+GALERI
+│
+▼
+TESTIMONIAL
+│
+▼
+LOKASI
+│
+▼
+ARTIKEL TERBARU
+│
+▼
+CTA WHATSAPP
+│
+▼
+FOOTER
