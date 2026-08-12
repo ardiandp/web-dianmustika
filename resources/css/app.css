@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/forms';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +7,7 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
 
     --color-brand-50: #fbf4f4;
     --color-brand-100: #f6e7e8;
@@ -29,4 +31,50 @@
 
     --color-cream: #faf7f2;
     --color-ink: #3a2d2f;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-feature-settings: 'ss01';
+}
+
+.prose-content {
+    color: var(--color-ink);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.prose-content h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--color-brand-800);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose-content h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--color-brand-700);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.prose-content p {
+    margin-bottom: 1rem;
+}
+
+.prose-content ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.prose-content li {
+    margin-bottom: 0.4rem;
 }

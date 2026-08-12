@@ -14,11 +14,24 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SettingsSeeder::class,
+            ServiceCategorySeeder::class,
+            ServiceSeeder::class,
+            PackageSeeder::class,
+            LocationSeeder::class,
+            GallerySeeder::class,
+            TestimonialSeeder::class,
+            ArticleCategorySeeder::class,
+            ArticleSeeder::class,
+            FaqSeeder::class,
         ]);
 
-        User::factory()->create([
-            'name' => 'Admin Dian Mustika',
-            'email' => 'admin@dianmustika.test',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@dianmustika.test'],
+            [
+                'name' => 'Admin Dian Mustika',
+                'password' => 'password',
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

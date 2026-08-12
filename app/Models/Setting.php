@@ -15,6 +15,28 @@ class Setting extends Model
     {
         $setting = static::query()->where('key', $key)->first();
 
-        return $setting?->value ?? $default;
+        if (! $setting) {
+            return $default;
+        }
+
+        $value = $setting->value;
+
+        if (is_string($value) && str_starts_with(trim($value), '[')) {
+            $decoded = json_decode($value, true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        if (is_string($value) && str_starts_with(trim($value), '{')) {
+            $decoded = json_decode($value, true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return $value;
     }
 }

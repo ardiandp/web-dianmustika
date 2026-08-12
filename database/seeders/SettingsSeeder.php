@@ -21,11 +21,11 @@ class SettingsSeeder extends Seeder
                 'Senin - Jumat' => '09.00 - 21.00',
                 'Sabtu - Minggu' => '09.00 - 22.00',
             ]),
-            'social_media' => json_encode([
-                'instagram' => 'https://instagram.com/dianmustika',
-                'facebook' => 'https://facebook.com/dianmustika',
-                'tiktok' => 'https://tiktok.com/@dianmustika',
-            ]),
+            'social_instagram' => 'https://instagram.com/dianmustika',
+            'social_facebook' => 'https://facebook.com/dianmustika',
+            'social_tiktok' => 'https://tiktok.com/@dianmustika',
+            'about_heading' => 'Tentang Dian Mustika',
+            'about_text' => 'Dian Mustika adalah pusat perawatan tubuh dan kecantikan yang hadir untuk membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan. Kami menggabungkan teknik perawatan modern dengan kearifan tradisional untuk memberikan pengalaman perawatan terbaik bagi setiap pelanggan.',
             'google_maps_embed' => null,
             'footer_copyright' => '© ' . date('Y') . ' Dian Mustika. Seluruh hak cipta dilindungi.',
         ];
