@@ -1,4 +1,12 @@
-<x-layouts.app title="Halaman Tidak Ditemukan" description="Maaf, halaman yang Anda cari tidak tersedia.">
+@php
+    $seo = App\Services\SeoService::forPage([
+        'title' => 'Halaman Tidak Ditemukan',
+        'description' => 'Maaf, halaman yang Anda cari tidak tersedia.',
+        'robots' => 'noindex, nofollow',
+    ]);
+@endphp
+
+<x-layouts.app :seo="$seo">
 
     <section class="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6 lg:px-8">
         <p class="font-display text-8xl font-semibold text-brand-200 sm:text-9xl">404</p>

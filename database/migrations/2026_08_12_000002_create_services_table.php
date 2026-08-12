@@ -25,6 +25,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
+
+            $table->index(['is_active', 'is_featured', 'sort_order']);
+            $table->index('service_category_id');
         });
     }
 

@@ -1,4 +1,4 @@
-<x-layouts.app title="FAQ" description="Pertanyaan yang sering diajukan seputar layanan Dian Mustika.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="FAQ" description="Pertanyaan yang sering diajukan seputar layanan Dian Mustika." />
 

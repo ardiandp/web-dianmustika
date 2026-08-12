@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Services\SeoService;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -21,7 +22,18 @@ class ArticleController extends Controller
             ->ordered()
             ->paginate(6);
 
-        return view('pages.articles.index', compact('featured', 'articles', 'categories'));
+        $seo = SeoService::forPage([
+            'title' => 'Artikel',
+            'description' => 'Tips perawatan tubuh, kecantikan, dan kesehatan dari Dian Mustika. Artikel informatif untuk membantu Anda merawat diri dengan tepat.',
+            'schema' => [
+                SeoService::breadcrumbs([
+                    ['label' => 'Beranda', 'url' => route('home')],
+                    ['label' => 'Artikel', 'url' => route('articles.index')],
+                ]),
+            ],
+        ]);
+
+        return view('pages.articles.index', compact('featured', 'articles', 'categories', 'seo'));
     }
 
     public function show(Article $article): View
@@ -34,11 +46,24 @@ class ArticleController extends Controller
             ->active()
             ->where('id', '!=', $article->id)
             ->when($article->article_category_id, fn ($q) => $q->where('article_category_id', $article->article_category_id))
+            ->with('category')
             ->ordered()
             ->limit(3)
             ->get();
 
-        return view('pages.articles.show', compact('article', 'related'));
+        $seo = SeoService::for($article, [
+            'schema' => [
+                SeoService::breadcrumbs([
+                    ['label' => 'Beranda', 'url' => route('home')],
+                    ['label' => 'Artikel', 'url' => route('articles.index')],
+                    ['label' => $article->category?->name ?? 'Artikel', 'url' => $article->category ? route('articles.category', $article->category) : route('articles.index')],
+                    ['label' => $article->title, 'url' => route('articles.show', $article)],
+                ]),
+                SeoService::article($article),
+            ],
+        ]);
+
+        return view('pages.articles.show', compact('article', 'related', 'seo'));
     }
 
     public function category(ArticleCategory $category): View
@@ -54,6 +79,16 @@ class ArticleController extends Controller
             ->ordered()
             ->paginate(6);
 
-        return view('pages.articles.category', compact('category', 'categories', 'articles'));
+        $seo = SeoService::for($category, [
+            'schema' => [
+                SeoService::breadcrumbs([
+                    ['label' => 'Beranda', 'url' => route('home')],
+                    ['label' => 'Artikel', 'url' => route('articles.index')],
+                    ['label' => $category->name, 'url' => route('articles.category', $category)],
+                ]),
+            ],
+        ]);
+
+        return view('pages.articles.category', compact('category', 'categories', 'articles', 'seo'));
     }
 }

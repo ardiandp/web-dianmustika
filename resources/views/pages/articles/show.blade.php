@@ -1,4 +1,4 @@
-<x-layouts.app :title="$article->title" :description="$article->excerpt">
+<x-layouts.app :seo="$seo">
 
     <section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <nav class="flex flex-wrap items-center gap-2 text-xs uppercase tracking-widest text-ink/40" aria-label="Breadcrumb">

@@ -1,4 +1,4 @@
-<x-layouts.app :title="$category->name" :description="$category->description">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero :title="$category->name" :description="$category->description" :crumb="$category->name" />
 

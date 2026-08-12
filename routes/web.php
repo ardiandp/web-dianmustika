@@ -20,7 +20,19 @@ use App\Http\Controllers\Public\PackageController as PublicPackageController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\ServiceController as PublicServiceController;
 use App\Http\Controllers\Public\TestimonialController as PublicTestimonialController;
+use App\Services\SitemapService;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/sitemap.xml', function () {
+    return response(SitemapService::generate())
+        ->header('Content-Type', 'application/xml');
+});
+
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /profile\n\nSitemap: ".url('/sitemap.xml')."\n";
+
+    return response($content)->header('Content-Type', 'text/plain');
+});
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');

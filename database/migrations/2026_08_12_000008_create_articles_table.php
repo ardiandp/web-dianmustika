@@ -22,6 +22,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
+
+            $table->index(['is_active', 'is_featured', 'published_at']);
+            $table->index('article_category_id');
         });
     }
 

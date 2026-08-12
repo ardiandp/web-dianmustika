@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ArticleCategorySeeder::class,
             ArticleSeeder::class,
             FaqSeeder::class,
+            SeoMetadataSeeder::class,
         ]);
 
         User::updateOrCreate(

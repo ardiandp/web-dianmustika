@@ -1,4 +1,4 @@
-<x-layouts.app title="Paket & Promo" description="Dapatkan harga spesial dengan paket perawatan pilihan di Dian Mustika.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Paket & Promo" description="Pilih paket perawatan dengan harga spesial dan manfaat maksimal." />
 

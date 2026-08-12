@@ -1,4 +1,4 @@
-<x-layouts.app title="Lokasi" description="Temukan cabang Dian Mustika terdekat dari lokasi Anda.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Lokasi Kami" description="Kunjungi cabang Dian Mustika terdekat dari lokasi Anda." />
 

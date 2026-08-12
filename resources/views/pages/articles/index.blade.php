@@ -1,4 +1,4 @@
-<x-layouts.app title="Artikel" description="Tips dan informasi seputar perawatan tubuh dan kecantikan.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Artikel & Tips" description="Informasi dan tips seputar perawatan tubuh dan kecantikan." />
 

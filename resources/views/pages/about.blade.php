@@ -1,4 +1,4 @@
-<x-layouts.app title="Tentang Kami" description="Mengenal lebih dekat Dian Mustika, pusat perawatan tubuh dan kecantikan.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Tentang Dian Mustika" description="Pusat perawatan tubuh dan kecantikan yang menggabungkan teknik modern dengan kearifan tradisional." />
 

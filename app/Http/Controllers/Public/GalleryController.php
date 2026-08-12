@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
+use App\Services\SeoService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -20,6 +21,18 @@ class GalleryController extends Controller
 
         $current = $request->string('kategori', '');
 
-        return view('pages.galleries.index', compact('galleries', 'categories', 'current'));
+        $seo = SeoService::forPage([
+            'title' => 'Galeri',
+            'description' => 'Lihat suasana, fasilitas, dan hasil perawatan di Dian Mustika melalui galeri foto tempat dan treatment.',
+            'robots' => 'index, follow',
+            'schema' => [
+                SeoService::breadcrumbs([
+                    ['label' => 'Beranda', 'url' => route('home')],
+                    ['label' => 'Galeri', 'url' => route('galleries.index')],
+                ]),
+            ],
+        ]);
+
+        return view('pages.galleries.index', compact('galleries', 'categories', 'current', 'seo'));
     }
 }

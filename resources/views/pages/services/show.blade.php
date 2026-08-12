@@ -1,4 +1,4 @@
-<x-layouts.app :title="$service->name" :description="$service->short_description">
+<x-layouts.app :seo="$seo">
 
     {{-- Hero --}}
     <section class="relative overflow-hidden bg-brand-950">

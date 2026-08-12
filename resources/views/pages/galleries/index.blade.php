@@ -1,4 +1,4 @@
-<x-layouts.app title="Galeri" description="Lihat suasana dan momen perawatan di Dian Mustika.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Galeri" description="Momen dan suasana perawatan di Dian Mustika." />
 

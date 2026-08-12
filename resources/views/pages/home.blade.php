@@ -1,4 +1,4 @@
-<x-layouts.app title="Perawatan Tubuh & Kecantikan" :description="App\Models\Setting::get('site_description', '')">
+<x-layouts.app :seo="$seo">
 
     {{-- HERO --}}
     <section class="relative overflow-hidden bg-gradient-to-b from-brand-100/60 to-cream">
@@ -42,7 +42,7 @@
                 <div class="relative overflow-hidden rounded-[2rem] shadow-2xl">
                     @php $heroImage = App\Models\Gallery::active()->ordered()->value('image'); @endphp
                     @if ($heroImage)
-                        <img src="{{ asset('storage/'.$heroImage) }}" alt="Suasana perawatan Dian Mustika" class="h-[420px] w-full object-cover sm:h-[520px]">
+                        <img src="{{ asset('storage/'.$heroImage) }}" alt="Suasana perawatan Dian Mustika" fetchpriority="high" class="h-[420px] w-full object-cover sm:h-[520px]">
                     @else
                         <div class="flex h-[420px] w-full items-center justify-center bg-brand-200 font-display text-3xl text-brand-700 sm:h-[520px]">Dian Mustika</div>
                     @endif

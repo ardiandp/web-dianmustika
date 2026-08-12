@@ -1,4 +1,4 @@
-<x-layouts.app title="Testimoni" description="Ulasan dan pengalaman pelanggan Dian Mustika.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Testimoni Pelanggan" description="Kepercayaan pelanggan adalah kebanggaan kami." />
 

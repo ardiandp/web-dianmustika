@@ -1,4 +1,4 @@
-<x-layouts.app title="Kontak" description="Hubungi Dian Mustika melalui WhatsApp, telepon, atau kunjungi cabang kami.">
+<x-layouts.app :seo="$seo">
 
     <x-sections.page-hero title="Hubungi Kami" description="Kami siap membantu Anda memilih perawatan yang tepat." />
 
