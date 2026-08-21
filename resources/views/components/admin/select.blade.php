@@ -6,25 +6,25 @@
     'help' => null,
 ])
 
-<div>
+<div class="form-group">
     @if ($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-ink">{{ $label }}</label>
+        <label for="{{ $name }}">{{ $label }}</label>
     @endif
 
     <select
         id="{{ $name }}"
         name="{{ $name }}"
         @if ($required) required @endif
-        {{ $attributes->merge(['class' => 'mt-1 block w-full rounded-md border-ink/20 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm']) }}
+        {{ $attributes->merge(['class' => 'form-control']) }}
     >
         {{ $slot }}
     </select>
 
     @if ($help)
-        <p class="mt-1 text-xs text-ink/60">{{ $help }}</p>
+        <small class="form-text text-muted">{{ $help }}</small>
     @endif
 
     @error($name)
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <span class="text-danger">{{ $message }}</span>
     @enderror
 </div>

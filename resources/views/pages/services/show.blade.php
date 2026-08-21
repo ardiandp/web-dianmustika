@@ -52,7 +52,7 @@
                 @if ($service->description)
                     <div>
                         <h2 class="font-display text-2xl font-semibold text-brand-800">Deskripsi</h2>
-                        <div class="prose-content mt-4">{{ $service->description }}</div>
+                        <div class="prose-content mt-4">{!! $service->description !!}</div>
                     </div>
                 @endif
 

@@ -34,12 +34,17 @@
 >
     <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="{{ route('home') }}" class="flex items-center gap-2.5" aria-label="Dian Mustika">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 font-display text-xl font-semibold text-cream shadow-md">
-                D
-            </span>
+            @php $logo = App\Models\Setting::get('logo'); @endphp
+            @if ($logo)
+                <img src="{{ asset('storage/' . $logo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto rounded-full object-contain">
+            @else
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 font-display text-xl font-semibold text-cream shadow-md">
+                    D
+                </span>
+            @endif
             <span class="leading-tight">
-                <span class="block font-display text-xl font-semibold tracking-wide text-brand-800">Dian Mustika</span>
-                <span class="block text-[11px] uppercase tracking-[0.2em] text-gold-600">Beauty & Wellness</span>
+                <span class="block font-display text-xl font-semibold tracking-wide text-brand-800">{{ App\Models\Setting::get('site_name', 'Dian Mustika') }}</span>
+                <span class="block text-[11px] uppercase tracking-[0.2em] text-gold-600">{{ App\Models\Setting::get('site_tagline', 'Beauty & Wellness') }}</span>
             </span>
         </a>
 

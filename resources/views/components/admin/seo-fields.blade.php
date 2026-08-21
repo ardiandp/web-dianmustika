@@ -1,10 +1,12 @@
 @props(['seo' => null])
 
-<div class="rounded-lg border border-ink/10 bg-white p-5">
-    <h3 class="text-base font-semibold text-ink">SEO</h3>
-    <p class="mt-1 text-sm text-ink/60">Kosongkan untuk menggunakan nilai default dari konten.</p>
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title"><i class="fas fa-search mr-1"></i> SEO</h3>
+    </div>
+    <div class="card-body">
+        <small class="text-muted d-block mb-3">Kosongkan untuk menggunakan nilai default dari konten.</small>
 
-    <div class="mt-4 space-y-4">
         <x-admin.input
             name="seo_title"
             label="SEO Title"

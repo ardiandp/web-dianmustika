@@ -1,30 +1,46 @@
 @props(['name' => '', 'label' => '', 'value' => '', 'required' => false, 'help' => null])
 
-<div>
+<div class="form-group">
     @if ($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-ink">{{ $label }}</label>
+        <label for="{{ $name }}">{{ $label }}</label>
     @endif
 
     @if ($value)
-        <div class="mt-2">
-            <img src="{{ asset('storage/' . $value) }}" alt="" class="h-32 w-32 rounded-lg border border-ink/10 object-cover">
+        <div class="mb-2">
+            <img src="{{ asset('storage/' . $value) }}" alt="" class="img-thumbnail" style="max-width: 150px;">
         </div>
     @endif
 
-    <input
-        id="{{ $name }}"
-        name="{{ $name }}"
-        type="file"
-        accept="image/*"
-        @if ($required) required @endif
-        {{ $attributes->merge(['class' => 'mt-2 block w-full text-sm text-ink/70 file:mr-3 file:rounded-md file:border-0 file:bg-brand-100 file:px-3 file:py-2 file:font-medium file:text-brand-800 hover:file:bg-brand-200']) }}
-    >
+    <div class="custom-file">
+        <input
+            type="file"
+            name="{{ $name }}"
+            id="{{ $name }}"
+            accept="image/*"
+            @if ($required) required @endif
+            {{ $attributes->merge(['class' => 'custom-file-input']) }}
+        >
+        <label class="custom-file-label" for="{{ $name }}">Pilih gambar...</label>
+    </div>
 
     @if ($help)
-        <p class="mt-1 text-xs text-ink/60">{{ $help }}</p>
+        <small class="form-text text-muted">{{ $help }}</small>
     @endif
 
     @error($name)
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <span class="text-danger">{{ $message }}</span>
     @enderror
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.custom-file-input').forEach(function (input) {
+        input.addEventListener('change', function (e) {
+            var fileName = e.target.files[0] ? e.target.files[0].name : 'Pilih gambar...';
+            e.target.nextElementSibling.textContent = fileName;
+        });
+    });
+});
+</script>
+@endpush

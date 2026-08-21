@@ -30,7 +30,7 @@
             </div>
         @endif
 
-        <div class="prose-content mt-10">{{ $article->content }}</div>
+        <div class="prose-content mt-10">{!! $article->content !!}</div>
 
         <div class="mt-12 rounded-3xl bg-gradient-to-br from-brand-800 to-brand-900 p-8 text-center">
             <h2 class="font-display text-2xl font-semibold text-cream">Butuh Bantuan Memilih Perawatan?</h2>

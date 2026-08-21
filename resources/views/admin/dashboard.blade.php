@@ -1,39 +1,47 @@
 <x-layouts.admin title="Dashboard">
-    <x-admin.page-header title="Dashboard" description="Ringkasan konten website Dian Mustika." />
+    @php
+        $stats = [
+            ['label' => 'Layanan', 'count' => \App\Models\Service::count(), 'route' => 'admin.services.index', 'icon' => 'fas fa-concierge-bell', 'color' => 'info'],
+            ['label' => 'Kategori Layanan', 'count' => \App\Models\ServiceCategory::count(), 'route' => 'admin.service-categories.index', 'icon' => 'fas fa-tags', 'color' => 'secondary'],
+            ['label' => 'Paket / Promo', 'count' => \App\Models\Package::count(), 'route' => 'admin.packages.index', 'icon' => 'fas fa-box-open', 'color' => 'warning'],
+            ['label' => 'Lokasi', 'count' => \App\Models\Location::count(), 'route' => 'admin.locations.index', 'icon' => 'fas fa-map-marker-alt', 'color' => 'danger'],
+            ['label' => 'Galeri', 'count' => \App\Models\Gallery::count(), 'route' => 'admin.galleries.index', 'icon' => 'fas fa-images', 'color' => 'success'],
+            ['label' => 'Testimonial', 'count' => \App\Models\Testimonial::count(), 'route' => 'admin.testimonials.index', 'icon' => 'fas fa-comment-dots', 'color' => 'primary'],
+            ['label' => 'Artikel', 'count' => \App\Models\Article::count(), 'route' => 'admin.articles.index', 'icon' => 'fas fa-newspaper', 'color' => 'info'],
+            ['label' => 'Kategori Artikel', 'count' => \App\Models\ArticleCategory::count(), 'route' => 'admin.article-categories.index', 'icon' => 'fas fa-folder-open', 'color' => 'secondary'],
+            ['label' => 'FAQ', 'count' => \App\Models\Faq::count(), 'route' => 'admin.faqs.index', 'icon' => 'fas fa-question-circle', 'color' => 'dark'],
+        ];
+    @endphp
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        @php
-            $stats = [
-                ['label' => 'Layanan', 'count' => \App\Models\Service::count(), 'route' => 'admin.services.index'],
-                ['label' => 'Kategori Layanan', 'count' => \App\Models\ServiceCategory::count(), 'route' => 'admin.service-categories.index'],
-                ['label' => 'Paket / Promo', 'count' => \App\Models\Package::count(), 'route' => 'admin.packages.index'],
-                ['label' => 'Lokasi', 'count' => \App\Models\Location::count(), 'route' => 'admin.locations.index'],
-                ['label' => 'Galeri', 'count' => \App\Models\Gallery::count(), 'route' => 'admin.galleries.index'],
-                ['label' => 'Testimonial', 'count' => \App\Models\Testimonial::count(), 'route' => 'admin.testimonials.index'],
-                ['label' => 'Artikel', 'count' => \App\Models\Article::count(), 'route' => 'admin.articles.index'],
-                ['label' => 'Kategori Artikel', 'count' => \App\Models\ArticleCategory::count(), 'route' => 'admin.article-categories.index'],
-                ['label' => 'FAQ', 'count' => \App\Models\Faq::count(), 'route' => 'admin.faqs.index'],
-            ];
-        @endphp
-
+    <div class="row">
         @foreach ($stats as $stat)
-            <a
-                href="{{ route($stat['route']) }}"
-                class="rounded-lg border border-ink/10 bg-white p-5 shadow-sm transition hover:border-brand-300 hover:shadow"
-            >
-                <p class="text-sm font-medium text-ink/60">{{ $stat['label'] }}</p>
-                <p class="mt-2 text-3xl font-semibold text-brand-800">{{ $stat['count'] }}</p>
-            </a>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <a href="{{ route($stat['route']) }}" class="info-box">
+                    <span class="info-box-icon bg-{{ $stat['color'] }}">
+                        <i class="{{ $stat['icon'] }}"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{ $stat['label'] }}</span>
+                        <span class="info-box-number">{{ $stat['count'] }}</span>
+                    </div>
+                </a>
+            </div>
         @endforeach
     </div>
 
-    <div class="mt-6 rounded-lg border border-ink/10 bg-white p-5">
-        <h2 class="text-base font-semibold text-ink">Pengaturan Website</h2>
-        <p class="mt-1 text-sm text-ink/60">
-            Kelola nama website, WhatsApp, telepon, email, alamat, jam operasional, dan media sosial.
-        </p>
-        <a href="{{ route('admin.settings.edit') }}" class="mt-3 inline-flex text-sm font-medium text-brand-700 hover:text-brand-800">
-            Kelola Pengaturan →
-        </a>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-cog mr-1"></i> Pengaturan Website</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Kelola nama website, WhatsApp, telepon, email, alamat, jam operasional, dan media sosial.</p>
+                    <a href="{{ route('admin.settings.edit') }}" class="btn btn-primary">
+                        <i class="fas fa-cog mr-1"></i> Kelola Pengaturan
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </x-layouts.admin>

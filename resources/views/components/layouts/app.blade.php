@@ -35,6 +35,11 @@
         <meta name="robots" content="{{ $robots }}">
         <link rel="canonical" href="{{ $canonical }}">
 
+        @php $favicon = App\Models\Setting::get('favicon'); @endphp
+        @if ($favicon)
+            <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $favicon) }}">
+        @endif
+
         <meta property="og:type" content="{{ $og['type'] }}">
         <meta property="og:site_name" content="{{ $og['site_name'] }}">
         <meta property="og:title" content="{{ $og['title'] }}">

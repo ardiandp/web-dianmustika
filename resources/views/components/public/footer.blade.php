@@ -19,10 +19,15 @@
         <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <div class="flex items-center gap-2.5">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 font-display text-xl font-semibold text-cream">
-                        D
-                    </span>
-                    <span class="font-display text-xl font-semibold text-cream">Dian Mustika</span>
+                    @php $logo = App\Models\Setting::get('logo'); @endphp
+                    @if ($logo)
+                        <img src="{{ asset('storage/' . $logo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto rounded-full object-contain">
+                    @else
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 font-display text-xl font-semibold text-cream">
+                            D
+                        </span>
+                    @endif
+                    <span class="font-display text-xl font-semibold text-cream">{{ App\Models\Setting::get('site_name', 'Dian Mustika') }}</span>
                 </div>
                 <p class="mt-4 text-sm leading-relaxed text-brand-100/60">
                     {{ $settings['description'] }}

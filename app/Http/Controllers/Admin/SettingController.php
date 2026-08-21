@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class SettingController extends Controller
@@ -14,6 +15,8 @@ class SettingController extends Controller
         'site_name',
         'site_tagline',
         'site_description',
+        'logo',
+        'favicon',
         'whatsapp',
         'phone',
         'email',
@@ -39,6 +42,8 @@ class SettingController extends Controller
             'site_name' => ['required', 'string', 'max:255'],
             'site_tagline' => ['nullable', 'string', 'max:255'],
             'site_description' => ['nullable', 'string'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,svg,webp', 'max:2048'],
+            'favicon' => ['nullable', 'image', 'mimes:ico,png,svg,webp,jpg,jpeg', 'max:1024'],
             'whatsapp' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -52,6 +57,20 @@ class SettingController extends Controller
         ]);
 
         foreach ($this->fields as $key) {
+            if ($key === 'logo' || $key === 'favicon') {
+                if ($request->hasFile($key)) {
+                    $oldValue = Setting::where('key', $key)->value('value');
+
+                    if ($oldValue && Storage::disk('public')->exists($oldValue)) {
+                        Storage::disk('public')->delete($oldValue);
+                    }
+
+                    $path = $request->file($key)->store('settings', 'public');
+                    Setting::updateOrCreate(['key' => $key], ['value' => $path]);
+                }
+                continue;
+            }
+
             $value = $request->input($key);
 
             if ($key === 'opening_hours' && $value) {
