@@ -5,13 +5,13 @@
         <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
             <div>
                 <span class="inline-flex items-center gap-2 rounded-full bg-brand-700/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-                    Beauty & Wellness
+                    {{ App\Models\Setting::get('hero_badge', 'Beauty & Wellness') }}
                 </span>
                 <h1 class="mt-6 font-display text-4xl font-semibold leading-tight text-brand-800 sm:text-5xl lg:text-6xl">
-                    Perawatan Tubuh & Kecantikan untuk Anda yang Ingin Merawat Diri
+                    {{ App\Models\Setting::get('hero_heading', 'Perawatan Tubuh & Kecantikan untuk Anda yang Ingin Merawat Diri') }}
                 </h1>
                 <p class="mt-5 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg">
-                    Dian Mustika membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan — dari massage relaksasi, slimming, hingga perawatan pasca melahirkan.
+                    {{ App\Models\Setting::get('hero_description', 'Dian Mustika membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan — dari massage relaksasi, slimming, hingga perawatan pasca melahirkan.') }}
                 </p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-800">
@@ -23,16 +23,16 @@
                 </div>
                 <dl class="mt-10 grid grid-cols-3 gap-6 border-t border-brand-200/50 pt-6">
                     <div>
-                        <dt class="font-display text-3xl font-semibold text-brand-800">15+</dt>
-                        <dd class="mt-1 text-xs text-ink/60">Jenis Perawatan</dd>
+                        <dt class="font-display text-3xl font-semibold text-brand-800">{{ App\Models\Setting::get('hero_stat1_value', '15+') }}</dt>
+                        <dd class="mt-1 text-xs text-ink/60">{{ App\Models\Setting::get('hero_stat1_label', 'Jenis Perawatan') }}</dd>
                     </div>
                     <div>
-                        <dt class="font-display text-3xl font-semibold text-brand-800">3</dt>
-                        <dd class="mt-1 text-xs text-ink/60">Lokasi Cabang</dd>
+                        <dt class="font-display text-3xl font-semibold text-brand-800">{{ App\Models\Setting::get('hero_stat2_value', '3') }}</dt>
+                        <dd class="mt-1 text-xs text-ink/60">{{ App\Models\Setting::get('hero_stat2_label', 'Lokasi Cabang') }}</dd>
                     </div>
                     <div>
-                        <dt class="font-display text-3xl font-semibold text-brand-800">100%</dt>
-                        <dd class="mt-1 text-xs text-ink/60">Terapis Berpengalaman</dd>
+                        <dt class="font-display text-3xl font-semibold text-brand-800">{{ App\Models\Setting::get('hero_stat3_value', '100%') }}</dt>
+                        <dd class="mt-1 text-xs text-ink/60">{{ App\Models\Setting::get('hero_stat3_label', 'Terapis Berpengalaman') }}</dd>
                     </div>
                 </dl>
             </div>
@@ -40,7 +40,10 @@
             <div class="relative">
                 <div class="absolute -left-6 -top-6 h-40 w-40 rounded-full bg-gold-300/40 blur-2xl"></div>
                 <div class="relative overflow-hidden rounded-[2rem] shadow-2xl">
-                    @php $heroImage = App\Models\Gallery::active()->ordered()->value('image'); @endphp
+                    @php
+                        $heroImage = App\Models\Setting::get('hero_image')
+                            ?? App\Models\Gallery::active()->ordered()->value('image');
+                    @endphp
                     @if ($heroImage)
                         <img src="{{ asset('storage/'.$heroImage) }}" alt="Suasana perawatan Dian Mustika" fetchpriority="high" class="h-[420px] w-full object-cover sm:h-[520px]">
                     @else

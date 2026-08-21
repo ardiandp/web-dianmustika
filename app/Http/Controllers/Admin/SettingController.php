@@ -17,6 +17,16 @@ class SettingController extends Controller
         'site_description',
         'logo',
         'favicon',
+        'hero_badge',
+        'hero_heading',
+        'hero_description',
+        'hero_image',
+        'hero_stat1_value',
+        'hero_stat1_label',
+        'hero_stat2_value',
+        'hero_stat2_label',
+        'hero_stat3_value',
+        'hero_stat3_label',
         'whatsapp',
         'phone',
         'email',
@@ -28,6 +38,8 @@ class SettingController extends Controller
         'google_maps_embed',
         'footer_copyright',
     ];
+
+    protected array $fileFields = ['logo', 'favicon', 'hero_image'];
 
     public function edit(): View
     {
@@ -44,6 +56,16 @@ class SettingController extends Controller
             'site_description' => ['nullable', 'string'],
             'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,svg,webp', 'max:2048'],
             'favicon' => ['nullable', 'image', 'mimes:ico,png,svg,webp,jpg,jpeg', 'max:1024'],
+            'hero_badge' => ['nullable', 'string', 'max:255'],
+            'hero_heading' => ['nullable', 'string', 'max:500'],
+            'hero_description' => ['nullable', 'string'],
+            'hero_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'hero_stat1_value' => ['nullable', 'string', 'max:50'],
+            'hero_stat1_label' => ['nullable', 'string', 'max:100'],
+            'hero_stat2_value' => ['nullable', 'string', 'max:50'],
+            'hero_stat2_label' => ['nullable', 'string', 'max:100'],
+            'hero_stat3_value' => ['nullable', 'string', 'max:50'],
+            'hero_stat3_label' => ['nullable', 'string', 'max:100'],
             'whatsapp' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -57,7 +79,7 @@ class SettingController extends Controller
         ]);
 
         foreach ($this->fields as $key) {
-            if ($key === 'logo' || $key === 'favicon') {
+            if (in_array($key, $this->fileFields)) {
                 if ($request->hasFile($key)) {
                     $oldValue = Setting::where('key', $key)->value('value');
 

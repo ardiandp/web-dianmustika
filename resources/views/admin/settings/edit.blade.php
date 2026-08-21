@@ -78,6 +78,83 @@
 
         <div class="card card-outline card-primary">
             <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-home mr-1"></i> Hero / Banner Utama</h3>
+            </div>
+            <div class="card-body">
+                <small class="text-muted d-block mb-3">Bagian utama di halaman depan. Kosongkan untuk menggunakan nilai default.</small>
+
+                <div class="form-group">
+                    <label>Badge Teks</label>
+                    <input type="text" name="hero_badge" class="form-control" value="{{ old('hero_badge', $settings->get('hero_badge', 'Beauty & Wellness')) }}" placeholder="Beauty & Wellness">
+                </div>
+
+                <div class="form-group">
+                    <label>Heading / Judul</label>
+                    <input type="text" name="hero_heading" class="form-control" value="{{ old('hero_heading', $settings->get('hero_heading', 'Perawatan Tubuh & Kecantikan untuk Anda yang Ingin Merawat Diri')) }}" placeholder="Judul utama hero">
+                </div>
+
+                <div class="form-group">
+                    <label>Deskripsi</label>
+                    <textarea name="hero_description" class="form-control" rows="3" placeholder="Deskripsi singkat tentang website">{{ old('hero_description', $settings->get('hero_description', 'Dian Mustika membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan — dari massage relaksasi, slimming, hingga perawatan pasca melahirkan.')) }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Gambar Hero</label>
+                    @if ($settings->get('hero_image'))
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $settings->get('hero_image')) }}" alt="Hero" class="img-thumbnail" style="max-height: 150px;">
+                        </div>
+                    @endif
+                    <div class="custom-file">
+                        <input type="file" name="hero_image" id="hero_image" accept="image/*" class="custom-file-input">
+                        <label class="custom-file-label" for="hero_image">Pilih gambar hero...</label>
+                    </div>
+                    <small class="form-text text-muted">JPG, PNG, atau WebP. Disarankan rasio 4:5 atau landscape. Maks 2MB.</small>
+                    @error('hero_image')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <hr>
+                <h5 class="mb-3">Statistik (angka di bawah hero)</h5>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Stat 1 - Nilai</label>
+                            <input type="text" name="hero_stat1_value" class="form-control" value="{{ old('hero_stat1_value', $settings->get('hero_stat1_value', '15+')) }}" placeholder="15+">
+                        </div>
+                        <div class="form-group">
+                            <label>Stat 1 - Label</label>
+                            <input type="text" name="hero_stat1_label" class="form-control" value="{{ old('hero_stat1_label', $settings->get('hero_stat1_label', 'Jenis Perawatan')) }}" placeholder="Jenis Perawatan">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Stat 2 - Nilai</label>
+                            <input type="text" name="hero_stat2_value" class="form-control" value="{{ old('hero_stat2_value', $settings->get('hero_stat2_value', '3')) }}" placeholder="3">
+                        </div>
+                        <div class="form-group">
+                            <label>Stat 2 - Label</label>
+                            <input type="text" name="hero_stat2_label" class="form-control" value="{{ old('hero_stat2_label', $settings->get('hero_stat2_label', 'Lokasi Cabang')) }}" placeholder="Lokasi Cabang">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Stat 3 - Nilai</label>
+                            <input type="text" name="hero_stat3_value" class="form-control" value="{{ old('hero_stat3_value', $settings->get('hero_stat3_value', '100%')) }}" placeholder="100%">
+                        </div>
+                        <div class="form-group">
+                            <label>Stat 3 - Label</label>
+                            <input type="text" name="hero_stat3_label" class="form-control" value="{{ old('hero_stat3_label', $settings->get('hero_stat3_label', 'Terapis Berpengalaman')) }}" placeholder="Terapis Berpengalaman">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-outline card-primary">
+            <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-phone mr-1"></i> Kontak</h3>
             </div>
             <div class="card-body">
