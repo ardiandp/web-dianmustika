@@ -30,8 +30,10 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@dianmustika.test'],
             [
                 'name' => 'Admin Dian Mustika',
+                'role' => 'admin',
                 'password' => 'password',
                 'email_verified_at' => now(),
+                'is_active' => true,
             ]
         );
     }
