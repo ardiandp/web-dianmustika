@@ -22,6 +22,12 @@
     {{-- AdminLTE 3 --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
+    {{-- DataTables --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
+
+    {{-- SweetAlert2 --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     {{-- Google Font: Source Sans Pro --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -245,5 +251,28 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 @stack('scripts')
+
+{{-- DataTables --}}
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
+
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    @if (session('success'))
+        Swal.fire({ icon: 'success', title: 'Berhasil!', text: '{{ session('success') }}', timer: 3000, timerProgressBar: true, showConfirmButton: false });
+    @endif
+    @if (session('error'))
+        Swal.fire({ icon: 'error', title: 'Gagal!', text: '{{ session('error') }}', timer: 4000, timerProgressBar: true, showConfirmButton: false });
+    @endif
+    @if (session('warning'))
+        Swal.fire({ icon: 'warning', title: 'Peringatan!', text: '{{ session('warning') }}', timer: 3000, timerProgressBar: true, showConfirmButton: false });
+    @endif
+    @if (session('info'))
+        Swal.fire({ icon: 'info', title: 'Informasi', text: '{{ session('info') }}', timer: 3000, timerProgressBar: true, showConfirmButton: false });
+    @endif
+});
+</script>
 </body>
 </html>

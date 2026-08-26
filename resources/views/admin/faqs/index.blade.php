@@ -6,15 +6,9 @@
         buttonLabel="Tambah FAQ"
     />
 
-    @if (session('success'))
-        <div class="callout callout-success">
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-
     <div class="card">
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
+            <table id="datatable" class="table table-hover text-nowrap">
                 <thead>
                     <tr>
                         <th>Kategori</th>
@@ -68,9 +62,9 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="card-footer">
-            {{ $faqs->links() }}
-        </div>
     </div>
+
+    @push('scripts')
+    <script>$(function () { $('#datatable').DataTable({ language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan' } }); });</script>
+    @endpush
 </x-layouts.admin>

@@ -15,7 +15,7 @@ class ArticleCategoryController extends Controller
         $categories = ArticleCategory::query()
             ->withCount('articles')
             ->orderBy('sort_order')
-            ->paginate(15);
+            ->get();
 
         return view('admin.article-categories.index', compact('categories'));
     }

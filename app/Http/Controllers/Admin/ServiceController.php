@@ -16,7 +16,7 @@ class ServiceController extends Controller
         $services = Service::query()
             ->with('category')
             ->ordered()
-            ->paginate(15);
+            ->get();
 
         return view('admin.services.index', compact('services'));
     }

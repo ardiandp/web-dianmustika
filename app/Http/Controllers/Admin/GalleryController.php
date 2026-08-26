@@ -14,7 +14,7 @@ class GalleryController extends Controller
     {
         $galleries = Gallery::query()
             ->orderBy('sort_order')
-            ->paginate(15);
+            ->get();
 
         return view('admin.galleries.index', compact('galleries'));
     }

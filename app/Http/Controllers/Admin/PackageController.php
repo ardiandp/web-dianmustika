@@ -14,7 +14,7 @@ class PackageController extends Controller
     {
         $packages = Package::query()
             ->ordered()
-            ->paginate(15);
+            ->get();
 
         return view('admin.packages.index', compact('packages'));
     }

@@ -15,7 +15,7 @@ class ServiceCategoryController extends Controller
         $categories = ServiceCategory::query()
             ->withCount('services')
             ->orderBy('sort_order')
-            ->paginate(20);
+            ->get();
 
         return view('admin.service-categories.index', compact('categories'));
     }

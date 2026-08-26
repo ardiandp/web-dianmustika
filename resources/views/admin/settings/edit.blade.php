@@ -1,12 +1,6 @@
 <x-layouts.admin title="Pengaturan Website">
     <x-admin.page-header title="Pengaturan Website" description="Informasi umum dan kontak yang tampil di seluruh website." />
 
-    @if (session('success'))
-        <div class="callout callout-success">
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-
     @php
         $hours = json_decode((string) $settings->get('opening_hours'), true) ?: [];
         $hoursText = '';
@@ -15,7 +9,7 @@
         }
     @endphp
 
-    <form method="POST" action="{{ route('admin.settings.update') }}">
+    <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 

@@ -17,7 +17,7 @@ class FaqController extends Controller
         $faqs = Faq::query()
             ->with(['service', 'location'])
             ->orderBy('sort_order')
-            ->paginate(15);
+            ->get();
 
         return view('admin.faqs.index', compact('faqs'));
     }

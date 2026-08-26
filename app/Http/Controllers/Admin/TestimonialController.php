@@ -14,7 +14,7 @@ class TestimonialController extends Controller
     {
         $testimonials = Testimonial::query()
             ->orderBy('sort_order')
-            ->paginate(15);
+            ->get();
 
         return view('admin.testimonials.index', compact('testimonials'));
     }
