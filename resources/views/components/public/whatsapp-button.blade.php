@@ -2,6 +2,8 @@
     href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
     target="_blank"
     rel="noopener"
+    data-track-click="whatsapp_floating"
+    data-track-label="Floating WhatsApp"
     class="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition hover:scale-105"
     aria-label="Hubungi via WhatsApp"
 >

@@ -84,7 +84,7 @@
                 <ul class="mt-4 space-y-3 text-sm">
                     <li class="flex items-start gap-2.5">
                         <span class="mt-0.5 text-gold-500">●</span>
-                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika!') }}" target="_blank" rel="noopener" class="transition hover:text-gold-400">
+                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika!') }}" target="_blank" rel="noopener" data-track-click="whatsapp_footer" data-track-label="Footer WhatsApp" class="transition hover:text-gold-400">
                             {{ App\Services\WhatsAppService::display() }}
                         </a>
                     </li>

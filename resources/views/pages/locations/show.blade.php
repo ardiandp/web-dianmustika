@@ -23,7 +23,7 @@
                         <p class="mt-4 max-w-xl leading-relaxed text-brand-100/70">{{ $location->description }}</p>
                     @endif
                     <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin reservasi.') }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
+                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin reservasi.') }}" target="_blank" rel="noopener" data-track-click="whatsapp_lokasi_hero" data-track-label="{{ $location->name }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
                             WhatsApp {{ $location->name }}
                         </a>
                         @if ($location->google_maps_url)
@@ -68,6 +68,11 @@
                         </div>
                     </div>
                 @endif
+
+                <div class="flex flex-wrap items-center justify-between gap-4 border-y border-brand-100 py-6">
+                    <x-public.share-buttons :title="$location->name" />
+                    <span class="text-xs text-ink/40">Bagikan lokasi ini</span>
+                </div>
             </div>
 
             <aside class="space-y-6">

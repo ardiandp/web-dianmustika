@@ -64,6 +64,8 @@
                 href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
                 target="_blank"
                 rel="noopener"
+                data-track-click="whatsapp_navbar"
+                data-track-label="Navbar WhatsApp"
                 class="hidden items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:brightness-95 sm:inline-flex"
             >
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -104,6 +106,8 @@
                 href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
                 target="_blank"
                 rel="noopener"
+                data-track-click="whatsapp_navbar_mobile"
+                data-track-label="Navbar Mobile WhatsApp"
                 class="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white shadow-md"
             >
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

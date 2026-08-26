@@ -32,10 +32,15 @@
 
         <div class="prose-content mt-10">{!! $article->content !!}</div>
 
+        <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-brand-100 py-6">
+            <x-public.share-buttons :title="$article->title" />
+            <span class="text-xs text-ink/40">{{ $article->published_at->translatedFormat('d M Y') }} · {{ $article->author?->name }}</span>
+        </div>
+
         <div class="mt-12 rounded-3xl bg-gradient-to-br from-brand-800 to-brand-900 p-8 text-center">
             <h2 class="font-display text-2xl font-semibold text-cream">Butuh Bantuan Memilih Perawatan?</h2>
             <p class="mx-auto mt-2 max-w-xl text-sm text-brand-100/75">Konsultasikan kebutuhan Anda dengan tim Dian Mustika melalui WhatsApp.</p>
-            <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya membaca artikel dan ingin konsultasi.') }}" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
+            <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya membaca artikel dan ingin konsultasi.') }}" target="_blank" rel="noopener" data-track-click="whatsapp_artikel" data-track-label="{{ $article->title }}" class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
                 Konsultasi via WhatsApp
             </a>
         </div>

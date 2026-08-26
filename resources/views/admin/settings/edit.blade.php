@@ -103,7 +103,7 @@
                         <input type="file" name="hero_image" id="hero_image" accept="image/*" class="custom-file-input">
                         <label class="custom-file-label" for="hero_image">Pilih gambar hero...</label>
                     </div>
-                    <small class="form-text text-muted">JPG, PNG, atau WebP. Disarankan rasio 4:5 atau landscape. Maks 2MB.</small>
+                    <small class="form-text text-muted">JPG, PNG, atau WebP. Rasio ideal 5:4 (800×650) atau Retina 1200×975. Minimal 600×490. Maks 2MB. Gambar akan tampil utuh tanpa terpotong.</small>
                     @error('hero_image')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

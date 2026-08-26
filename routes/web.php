@@ -35,6 +35,56 @@ Route::get('/robots.txt', function () {
     return response($content)->header('Content-Type', 'text/plain');
 });
 
+Route::post('/api/track/click', function (\Illuminate\Http\Request $request) {
+    $data = $request->validate([
+        'element' => ['required', 'string', 'max:100'],
+        'label' => ['nullable', 'string', 'max:255'],
+        'path' => ['nullable', 'string', 'max:500'],
+        'url' => ['nullable', 'string', 'max:500'],
+    ]);
+
+    $ua = $request->userAgent() ?? '';
+    $agent = new \Jenssegers\Agent\Agent();
+    $agent->setUserAgent($ua);
+    $device = 'desktop';
+    if ($agent->isTablet()) $device = 'tablet';
+    elseif ($agent->isMobile()) $device = 'mobile';
+
+    $ip = $request->ip() ?? '0.0.0.0';
+    $country = null; $city = null;
+    if (! in_array($ip, ['127.0.0.1', '::1']) && ! str_starts_with($ip, '192.168.') && ! str_starts_with($ip, '10.')) {
+        $geo = \Illuminate\Support\Facades\Cache::remember('geo:'.$ip, 86400, function () use ($ip) {
+            try {
+                $res = \Illuminate\Support\Facades\Http::timeout(1)->get('http://ip-api.com/json/'.$ip.'?fields=country,city,status');
+                if ($res->successful()) {
+                    $d = $res->json();
+                    if (($d['status'] ?? '') === 'success') return ['country' => $d['country'] ?? null, 'city' => $d['city'] ?? null];
+                }
+            } catch (\Throwable $e) {}
+            return null;
+        });
+        $country = $geo['country'] ?? null;
+        $city = $geo['city'] ?? null;
+    }
+
+    \App\Models\PageClick::create([
+        'path' => $data['path'] ?? parse_url($data['url'] ?? $request->header('referer') ?? '/', PHP_URL_PATH) ?: '/',
+        'url' => $data['url'] ?? $request->header('referer') ?? url()->current(),
+        'element' => $data['element'],
+        'label' => $data['label'] ?? null,
+        'ip_hash' => hash('sha256', $ip . config('app.key')),
+        'country' => $country,
+        'city' => $city,
+        'device' => $device,
+        'browser' => $agent->browser() ?: null,
+        'os' => $agent->platform() ?: null,
+        'referrer' => mb_substr($request->header('referer') ?? '', 0, 500),
+        'clicked_at' => now(),
+    ]);
+
+    return response()->json(['ok' => true]);
+})->middleware('throttle:120,1');
+
 Route::get('/', HomeController::class)->name('home');
 Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');
 

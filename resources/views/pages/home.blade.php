@@ -14,10 +14,10 @@
                     {{ App\Models\Setting::get('hero_description', 'Dian Mustika membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan — dari massage relaksasi, slimming, hingga perawatan pasca melahirkan.') }}
                 </p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-800">
+                    <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}" target="_blank" rel="noopener" data-track-click="whatsapp_home_hero" data-track-label="Home Hero" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-800">
                         Konsultasi via WhatsApp
                     </a>
-                    <a href="{{ route('services.index') }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
+                    <a href="{{ route('services.index') }}" data-track-click="cta_home_lihat_layanan" data-track-label="Home Hero Lihat Layanan" class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
                         Lihat Layanan
                     </a>
                 </div>
@@ -39,13 +39,13 @@
 
             <div class="relative">
                 <div class="absolute -left-6 -top-6 h-40 w-40 rounded-full bg-gold-300/40 blur-2xl"></div>
-                <div class="relative overflow-hidden rounded-[2rem] shadow-2xl">
+                <div class="relative overflow-hidden rounded-[2rem] bg-cream shadow-2xl">
                     @php
                         $heroImage = App\Models\Setting::get('hero_image')
                             ?? App\Models\Gallery::active()->ordered()->value('image');
                     @endphp
                     @if ($heroImage)
-                        <img src="{{ asset('storage/'.$heroImage) }}" alt="Suasana perawatan Dian Mustika" fetchpriority="high" class="h-[420px] w-full object-cover sm:h-[520px]">
+                        <img src="{{ asset('storage/'.$heroImage) }}" alt="Suasana perawatan Dian Mustika" fetchpriority="high" class="h-[420px] w-full bg-cream object-contain sm:h-[520px]">
                     @else
                         <div class="flex h-[420px] w-full items-center justify-center bg-brand-200 font-display text-3xl text-brand-700 sm:h-[520px]">Dian Mustika</div>
                     @endif
