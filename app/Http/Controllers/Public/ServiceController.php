@@ -41,15 +41,31 @@ class ServiceController extends Controller
     {
         abort_unless($service->is_active, 404);
 
-        $service->load(['category', 'faqs' => fn ($q) => $q->active(), 'locations' => fn ($q) => $q->active()]);
+        $service->load([
+            'category',
+            'faqs' => fn ($q) => $q->active()->ordered(),
+            'locations' => fn ($q) => $q->active()->ordered(),
+            'galleries' => fn ($q) => $q->active()->ordered(),
+            'relatedServices' => fn ($q) => $q->active()->with('category'),
+            'articles' => fn ($q) => $q->active()->published()->with('category'),
+        ]);
 
-        $related = Service::active()
-            ->where('id', '!=', $service->id)
-            ->when($service->service_category_id, fn ($q) => $q->where('service_category_id', $service->service_category_id))
-            ->with('category')
-            ->ordered()
-            ->limit(3)
-            ->get();
+        // Prefer manual related services, fallback to same category
+        $related = $service->relatedServices;
+        if ($related->isEmpty()) {
+            $related = Service::active()
+                ->where('id', '!=', $service->id)
+                ->when($service->service_category_id, fn ($q) => $q->where('service_category_id', $service->service_category_id))
+                ->with('category')
+                ->ordered()
+                ->limit(3)
+                ->get();
+        } else {
+            $related = $related->take(3);
+        }
+
+        // Related articles via pivot
+        $relatedArticles = $service->articles->take(3);
 
         $seo = SeoService::for($service, [
             'schema' => [
@@ -66,6 +82,6 @@ class ServiceController extends Controller
             $seo['schema'][] = SeoService::faq($service->faqs);
         }
 
-        return view('pages.services.show', compact('service', 'related', 'seo'));
+        return view('pages.services.show', compact('service', 'related', 'relatedArticles', 'seo'));
     }
 }

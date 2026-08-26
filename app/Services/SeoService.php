@@ -259,18 +259,48 @@ class SeoService
      */
     public static function service(Service $service): array
     {
+        $description = $service->short_description ?: str($service->description ?? '')->stripTags()->limit(300)->toString();
+
         $schema = [
             '@context' => 'https://schema.org',
             '@type' => 'Service',
             'name' => $service->name,
-            'description' => $service->short_description ?: $service->description,
+            'description' => $description,
             'provider' => ['@type' => 'Organization', 'name' => Setting::get('site_name', config('app.name'))],
             'url' => url()->current(),
-            'areaServed' => ['@type' => 'City', 'name' => 'Tangerang Selatan'],
         ];
+
+        // areaServed from related locations, fallback to default
+        if ($service->relationLoaded('locations') && $service->locations->isNotEmpty()) {
+            $schema['areaServed'] = $service->locations->map(fn ($loc) => [
+                '@type' => 'City',
+                'name' => $loc->name,
+            ])->values()->all();
+            // Keep single object if only one location for backward compat
+            if (count($schema['areaServed']) === 1) {
+                $schema['areaServed'] = $schema['areaServed'][0];
+            }
+        } else {
+            $schema['areaServed'] = ['@type' => 'City', 'name' => 'Tangerang Selatan'];
+        }
 
         if ($image = self::generateImage($service)) {
             $schema['image'] = $image;
+        }
+
+        // Gallery images as additional images
+        if ($service->relationLoaded('galleries') && $service->galleries->isNotEmpty()) {
+            $galleryImages = $service->galleries->map(fn ($g) => self::absoluteImage($g->image))->filter()->values()->all();
+            if (! empty($galleryImages)) {
+                $schema['image'] = array_values(array_unique(array_merge(
+                    is_array($schema['image'] ?? null) ? $schema['image'] : [$schema['image'] ?? null],
+                    $galleryImages
+                )));
+                $schema['image'] = array_values(array_filter($schema['image']));
+                if (count($schema['image']) === 1) {
+                    $schema['image'] = $schema['image'][0];
+                }
+            }
         }
 
         if ($service->price && $service->price > 0) {
@@ -279,6 +309,14 @@ class SeoService
                 'price' => (string) $service->price,
                 'priceCurrency' => 'IDR',
                 'availability' => 'https://schema.org/InStock',
+                'url' => url()->current(),
+            ];
+        } elseif ($service->harga_label) {
+            $schema['offers'] = [
+                '@type' => 'Offer',
+                'priceCurrency' => 'IDR',
+                'availability' => 'https://schema.org/InStock',
+                'url' => url()->current(),
             ];
         }
 

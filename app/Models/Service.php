@@ -17,8 +17,17 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
     'short_description',
     'description',
     'benefits',
+    'cocok_untuk',
+    'perhatian',
     'duration',
     'price',
+    'harga_label',
+    'tipe_harga',
+    'cta_text',
+    'cta_url',
+    'video_url',
+    'focus_keyword',
+    'secondary_keywords',
     'note',
     'image',
     'alt_text',
@@ -65,9 +74,72 @@ class Service extends Model
         return $this->belongsToMany(Package::class)->withTimestamps();
     }
 
+    public function relatedServices(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'service_related', 'service_id', 'related_service_id')
+            ->withPivot('sort_order')
+            ->withTimestamps()
+            ->orderByPivot('sort_order');
+    }
+
+    public function articles(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'article_service')->withTimestamps();
+    }
+
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(ServiceGallery::class)->orderBy('sort_order');
+    }
+
     public function seo(): MorphOne
     {
         return $this->morphOne(SeoMetadata::class, 'seoable');
+    }
+
+    /**
+     * Display price label with fallback.
+     */
+    public function displayPrice(): ?string
+    {
+        if ($this->harga_label) {
+            return $this->harga_label;
+        }
+
+        if ($this->price !== null) {
+            return 'Rp '.number_format((float) $this->price, 0, ',', '.');
+        }
+
+        return null;
+    }
+
+    /**
+     * Simple SEO completeness check.
+     * Returns: lengkap | sebagian | belum
+     */
+    public function seoStatus(): string
+    {
+        $seo = $this->seo;
+        $checks = [
+            filled($seo?->title),
+            filled($seo?->description),
+            filled($this->focus_keyword),
+            filled($this->short_description) || filled($this->description),
+            filled($this->alt_text),
+            filled($this->slug),
+        ];
+
+        $score = collect($checks)->filter()->count();
+
+        if ($score >= 5) {
+            return 'lengkap';
+        }
+
+        if ($score >= 3) {
+            return 'sebagian';
+        }
+
+        return 'belum';
     }
 
     public function scopeActive($query)
