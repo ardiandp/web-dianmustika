@@ -11,8 +11,8 @@
             @endforelse
         </div>
 
-        <div class="mt-10">
-            {{ $testimonials->links() }}
+        <div class="mt-10 flex justify-center">
+            {{ $testimonials->links('vendor.pagination.public') }}
         </div>
     </section>
 

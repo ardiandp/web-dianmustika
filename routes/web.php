@@ -95,6 +95,7 @@ Route::get('/layanan', [PublicServiceController::class, 'index'])->name('service
 Route::get('/layanan/{service:slug}', [PublicServiceController::class, 'show'])->name('services.show');
 
 Route::get('/paket', [PublicPackageController::class, 'index'])->name('packages.index');
+Route::get('/paket/{package:slug}', [PublicPackageController::class, 'show'])->name('packages.show');
 
 Route::get('/galeri', [PublicGalleryController::class, 'index'])->name('galleries.index');
 Route::get('/testimoni', [PublicTestimonialController::class, 'index'])->name('testimonials.index');

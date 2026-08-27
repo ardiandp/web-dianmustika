@@ -24,8 +24,8 @@
             @endforelse
         </div>
 
-        <div class="mt-10">
-            {{ $services->links() }}
+        <div class="mt-12 flex justify-center">
+            {{ $services->links('vendor.pagination.public') }}
         </div>
     </section>
 

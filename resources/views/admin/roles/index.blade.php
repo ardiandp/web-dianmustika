@@ -1,9 +1,16 @@
 <x-layouts.admin title="Role & Permission">
     <x-admin.page-header title="Role & Permission" description="Kelola role dan permission. Staff bisa ditambah/kurang menu via permission." :buttonHref="route('admin.roles.create')" buttonLabel="Tambah Role" />
 
-    <div class="card">
-        <div class="card-body table-responsive p-0">
-            <table id="datatable" class="table table-hover text-nowrap">
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Daftar Role</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="datatable" class="table table-bordered table-striped table-hover">
                 <thead><tr><th>Role</th><th class="text-center">Jumlah Permission</th><th class="text-center">Jumlah User</th><th class="text-right">Aksi</th></tr></thead>
                 <tbody>
                     @forelse ($roles as $role)
@@ -25,6 +32,7 @@
                         <tr><td colspan="4" class="text-center text-muted">Belum ada role.</td></tr>
                     @endforelse
                 </tbody>
+                <tfoot><tr><th>Role</th><th class="text-center">Jumlah Permission</th><th class="text-center">Jumlah User</th><th class="text-right">Aksi</th></tr></tfoot>
             </table>
         </div>
     </div>
@@ -40,6 +48,15 @@
     </div>
 
     @push('scripts')
-    <script>$(function () { $('#datatable').DataTable({ language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan' } }); });</script>
+    <script>$(function () {
+        var table = $('#datatable').DataTable({
+            responsive: true,
+            autoWidth: false,
+            lengthChange: true,
+            buttons: ["copy","csv","excel","pdf","print","colVis"],
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+        });
+        table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
+    });</script>
     @endpush
 </x-layouts.admin>

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\Faq;
 use App\Models\Location;
+use App\Models\Package;
 use App\Models\Service;
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
@@ -98,6 +99,7 @@ class SeoService
         $name = match (true) {
             $model instanceof Article => $model->title,
             $model instanceof Service => $model->name,
+            $model instanceof Package => $model->name,
             $model instanceof Location => $model->name,
             default => $model->name ?? $model->title ?? null,
         };
@@ -118,6 +120,7 @@ class SeoService
         $text = match (true) {
             $model instanceof Article => $model->excerpt,
             $model instanceof Service => $model->short_description,
+            $model instanceof Package => $model->description,
             $model instanceof Location => $model->description,
             default => $model->description ?? $model->excerpt ?? null,
         };
@@ -317,6 +320,39 @@ class SeoService
                 'priceCurrency' => 'IDR',
                 'availability' => 'https://schema.org/InStock',
                 'url' => url()->current(),
+            ];
+        }
+
+        return $schema;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function package(Package $package): array
+    {
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $package->name,
+            'description' => str($package->description ?? '')->stripTags()->limit(300)->toString(),
+            'brand' => ['@type' => 'Brand', 'name' => Setting::get('site_name', config('app.name'))],
+            'url' => url()->current(),
+        ];
+
+        if ($image = self::generateImage($package)) {
+            $schema['image'] = $image;
+        }
+
+        $price = $package->hasPromo() ? $package->promo_price : $package->price;
+        if ($price && $price > 0) {
+            $schema['offers'] = [
+                '@type' => 'Offer',
+                'price' => (string) $price,
+                'priceCurrency' => 'IDR',
+                'availability' => 'https://schema.org/InStock',
+                'url' => url()->current(),
+                'priceValidUntil' => $package->ends_at?->toIso8601String(),
             ];
         }
 

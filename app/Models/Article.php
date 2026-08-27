@@ -26,6 +26,12 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
+    }
+
     protected function casts(): array
     {
         return [

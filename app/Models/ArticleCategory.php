@@ -12,6 +12,12 @@ class ArticleCategory extends Model
 {
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
+    }
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);

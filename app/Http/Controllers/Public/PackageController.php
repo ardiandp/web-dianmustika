@@ -29,4 +29,24 @@ class PackageController extends Controller
 
         return view('pages.packages.index', compact('packages', 'featured', 'rest', 'seo'));
     }
+
+    public function show(Package $package): View
+    {
+        abort_unless($package->is_active, 404);
+
+        $package->load(['services' => fn ($q) => $q->active()->ordered()]);
+
+        $seo = SeoService::for($package, [
+            'schema' => [
+                SeoService::breadcrumbs([
+                    ['label' => 'Beranda', 'url' => route('home')],
+                    ['label' => 'Paket & Promo', 'url' => route('packages.index')],
+                    ['label' => $package->name, 'url' => route('packages.show', $package)],
+                ]),
+                SeoService::package($package),
+            ],
+        ]);
+
+        return view('pages.packages.show', compact('package', 'seo'));
+    }
 }

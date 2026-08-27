@@ -12,9 +12,6 @@
                         <p class="col-span-full py-12 text-center text-ink/60">Belum ada artikel pada kategori ini.</p>
                     @endforelse
                 </div>
-                <div class="mt-8">
-                    {{ $articles->links() }}
-                </div>
             </div>
 
             <aside>
@@ -31,6 +28,9 @@
                     @endforeach
                 </div>
             </aside>
+        </div>
+        <div class="mt-10 flex justify-center">
+            {{ $articles->links('vendor.pagination.public') }}
         </div>
     </section>
 
