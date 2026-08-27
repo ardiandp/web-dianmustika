@@ -100,87 +100,131 @@
 
             <nav>
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    @can('manage-dashboard')
                     <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
+                    @endcan
 
+                    @canany(['manage-services','manage-service-categories','manage-packages','manage-locations','manage-galleries','manage-testimonials'])
                     <li class="nav-header">KONTEN</li>
+                    @endcanany
 
+                    @can('manage-services')
                     <li class="nav-item">
                         <a href="{{ route('admin.services.index') }}" class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-concierge-bell"></i>
                             <p>Layanan</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-service-categories')
                     <li class="nav-item">
                         <a href="{{ route('admin.service-categories.index') }}" class="nav-link {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tags"></i>
                             <p>Kategori Layanan</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-packages')
                     <li class="nav-item">
                         <a href="{{ route('admin.packages.index') }}" class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-box-open"></i>
                             <p>Paket / Promo</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-locations')
                     <li class="nav-item">
                         <a href="{{ route('admin.locations.index') }}" class="nav-link {{ request()->routeIs('admin.locations.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-map-marker-alt"></i>
                             <p>Lokasi</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-galleries')
                     <li class="nav-item">
                         <a href="{{ route('admin.galleries.index') }}" class="nav-link {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-images"></i>
                             <p>Galeri</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-testimonials')
                     <li class="nav-item">
                         <a href="{{ route('admin.testimonials.index') }}" class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-comment-dots"></i>
                             <p>Testimonial</p>
                         </a>
                     </li>
+                    @endcan
 
+                    @canany(['manage-articles','manage-article-categories'])
                     <li class="nav-header">ARTIKEL</li>
+                    @endcanany
 
+                    @can('manage-articles')
                     <li class="nav-item">
                         <a href="{{ route('admin.articles.index') }}" class="nav-link {{ request()->routeIs('admin.articles.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-newspaper"></i>
                             <p>Artikel</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-article-categories')
                     <li class="nav-item">
                         <a href="{{ route('admin.article-categories.index') }}" class="nav-link {{ request()->routeIs('admin.article-categories.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-folder-open"></i>
                             <p>Kategori Artikel</p>
                         </a>
                     </li>
+                    @endcan
 
                     <li class="nav-header">LAINNYA</li>
 
+                    @can('manage-users')
                     <li class="nav-item">
                         <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>Manajemen User</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-roles')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.roles.index') }}" class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-shield"></i>
+                            <p>Role & Permission</p>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('manage-faqs')
                     <li class="nav-item">
                         <a href="{{ route('admin.faqs.index') }}" class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-question-circle"></i>
                             <p>FAQ</p>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage-activity-logs')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.activity-logs.index') }}" class="nav-link {{ request()->routeIs('admin.activity-logs.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>Log Aktivitas</p>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('manage-settings')
                     <li class="nav-item">
                         <a href="{{ route('admin.settings.edit') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-cog"></i>
                             <p>Pengaturan Website</p>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </nav>
         </div>

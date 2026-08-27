@@ -29,10 +29,15 @@
                             </td>
                             <td>{{ $user->email }}</td>
                             <td class="text-center">
-                                @if ($user->role === 'admin')
-                                    <span class="badge badge-primary">Admin</span>
-                                @else
-                                    <span class="badge badge-secondary">Staff</span>
+                                @foreach ($user->getRoleNames() as $rn)
+                                    <span class="badge {{ $rn === 'admin' ? 'badge-primary' : 'badge-secondary' }} mr-1">{{ $rn }}</span>
+                                @endforeach
+                                @if ($user->getRoleNames()->isEmpty())
+                                    @if ($user->role === 'admin')
+                                        <span class="badge badge-primary">Admin</span>
+                                    @else
+                                        <span class="badge badge-secondary">Staff</span>
+                                    @endif
                                 @endif
                             </td>
                             <td class="text-center">

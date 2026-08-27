@@ -4,16 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $users = User::query()
+            ->with('roles')
             ->orderBy('name')
             ->get();
 
@@ -22,7 +26,9 @@ class UserController extends Controller
 
     public function create(): View
     {
-        return view('admin.users.create');
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.users.create', compact('roles'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -31,11 +37,13 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'role' => ['required', 'in:admin,staff'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['exists:roles,name'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
@@ -44,6 +52,11 @@ class UserController extends Controller
             'email_verified_at' => now(),
         ]);
 
+        $rolesToSync = $request->input('roles', [$validated['role']]);
+        $user->syncRoles($rolesToSync);
+
+        $this->logActivity('created', $user, "Membuat user \"{$user->name}\"");
+
         return redirect()
             ->route('admin.users.index')
             ->with('success', "User \"{$validated['name']}\" berhasil dibuat.");
@@ -51,7 +64,10 @@ class UserController extends Controller
 
     public function edit(User $user): View
     {
-        return view('admin.users.edit', compact('user'));
+        $user->load('roles');
+        $roles = Role::orderBy('name')->get();
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, User $user): RedirectResponse
@@ -60,6 +76,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'role' => ['required', 'in:admin,staff'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['exists:roles,name'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
         ]);
@@ -77,6 +95,12 @@ class UserController extends Controller
 
         $user->update($data);
 
+        $rolesToSync = $request->input('roles', [$validated['role']]);
+        $user->syncRoles($rolesToSync);
+
+        $changes = $this->diffChanges($user);
+        $this->logActivity('updated', $user, "Memperbarui user \"{$user->name}\"", $changes);
+
         return redirect()
             ->route('admin.users.index')
             ->with('success', "User \"{$user->name}\" berhasil diperbarui.");
@@ -89,6 +113,8 @@ class UserController extends Controller
                 ->route('admin.users.index')
                 ->with('error', 'Tidak bisa menghapus akun sendiri.');
         }
+
+        $this->logActivity('deleted', $user, "Menghapus user \"{$user->name}\"");
 
         $user->delete();
 

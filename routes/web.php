@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\UserController;
@@ -111,22 +113,27 @@ Route::get('/cari', [SearchController::class, 'index'])->name('search.index');
 Route::get('/api/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->middleware('permission:manage-dashboard')->name('dashboard');
 
-    Route::resource('service-categories', ServiceCategoryController::class);
-    Route::resource('services', ServiceController::class);
-    Route::resource('packages', PackageController::class);
-    Route::resource('locations', LocationController::class);
-    Route::resource('galleries', GalleryController::class);
-    Route::resource('testimonials', TestimonialController::class);
-    Route::resource('article-categories', ArticleCategoryController::class);
-    Route::resource('articles', ArticleController::class);
-    Route::resource('faqs', FaqController::class);
+    Route::resource('service-categories', ServiceCategoryController::class)->middleware('permission:manage-service-categories');
+    Route::resource('services', ServiceController::class)->middleware('permission:manage-services');
+    Route::resource('packages', PackageController::class)->middleware('permission:manage-packages');
+    Route::resource('locations', LocationController::class)->middleware('permission:manage-locations');
+    Route::resource('galleries', GalleryController::class)->middleware('permission:manage-galleries');
+    Route::resource('testimonials', TestimonialController::class)->middleware('permission:manage-testimonials');
+    Route::resource('article-categories', ArticleCategoryController::class)->middleware('permission:manage-article-categories');
+    Route::resource('articles', ArticleController::class)->middleware('permission:manage-articles');
+    Route::resource('faqs', FaqController::class)->middleware('permission:manage-faqs');
 
-    Route::resource('users', UserController::class)->except(['show']);
+    Route::resource('users', UserController::class)->except(['show'])->middleware('permission:manage-users');
+    Route::resource('roles', RoleController::class)->except(['show'])->middleware('permission:manage-roles');
 
-    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->middleware('permission:manage-activity-logs')->name('activity-logs.index');
+    Route::delete('activity-logs/{activityLog}', [ActivityLogController::class, 'destroy'])->middleware('permission:manage-activity-logs')->name('activity-logs.destroy');
+    Route::delete('activity-logs-prune', [ActivityLogController::class, 'prune'])->middleware('permission:manage-activity-logs')->name('activity-logs.prune');
+
+    Route::get('settings', [SettingController::class, 'edit'])->middleware('permission:manage-settings')->name('settings.edit');
+    Route::put('settings', [SettingController::class, 'update'])->middleware('permission:manage-settings')->name('settings.update');
 });
 
 Route::middleware('auth')->group(function () {
