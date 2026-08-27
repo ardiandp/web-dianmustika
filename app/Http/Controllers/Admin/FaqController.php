@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Faq;
 use App\Models\Location;
 use App\Models\Service;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class FaqController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $faqs = Faq::query()
@@ -51,6 +53,8 @@ class FaqController extends Controller
             'sort_order' => Faq::max('sort_order') + 1,
         ]);
 
+        $this->logActivity('created', $faq, "Membuat FAQ \"{$faq->question}\"");
+
         return redirect()
             ->route('admin.faqs.index')
             ->with('success', "FAQ \"{$faq->question}\" berhasil dibuat.");
@@ -84,6 +88,9 @@ class FaqController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($faq);
+        $this->logActivity('updated', $faq, "Memperbarui FAQ \"{$faq->question}\"", $changes);
+
         return redirect()
             ->route('admin.faqs.index')
             ->with('success', "FAQ \"{$faq->question}\" berhasil diperbarui.");
@@ -91,6 +98,7 @@ class FaqController extends Controller
 
     public function destroy(Faq $faq): RedirectResponse
     {
+        $this->logActivity('deleted', $faq, "Menghapus FAQ \"{$faq->question}\"");
         $faq->delete();
 
         return redirect()

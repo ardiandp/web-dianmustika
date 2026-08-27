@@ -21,6 +21,11 @@ class User extends Authenticatable
         return $this->hasMany(Article::class, 'author_id');
     }
 
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

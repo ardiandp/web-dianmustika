@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,7 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
+    use LogsActivity;
     protected array $fields = [
         'site_name',
         'site_tagline',
@@ -101,6 +103,8 @@ class SettingController extends Controller
 
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
+
+        $this->logActivity('updated', null, "Memperbarui pengaturan website", null, 'settings');
 
         return redirect()
             ->route('admin.settings.edit')

@@ -9,12 +9,14 @@ use App\Models\Location;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServiceGallery;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $services = Service::query()
@@ -64,6 +66,8 @@ class ServiceController extends Controller
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Service::max('sort_order') + 1,
         ]);
+
+        $this->logActivity('created', $service, "Membuat layanan \"{$service->name}\"");
 
         $this->syncRelations($request, $service);
         $this->syncGalleries($request, $service);
@@ -119,6 +123,9 @@ class ServiceController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($service);
+        $this->logActivity('updated', $service, "Memperbarui layanan \"{$service->name}\"", $changes);
+
         $this->syncRelations($request, $service);
         $this->syncGalleries($request, $service);
         $this->syncFaqs($request, $service);
@@ -137,6 +144,7 @@ class ServiceController extends Controller
         }
 
         $this->deleteImage($service->image);
+        $this->logActivity('deleted', $service, "Menghapus layanan \"{$service->name}\"");
         $service->delete();
 
         return redirect()

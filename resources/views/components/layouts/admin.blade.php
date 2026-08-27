@@ -175,6 +175,14 @@
                             <p>FAQ</p>
                         </a>
                     </li>
+                    @if (auth()->user()->isAdmin())
+                        <li class="nav-item">
+                            <a href="{{ route('admin.activity-logs.index') }}" class="nav-link {{ request()->routeIs('admin.activity-logs.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>Log Aktivitas</p>
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a href="{{ route('admin.settings.edit') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-cog"></i>

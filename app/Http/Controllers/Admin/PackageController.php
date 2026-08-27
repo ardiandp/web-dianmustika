@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PackageController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $packages = Package::query()
@@ -54,6 +56,8 @@ class PackageController extends Controller
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Package::max('sort_order') + 1,
         ]);
+
+        $this->logActivity('created', $package, "Membuat paket \"{$package->name}\"");
 
         $this->syncSeo($package, $request->all());
 
@@ -101,6 +105,9 @@ class PackageController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($package);
+        $this->logActivity('updated', $package, "Memperbarui paket \"{$package->name}\"", $changes);
+
         $this->syncSeo($package, $request->all());
 
         return redirect()
@@ -111,6 +118,7 @@ class PackageController extends Controller
     public function destroy(Package $package): RedirectResponse
     {
         $this->deleteImage($package->image);
+        $this->logActivity('deleted', $package, "Menghapus paket \"{$package->name}\"");
         $package->delete();
 
         return redirect()

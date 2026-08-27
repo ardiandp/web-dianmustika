@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class LocationController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $locations = Location::query()
@@ -58,6 +60,8 @@ class LocationController extends Controller
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Location::max('sort_order') + 1,
         ]);
+
+        $this->logActivity('created', $location, "Membuat lokasi \"{$location->name}\"");
 
         $this->syncSeo($location, $request->all());
 
@@ -109,6 +113,9 @@ class LocationController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($location);
+        $this->logActivity('updated', $location, "Memperbarui lokasi \"{$location->name}\"", $changes);
+
         $this->syncSeo($location, $request->all());
 
         return redirect()
@@ -119,6 +126,7 @@ class LocationController extends Controller
     public function destroy(Location $location): RedirectResponse
     {
         $this->deleteImage($location->image);
+        $this->logActivity('deleted', $location, "Menghapus lokasi \"{$location->name}\"");
         $location->delete();
 
         return redirect()

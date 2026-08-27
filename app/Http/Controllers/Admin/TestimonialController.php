@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TestimonialController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $testimonials = Testimonial::query()
@@ -49,6 +51,8 @@ class TestimonialController extends Controller
             'sort_order' => Testimonial::max('sort_order') + 1,
         ]);
 
+        $this->logActivity('created', $testimonial, "Membuat testimonial \"{$testimonial->customer_name}\"");
+
         return redirect()
             ->route('admin.testimonials.index')
             ->with('success', "Testimonial dari \"{$testimonial->customer_name}\" berhasil ditambahkan.");
@@ -87,6 +91,9 @@ class TestimonialController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($testimonial);
+        $this->logActivity('updated', $testimonial, "Memperbarui testimonial \"{$testimonial->customer_name}\"", $changes);
+
         return redirect()
             ->route('admin.testimonials.index')
             ->with('success', "Testimonial dari \"{$testimonial->customer_name}\" berhasil diperbarui.");
@@ -95,6 +102,7 @@ class TestimonialController extends Controller
     public function destroy(Testimonial $testimonial): RedirectResponse
     {
         $this->deleteImage($testimonial->image);
+        $this->logActivity('deleted', $testimonial, "Menghapus testimonial \"{$testimonial->customer_name}\"");
         $testimonial->delete();
 
         return redirect()

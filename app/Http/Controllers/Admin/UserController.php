@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $users = User::query()
@@ -35,7 +37,7 @@ class UserController extends Controller
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
@@ -44,9 +46,11 @@ class UserController extends Controller
             'email_verified_at' => now(),
         ]);
 
+        $this->logActivity('created', $user, "Membuat user \"{$user->name}\"");
+
         return redirect()
             ->route('admin.users.index')
-            ->with('success', "User \"{$validated['name']}\" berhasil dibuat.");
+            ->with('success', "User \"{$user->name}\" berhasil dibuat.");
     }
 
     public function edit(User $user): View
@@ -77,6 +81,9 @@ class UserController extends Controller
 
         $user->update($data);
 
+        $changes = $this->diffChanges($user);
+        $this->logActivity('updated', $user, "Memperbarui user \"{$user->name}\"", $changes);
+
         return redirect()
             ->route('admin.users.index')
             ->with('success', "User \"{$user->name}\" berhasil diperbarui.");
@@ -90,6 +97,7 @@ class UserController extends Controller
                 ->with('error', 'Tidak bisa menghapus akun sendiri.');
         }
 
+        $this->logActivity('deleted', $user, "Menghapus user \"{$user->name}\"");
         $user->delete();
 
         return redirect()

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $galleries = Gallery::query()
@@ -42,6 +44,8 @@ class GalleryController extends Controller
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Gallery::max('sort_order') + 1,
         ]);
+
+        $this->logActivity('created', $gallery, "Menambah foto galeri \"{$gallery->caption}\"");
 
         return redirect()
             ->route('admin.galleries.index')
@@ -77,6 +81,9 @@ class GalleryController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($gallery);
+        $this->logActivity('updated', $gallery, "Memperbarui galeri \"{$gallery->caption}\"", $changes);
+
         return redirect()
             ->route('admin.galleries.index')
             ->with('success', "Foto galeri \"{$gallery->caption}\" berhasil diperbarui.");
@@ -85,6 +92,7 @@ class GalleryController extends Controller
     public function destroy(Gallery $gallery): RedirectResponse
     {
         $this->deleteImage($gallery->image);
+        $this->logActivity('deleted', $gallery, "Menghapus galeri \"{$gallery->caption}\"");
         $gallery->delete();
 
         return redirect()

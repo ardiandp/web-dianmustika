@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\User;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $articles = Article::query()
@@ -59,6 +61,8 @@ class ArticleController extends Controller
             'is_active' => $request->boolean('is_active'),
             'published_at' => $request->published_at ?: now(),
         ]);
+
+        $this->logActivity('created', $article, "Membuat artikel \"{$article->title}\"");
 
         $this->syncSeo($article, $request->all());
 
@@ -109,6 +113,9 @@ class ArticleController extends Controller
             'published_at' => $request->published_at ?: $article->published_at,
         ]);
 
+        $changes = $this->diffChanges($article);
+        $this->logActivity('updated', $article, "Memperbarui artikel \"{$article->title}\"", $changes);
+
         $this->syncSeo($article, $request->all());
 
         return redirect()
@@ -119,6 +126,7 @@ class ArticleController extends Controller
     public function destroy(Article $article): RedirectResponse
     {
         $this->deleteImage($article->featured_image);
+        $this->logActivity('deleted', $article, "Menghapus artikel \"{$article->title}\"");
         $article->delete();
 
         return redirect()

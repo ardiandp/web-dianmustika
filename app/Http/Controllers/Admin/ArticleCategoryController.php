@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ArticleCategory;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ArticleCategoryController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $categories = ArticleCategory::query()
@@ -42,6 +44,8 @@ class ArticleCategoryController extends Controller
             'sort_order' => ArticleCategory::max('sort_order') + 1,
         ]);
 
+        $this->logActivity('created', $category, "Membuat kategori artikel \"{$category->name}\"");
+
         return redirect()
             ->route('admin.article-categories.index')
             ->with('success', "Kategori artikel \"{$category->name}\" berhasil dibuat.");
@@ -68,6 +72,9 @@ class ArticleCategoryController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($category);
+        $this->logActivity('updated', $category, "Memperbarui kategori artikel \"{$category->name}\"", $changes);
+
         return redirect()
             ->route('admin.article-categories.index')
             ->with('success', "Kategori artikel \"{$category->name}\" berhasil diperbarui.");
@@ -75,6 +82,7 @@ class ArticleCategoryController extends Controller
 
     public function destroy(ArticleCategory $category): RedirectResponse
     {
+        $this->logActivity('deleted', $category, "Menghapus kategori artikel \"{$category->name}\"");
         $category->delete();
 
         return redirect()

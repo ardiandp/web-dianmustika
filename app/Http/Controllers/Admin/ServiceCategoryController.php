@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
+use App\Traits\LogsActivity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ServiceCategoryController extends Controller
 {
+    use LogsActivity;
     public function index(): View
     {
         $categories = ServiceCategory::query()
@@ -42,6 +44,8 @@ class ServiceCategoryController extends Controller
             'sort_order' => ServiceCategory::max('sort_order') + 1,
         ]);
 
+        $this->logActivity('created', $category, "Membuat kategori layanan \"{$category->name}\"");
+
         return redirect()
             ->route('admin.service-categories.index')
             ->with('success', "Kategori layanan \"{$category->name}\" berhasil dibuat.");
@@ -68,6 +72,9 @@ class ServiceCategoryController extends Controller
             'is_active' => $request->boolean('is_active'),
         ]);
 
+        $changes = $this->diffChanges($category);
+        $this->logActivity('updated', $category, "Memperbarui kategori layanan \"{$category->name}\"", $changes);
+
         return redirect()
             ->route('admin.service-categories.index')
             ->with('success', "Kategori layanan \"{$category->name}\" berhasil diperbarui.");
@@ -75,6 +82,7 @@ class ServiceCategoryController extends Controller
 
     public function destroy(ServiceCategory $category): RedirectResponse
     {
+        $this->logActivity('deleted', $category, "Menghapus kategori layanan \"{$category->name}\"");
         $category->delete();
 
         return redirect()
