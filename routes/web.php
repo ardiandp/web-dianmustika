@@ -19,6 +19,7 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\LocationController as PublicLocationController;
 use App\Http\Controllers\Public\PackageController as PublicPackageController;
 use App\Http\Controllers\Public\PageController;
+use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\ServiceController as PublicServiceController;
 use App\Http\Controllers\Public\TestimonialController as PublicTestimonialController;
 use App\Services\SitemapService;
@@ -105,6 +106,9 @@ Route::get('/lokasi/{location:slug}', [PublicLocationController::class, 'show'])
 
 Route::get('/faq', [PageController::class, 'faqs'])->name('faqs.index');
 Route::get('/kontak', [PageController::class, 'contact'])->name('contact.index');
+
+Route::get('/cari', [SearchController::class, 'index'])->name('search.index');
+Route::get('/api/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

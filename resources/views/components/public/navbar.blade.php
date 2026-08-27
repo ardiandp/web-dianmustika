@@ -27,7 +27,7 @@
 @endphp
 
 <header
-    x-data="{ open: false, scrolled: false }"
+    x-data="{ open: false, scrolled: false, searchMobileOpen: false }"
     @scroll.window.passive="scrolled = window.scrollY > 40"
     class="sticky top-0 z-50 w-full transition-all duration-300"
     :class="scrolled ? 'border-b border-ink/5 bg-cream/95 shadow-sm backdrop-blur' : 'border-b border-transparent bg-cream/90 backdrop-blur'"
@@ -60,6 +60,37 @@
         </div>
 
         <div class="flex items-center gap-3">
+            {{-- Search (desktop elegant, kanan atas) --}}
+            <div x-data="{ q: '', suggestions: [], open: false, fetchSuggest() { if(this.q.trim().length < 2){ this.suggestions=[]; this.open=false; return; } fetch('{{ route('search.suggest') }}?q='+encodeURIComponent(this.q.trim())).then(r=>r.json()).then(d=>{ this.suggestions=d; this.open=d.length>0; }).catch(()=>{}) } }" class="relative hidden lg:block">
+                <form action="{{ route('search.index') }}" method="GET" class="relative" @submit="if(!q.trim()) $event.preventDefault()">
+                    <input
+                        x-model="q"
+                        @input.debounce.300ms="fetchSuggest()"
+                        @focus="if(suggestions.length) open=true"
+                        @keydown.escape.window="open=false"
+                        @click.away="open=false"
+                        type="search"
+                        name="q"
+                        placeholder="Cari layanan, paket..."
+                        autocomplete="off"
+                        class="w-52 rounded-full border border-brand-200 bg-white py-2 pl-4 pr-4 text-sm text-ink placeholder:text-ink/40 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 xl:w-60"
+                    >
+                </form>
+                <div x-show="open && suggestions.length" x-cloak @click.away="open=false" class="absolute right-0 z-50 mt-2 max-h-96 w-80 overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-ink/10">
+                    <div class="max-h-80 overflow-y-auto py-2">
+                        <template x-for="item in suggestions" :key="item.url">
+                            <a :href="item.url" class="flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-brand-50">
+                                <span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                                    :class="item.type==='Layanan' ? 'bg-brand-700/10 text-brand-700' : item.type==='Artikel' ? 'bg-gold-500/20 text-brand-800' : item.type==='Paket' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-50 text-emerald-700'"
+                                    x-text="item.type"></span>
+                                <span class="line-clamp-1 flex-1 text-ink/80" x-text="item.title"></span>
+                            </a>
+                        </template>
+                    </div>
+                    <a :href="'{{ route('search.index') }}?q=' + encodeURIComponent(q)" class="block border-t border-ink/5 bg-cream px-4 py-2.5 text-center text-xs font-semibold text-brand-700 hover:bg-brand-50">Lihat semua hasil →</a>
+                </div>
+            </div>
+
             <a
                 href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
                 target="_blank"
@@ -73,6 +104,14 @@
                 </svg>
                 WhatsApp
             </a>
+
+            <button
+                @click="searchMobileOpen = !searchMobileOpen"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink/60 ring-1 ring-brand-200 transition hover:bg-brand-50 hover:text-brand-800 lg:hidden"
+                aria-label="Cari"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 110-15 7.5 7.5 0 010 15z"/></svg>
+            </button>
 
             <button
                 @click="open = !open"
@@ -89,6 +128,14 @@
             </button>
         </div>
     </nav>
+
+    {{-- Mobile search overlay --}}
+    <div x-cloak x-show="searchMobileOpen" x-transition class="border-t border-ink/5 bg-cream px-4 py-3 lg:hidden">
+        <form action="{{ route('search.index') }}" method="GET" class="relative">
+            <input type="search" name="q" placeholder="Cari layanan, paket, artikel..." autocomplete="off" class="w-full rounded-full border border-brand-200 bg-white py-2.5 pl-4 pr-20 text-sm placeholder:text-ink/40 focus:border-brand-400 focus:ring-2 focus:ring-brand-100">
+            <button type="submit" class="absolute inset-y-1 right-1 rounded-full bg-brand-700 px-5 text-xs font-semibold text-white">Cari</button>
+        </form>
+    </div>
 
     <div x-cloak x-show="open" x-transition x-collapse class="border-t border-ink/5 bg-cream lg:hidden">
         <div class="space-y-1 px-4 py-4">
