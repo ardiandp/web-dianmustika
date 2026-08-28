@@ -219,6 +219,14 @@
                         </a>
                     </li>
                     @endcan
+                    @can('manage-media')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.media.index') }}" class="nav-link {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-photo-video"></i>
+                            <p>Media Library</p>
+                        </a>
+                    </li>
+                    @endcan
                     @can('manage-settings')
                     <li class="nav-item">
                         <a href="{{ route('admin.settings.edit') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
@@ -251,6 +259,9 @@
         </section>
     </div>
 
+    {{-- Media Library Picker (global) --}}
+    <x-admin.media-picker />
+
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
             v1.0
@@ -281,7 +292,15 @@ document.addEventListener('DOMContentLoaded', function () {
             quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
             quickbars_insert_toolbar: 'image media table hr pagebreak',
             content_style: 'body { font-family: "Source Sans Pro", sans-serif; font-size: 14px; line-height: 1.6; color: #444; }',
+            images_upload_url: '{{ route('admin.media.tinymce') }}',
             images_upload_credentials: true,
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            file_picker_callback: function(callback, value, meta) {
+                if (typeof window.mediaPickerCallbackForTinyMCE === 'function') {
+                    window.mediaPickerCallbackForTinyMCE(callback, value, meta);
+                }
+            },
             convert_urls: false,
             relative_urls: false,
             branding: false,

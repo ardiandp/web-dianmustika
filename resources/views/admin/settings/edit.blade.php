@@ -103,6 +103,12 @@
                         <input type="file" name="hero_image" id="hero_image" accept="image/*" class="custom-file-input">
                         <label class="custom-file-label" for="hero_image">Pilih gambar hero...</label>
                     </div>
+                    <input type="hidden" name="hero_image_library" id="hero_image_library" value="{{ $settings->get('hero_image', '') }}">
+                    <div class="mt-2 d-flex align-items-center" style="gap: 8px;">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-pick-from-library" data-field="hero_image"><i class="fas fa-images mr-1"></i> Pilih dari Library</button>
+                        <small class="text-muted">Dipilih: <span id="hero_image_library_label" class="font-weight-bold">—</span></small>
+                    </div>
+                    <img id="hero_image_preview" src="" alt="" class="img-thumbnail mt-2" style="max-width: 150px; display: none;">
                     <small class="form-text text-muted">JPG, PNG, atau WebP. Rasio ideal 5:4 (800×650) atau Retina 1200×975. Minimal 600×490. Maks 2MB. Gambar akan tampil utuh tanpa terpotong.</small>
                     @error('hero_image')
                         <span class="text-danger">{{ $message }}</span>

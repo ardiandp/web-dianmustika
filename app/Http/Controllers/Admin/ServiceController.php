@@ -39,6 +39,13 @@ class ServiceController extends Controller
     {
         $validated = $this->validateService($request);
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadImage($request->file('image'), 'services');
+        } elseif ($request->filled('image_library')) {
+            $imagePath = $request->input('image_library');
+        }
+
         $service = Service::create([
             'service_category_id' => $validated['service_category_id'] ?? null,
             'name' => $validated['name'],
@@ -58,7 +65,7 @@ class ServiceController extends Controller
             'focus_keyword' => $validated['focus_keyword'] ?? null,
             'secondary_keywords' => $validated['secondary_keywords'] ?? null,
             'note' => $validated['note'] ?? null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'services') : null,
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
@@ -90,9 +97,7 @@ class ServiceController extends Controller
     {
         $validated = $this->validateService($request, $service->id);
 
-        if ($request->hasFile('image')) {
-            $this->deleteImage($service->image);
-        }
+        $imagePath = $this->resolveImage($request, 'image', $service->image, 'services');
 
         $service->update([
             'service_category_id' => $validated['service_category_id'] ?? null,
@@ -113,7 +118,7 @@ class ServiceController extends Controller
             'focus_keyword' => $validated['focus_keyword'] ?? null,
             'secondary_keywords' => $validated['secondary_keywords'] ?? null,
             'note' => $validated['note'] ?? null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'services') : $service->image,
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
@@ -161,6 +166,7 @@ class ServiceController extends Controller
             'harga_label' => ['nullable', 'string', 'max:50'],
             'note' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'cta_text' => ['nullable', 'string', 'max:100'],
             'cta_url' => ['nullable', 'url', 'max:500'],

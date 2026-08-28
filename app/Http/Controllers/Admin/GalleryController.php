@@ -28,15 +28,27 @@ class GalleryController extends Controller
     {
         $validated = $request->validate([
             'category' => ['required', 'in:tempat,treatment,aktivitas,promo'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'caption' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
+        if (! $request->hasFile('image') && ! $request->filled('image_library')) {
+            return back()->withErrors(['image' => 'Pilih gambar (upload atau dari library) untuk galeri.'])->withInput();
+        }
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadImage($request->file('image'), 'galleries');
+        } elseif ($request->filled('image_library')) {
+            $imagePath = $request->input('image_library');
+        }
+
         $gallery = Gallery::create([
             'category' => $validated['category'],
-            'image' => $this->uploadImage($request->file('image'), 'galleries'),
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'caption' => $validated['caption'] ?? null,
             'is_active' => $request->boolean('is_active'),
@@ -58,20 +70,15 @@ class GalleryController extends Controller
         $validated = $request->validate([
             'category' => ['required', 'in:tempat,treatment,aktivitas,promo'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'caption' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        if ($request->hasFile('image')) {
-            $this->deleteImage($gallery->image);
-        }
-
         $gallery->update([
             'category' => $validated['category'],
-            'image' => $request->hasFile('image')
-                ? $this->uploadImage($request->file('image'), 'galleries')
-                : $gallery->image,
+            'image' => $this->resolveImage($request, 'image', $gallery->image, 'galleries'),
             'alt_text' => $validated['alt_text'] ?? null,
             'caption' => $validated['caption'] ?? null,
             'is_active' => $request->boolean('is_active'),

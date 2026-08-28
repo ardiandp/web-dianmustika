@@ -38,9 +38,17 @@ class LocationController extends Controller
             'google_maps_embed' => ['nullable', 'string'],
             'opening_hours' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadImage($request->file('image'), 'locations');
+        } elseif ($request->filled('image_library')) {
+            $imagePath = $request->input('image_library');
+        }
 
         $location = Location::create([
             'name' => $validated['name'],
@@ -53,7 +61,7 @@ class LocationController extends Controller
             'google_maps_url' => $validated['google_maps_url'] ?? null,
             'google_maps_embed' => $validated['google_maps_embed'] ?? null,
             'opening_hours' => $request->opening_hours ? $this->parseHours($request->opening_hours) : null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'locations') : null,
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Location::max('sort_order') + 1,
@@ -85,13 +93,10 @@ class LocationController extends Controller
             'google_maps_embed' => ['nullable', 'string'],
             'opening_hours' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
         ]);
-
-        if ($request->hasFile('image')) {
-            $this->deleteImage($location->image);
-        }
 
         $location->update([
             'name' => $validated['name'],
@@ -104,7 +109,7 @@ class LocationController extends Controller
             'google_maps_url' => $validated['google_maps_url'] ?? null,
             'google_maps_embed' => $validated['google_maps_embed'] ?? null,
             'opening_hours' => $request->opening_hours ? $this->parseHours($request->opening_hours) : null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'locations') : $location->image,
+            'image' => $this->resolveImage($request, 'image', $location->image, 'locations'),
             'alt_text' => $validated['alt_text'] ?? null,
             'is_active' => $request->boolean('is_active'),
         ]);

@@ -32,18 +32,24 @@ class TestimonialController extends Controller
             'rating' => ['required', 'integer', 'between:1,5'],
             'content' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadImage($request->file('image'), 'testimonials');
+        } elseif ($request->filled('image_library')) {
+            $imagePath = $request->input('image_library');
+        }
 
         $testimonial = Testimonial::create([
             'customer_name' => $validated['customer_name'],
             'treatment' => $validated['treatment'] ?? null,
             'rating' => $validated['rating'],
             'content' => $validated['content'],
-            'image' => $request->hasFile('image')
-                ? $this->uploadImage($request->file('image'), 'testimonials')
-                : null,
+            'image' => $imagePath,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
             'sort_order' => Testimonial::max('sort_order') + 1,
@@ -67,22 +73,17 @@ class TestimonialController extends Controller
             'rating' => ['required', 'integer', 'between:1,5'],
             'content' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
-
-        if ($request->hasFile('image')) {
-            $this->deleteImage($testimonial->image);
-        }
 
         $testimonial->update([
             'customer_name' => $validated['customer_name'],
             'treatment' => $validated['treatment'] ?? null,
             'rating' => $validated['rating'],
             'content' => $validated['content'],
-            'image' => $request->hasFile('image')
-                ? $this->uploadImage($request->file('image'), 'testimonials')
-                : $testimonial->image,
+            'image' => $this->resolveImage($request, 'image', $testimonial->image, 'testimonials'),
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
         ]);

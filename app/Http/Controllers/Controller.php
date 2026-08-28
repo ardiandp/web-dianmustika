@@ -37,6 +37,32 @@ abstract class Controller
         }
     }
 
+    protected function resolveImage(\Illuminate\Http\Request $request, string $field, ?string $existing, string $directory): ?string
+    {
+        if ($request->hasFile($field)) {
+            if ($existing) {
+                $this->deleteImage($existing);
+            }
+            return $this->uploadImage($request->file($field), $directory);
+        }
+
+        $library = $request->input($field . '_library');
+        if ($library) {
+            $library = trim($library);
+            if ($library !== '' && $library !== $existing) {
+                if ($existing) {
+                    $this->deleteImage($existing);
+                }
+                return $library;
+            }
+            if ($library !== '') {
+                return $library;
+            }
+        }
+
+        return $existing;
+    }
+
     protected function syncSeo(Model $model, array $data): void
     {
         $values = [

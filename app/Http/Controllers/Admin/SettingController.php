@@ -60,6 +60,7 @@ class SettingController extends Controller
             'hero_heading' => ['nullable', 'string', 'max:500'],
             'hero_description' => ['nullable', 'string'],
             'hero_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'hero_image_library' => ['nullable', 'string', 'max:500'],
             'hero_stat1_value' => ['nullable', 'string', 'max:50'],
             'hero_stat1_label' => ['nullable', 'string', 'max:100'],
             'hero_stat2_value' => ['nullable', 'string', 'max:50'],
@@ -89,6 +90,11 @@ class SettingController extends Controller
 
                     $path = $request->file($key)->store('settings', 'public');
                     Setting::updateOrCreate(['key' => $key], ['value' => $path]);
+                } elseif ($key === 'hero_image' && $request->filled('hero_image_library')) {
+                    $libraryPath = trim($request->input('hero_image_library'));
+                    if ($libraryPath !== '') {
+                        Setting::updateOrCreate(['key' => 'hero_image'], ['value' => $libraryPath]);
+                    }
                 }
                 continue;
             }

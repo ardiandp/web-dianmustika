@@ -35,10 +35,18 @@ class PackageController extends Controller
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadImage($request->file('image'), 'packages');
+        } elseif ($request->filled('image_library')) {
+            $imagePath = $request->input('image_library');
+        }
 
         $package = Package::create([
             'name' => $validated['name'],
@@ -48,7 +56,7 @@ class PackageController extends Controller
             'promo_price' => $validated['promo_price'] ?? null,
             'starts_at' => $validated['starts_at'] ?? null,
             'ends_at' => $validated['ends_at'] ?? null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'packages') : null,
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
@@ -78,14 +86,13 @@ class PackageController extends Controller
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        if ($request->hasFile('image')) {
-            $this->deleteImage($package->image);
-        }
+        $imagePath = $this->resolveImage($request, 'image', $package->image, 'packages');
 
         $package->update([
             'name' => $validated['name'],
@@ -95,7 +102,7 @@ class PackageController extends Controller
             'promo_price' => $validated['promo_price'] ?? null,
             'starts_at' => $validated['starts_at'] ?? null,
             'ends_at' => $validated['ends_at'] ?? null,
-            'image' => $request->hasFile('image') ? $this->uploadImage($request->file('image'), 'packages') : $package->image,
+            'image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),

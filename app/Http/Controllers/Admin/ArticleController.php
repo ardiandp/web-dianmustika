@@ -40,11 +40,19 @@ class ArticleController extends Controller
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string'],
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'featured_image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string'],
             'published_at' => ['nullable', 'date'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('featured_image')) {
+            $imagePath = $this->uploadImage($request->file('featured_image'), 'articles');
+        } elseif ($request->filled('featured_image_library')) {
+            $imagePath = $request->input('featured_image_library');
+        }
 
         $article = Article::create([
             'article_category_id' => $validated['article_category_id'] ?? null,
@@ -53,7 +61,7 @@ class ArticleController extends Controller
             'slug' => $request->slug ?: $this->makeSlug(Article::class, $validated['title']),
             'excerpt' => $validated['excerpt'] ?? null,
             'content' => $validated['content'],
-            'featured_image' => $request->hasFile('featured_image') ? $this->uploadImage($request->file('featured_image'), 'articles') : null,
+            'featured_image' => $imagePath,
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),
@@ -85,15 +93,12 @@ class ArticleController extends Controller
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string'],
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'featured_image_library' => ['nullable', 'string', 'max:500'],
             'alt_text' => ['nullable', 'string'],
             'published_at' => ['nullable', 'date'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
         ]);
-
-        if ($request->hasFile('featured_image')) {
-            $this->deleteImage($article->featured_image);
-        }
 
         $article->update([
             'article_category_id' => $validated['article_category_id'] ?? null,
@@ -102,7 +107,7 @@ class ArticleController extends Controller
             'slug' => $request->slug ?: $this->makeSlug(Article::class, $validated['title'], $article->id),
             'excerpt' => $validated['excerpt'] ?? null,
             'content' => $validated['content'],
-            'featured_image' => $request->hasFile('featured_image') ? $this->uploadImage($request->file('featured_image'), 'articles') : $article->featured_image,
+            'featured_image' => $this->resolveImage($request, 'featured_image', $article->featured_image, 'articles'),
             'alt_text' => $validated['alt_text'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),

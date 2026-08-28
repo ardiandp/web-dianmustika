@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -132,6 +133,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('activity-logs', [ActivityLogController::class, 'index'])->middleware('permission:manage-activity-logs')->name('activity-logs.index');
     Route::delete('activity-logs/{activityLog}', [ActivityLogController::class, 'destroy'])->middleware('permission:manage-activity-logs')->name('activity-logs.destroy');
     Route::delete('activity-logs-prune', [ActivityLogController::class, 'prune'])->middleware('permission:manage-activity-logs')->name('activity-logs.prune');
+
+    Route::resource('media', MediaController::class)->only(['index', 'store', 'destroy'])->middleware('permission:manage-media');
+    Route::post('media/tinymce', [MediaController::class, 'tinymceUpload'])->middleware('permission:manage-media')->name('media.tinymce');
+    Route::get('media/pick', [MediaController::class, 'pick'])->middleware('permission:manage-media')->name('media.pick');
 
     Route::get('settings', [SettingController::class, 'edit'])->middleware('permission:manage-settings')->name('settings.edit');
     Route::put('settings', [SettingController::class, 'update'])->middleware('permission:manage-settings')->name('settings.update');

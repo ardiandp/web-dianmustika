@@ -29,6 +29,7 @@ class PermissionSeeder extends Seeder
             'manage-settings',
             'manage-activity-logs',
             'manage-roles',
+            'manage-media',
         ];
 
         foreach ($modules as $perm) {
@@ -52,6 +53,7 @@ class PermissionSeeder extends Seeder
             'manage-galleries',
             'manage-testimonials',
             'manage-faqs',
+            'manage-media',
         ];
         $staff->syncPermissions($staffPerms);
 
