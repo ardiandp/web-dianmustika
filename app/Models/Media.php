@@ -47,14 +47,49 @@ class Media extends Model
         return asset('storage/' . $this->file_path);
     }
 
+    public function isImage(): bool
+    {
+        return str_starts_with((string) $this->mime_type, 'image/');
+    }
+
     public function thumbUrl(): string
     {
-        return $this->thumbnail_path ? asset('storage/' . $this->thumbnail_path) : $this->url();
+        if ($this->thumbnail_path) {
+            return asset('storage/' . $this->thumbnail_path);
+        }
+        return $this->isImage() ? $this->url() : '';
     }
 
     public function mediumUrl(): string
     {
-        return $this->medium_path ? asset('storage/' . $this->medium_path) : $this->url();
+        if ($this->medium_path) {
+            return asset('storage/' . $this->medium_path);
+        }
+        return $this->isImage() ? $this->url() : '';
+    }
+
+    public function extension(): string
+    {
+        return strtolower(pathinfo($this->file_name, PATHINFO_EXTENSION));
+    }
+
+    public function fileIcon(): string
+    {
+        $ext = $this->extension();
+        $map = [
+            'pdf' => 'far fa-file-pdf text-danger',
+            'doc' => 'far fa-file-word text-primary',
+            'docx' => 'far fa-file-word text-primary',
+            'xls' => 'far fa-file-excel text-success',
+            'xlsx' => 'far fa-file-excel text-success',
+            'ppt' => 'far fa-file-powerpoint text-warning',
+            'pptx' => 'far fa-file-powerpoint text-warning',
+            'txt' => 'far fa-file-alt text-muted',
+            'rtf' => 'far fa-file-alt text-muted',
+            'csv' => 'far fa-file-csv text-success',
+            'zip' => 'far fa-file-archive text-secondary',
+        ];
+        return $map[$ext] ?? 'far fa-file text-muted';
     }
 
     public function scopeImages($query)

@@ -24,10 +24,15 @@
     var pendingField = null;
     var pendingTinyMCE = null;
     var searchTimer = null;
+    var imagesOnly = false;
 
     function loadMedia(query) {
         var grid = document.getElementById('mediaPickerGrid');
-        var url = '{{ route('admin.media.pick') }}' + (query ? '?q=' + encodeURIComponent(query) : '');
+        var url = '{{ route('admin.media.pick') }}';
+        var params = new URLSearchParams();
+        if (query) params.set('q', query);
+        if (imagesOnly) params.set('type', 'image');
+        if (params.toString()) url += '?' + params.toString();
         grid.innerHTML = '<div class="col-12 text-center text-muted py-4">Memuat media...</div>';
         fetch(url)
             .then(function (r) { return r.json(); })
@@ -38,10 +43,17 @@
                 }
                 var html = '';
                 items.forEach(function (m) {
+                    var preview = '';
+                    if (m.is_image) {
+                        preview = '<img src="' + m.thumb + '" alt="' + (m.alt_text || m.name) + '" style="max-height:120px; max-width:100%; object-fit:contain;">';
+                    } else {
+                        preview = '<div class="text-center"><i class="' + (m.icon || 'far fa-file') + ' fa-3x"></i>' +
+                            '<span class="badge badge-secondary d-block mt-1 text-uppercase" style="font-size:10px;">' + (m.ext || 'file') + '</span></div>';
+                    }
                     html += '<div class="col-lg-3 col-md-4 col-6 mb-3">' +
                         '<div class="card h-100 shadow-sm media-picker-item" data-path="' + m.file_path + '" data-url="' + m.url + '" data-alt="' + (m.alt_text || '') + '" role="button" style="cursor:pointer;">' +
                         '<div class="d-flex align-items-center justify-content-center bg-light" style="height:120px; overflow:hidden;">' +
-                        '<img src="' + m.thumb + '" alt="' + (m.alt_text || m.name) + '" style="max-height:120px; max-width:100%; object-fit:contain;">' +
+                        preview +
                         '</div>' +
                         '<div class="card-body p-2"><p class="small font-weight-bold text-truncate mb-0" style="margin:0;" title="' + m.name + '">' + m.name + '</p></div>' +
                         '</div></div>';
@@ -82,6 +94,7 @@
     function openPicker(field) {
         pendingField = field;
         pendingTinyMCE = null;
+        imagesOnly = true;
         var search = document.getElementById('mediaPickerSearch');
         if (search) search.value = '';
         loadMedia('');
@@ -95,6 +108,7 @@
     window.mediaPickerCallbackForTinyMCE = function (callback, value, meta) {
         pendingTinyMCE = callback;
         pendingField = null;
+        imagesOnly = !!(meta && meta.filetype === 'image');
         var search = document.getElementById('mediaPickerSearch');
         if (search) search.value = '';
         loadMedia('');

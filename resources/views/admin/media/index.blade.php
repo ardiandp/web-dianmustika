@@ -10,12 +10,12 @@
                 @csrf
                 <div class="col-md-5">
                     <div class="form-group mb-0">
-                        <label>Pilih Gambar</label>
+                        <label>Pilih File</label>
                         <div class="custom-file">
-                            <input type="file" name="file" id="file" accept="image/*" class="custom-file-input" required>
+                            <input type="file" name="file" id="file" class="custom-file-input" required>
                             <label class="custom-file-label" for="file">Pilih file...</label>
                         </div>
-                        <small class="form-text text-muted">JPG, PNG, WebP, SVG. Maks 5MB. Duplikat otomatis pakai file existing.</small>
+                        <small class="form-text text-muted">Gambar (JPG, PNG, WebP, SVG, GIF) & Dokumen (PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, RTF, CSV). Maks 15MB.</small>
                         @error('file')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -42,89 +42,154 @@
         <div class="card-header">
             <h3 class="card-title"><i class="fas fa-images mr-1"></i> Daftar Media</h3>
             <div class="card-tools">
-                <form method="GET" action="{{ route('admin.media.index') }}" class="d-flex" style="gap: 6px;">
-                    <select name="type" class="form-control form-control-sm" style="width: 130px;">
+                <div class="d-flex" style="gap: 6px;">
+                    <select name="type" id="mediaType" class="form-control form-control-sm" style="width: 130px;">
                         <option value="all" @selected(request('type','all')=='all')>Semua</option>
                         <option value="image" @selected(request('type')=='image')>Gambar</option>
+                        <option value="document" @selected(request('type')=='document')>Dokumen (PDF/DOC)</option>
                         <option value="svg" @selected(request('type')=='svg')>SVG</option>
                     </select>
-                    <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari nama..." class="form-control form-control-sm" style="width: 200px;">
-                    <button type="submit" class="btn btn-primary btn-sm">Cari</button>
-                    @if(request('q') || request('type','all')!='all')
-                        <a href="{{ route('admin.media.index') }}" class="btn btn-secondary btn-sm">Reset</a>
-                    @endif
-                </form>
+                    <div class="input-group input-group-sm" style="width: 220px;">
+                        <input type="search" name="q" id="mediaSearch" value="{{ request('q') }}" placeholder="Cari nama gambar..." class="form-control">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="mediaSearchClear" style="cursor:pointer; display:none;"><i class="fas fa-times"></i></span>
+                        </div>
+                    </div>
+                    <button type="button" id="mediaSearchReset" class="btn btn-secondary btn-sm" style="display: none;">Reset</button>
+                </div>
             </div>
         </div>
         <div class="card-body">
-            @if($media->isEmpty())
-                <p class="text-center text-muted py-4">Belum ada media. Upload gambar pertama.</p>
-            @else
-                <div class="row">
-                    @foreach($media as $m)
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 150px; overflow: hidden;">
-                                    @if(str_starts_with($m->mime_type, 'image/'))
-                                        <img src="{{ asset('storage/'.$m->file_path) }}" alt="{{ $m->alt_text }}" style="max-height: 150px; max-width: 100%; object-fit: contain;">
-                                    @else
-                                        <i class="fas fa-file fa-2x text-muted"></i>
-                                    @endif
-                                </div>
-                                <div class="card-body p-2">
-                                    <p class="small font-weight-bold mb-1 text-truncate" title="{{ $m->original_name }}">{{ $m->original_name }}</p>
-                                    <small class="text-muted d-block">{{ $m->width ? $m->width.'×'.$m->height.' · ' : '' }}{{ number_format($m->size/1024, 1) }} KB</small>
-                                    @if($m->thumbnail_path)
-                                        <small class="text-success d-block"><i class="fas fa-check mr-1"></i>Thumb 300 & 800</small>
-                                    @endif
-                                    <div class="mt-2 d-flex flex-wrap" style="gap: 4px;">
-                                        <button type="button" class="btn btn-primary btn-xs btn-copy-url" data-url="{{ asset('storage/'.$m->file_path) }}"><i class="fas fa-link"></i></button>
-                                        <button type="button" class="btn btn-info btn-xs btn-pick-media" data-path="{{ $m->file_path }}" data-url="{{ asset('storage/'.$m->file_path) }}" data-alt="{{ $m->alt_text }}" title="Pilih"><i class="fas fa-check"></i> Pilih</button>
-                                        <form method="POST" action="{{ route('admin.media.destroy', $m) }}" class="d-inline" onsubmit="return confirm('Hapus media ini? File tetap jika masih dipakai di konten.')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="card-footer p-1">
-                                    <small class="text-muted">{{ $m->created_at->diffForHumans() }}</small>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="mt-3 d-flex justify-content-center">
-                    {{ $media->links() }}
-                </div>
-            @endif
+            <div id="mediaGrid">
+                @include('admin.media._grid', ['media' => $media])
+            </div>
         </div>
     </div>
 
     @push('scripts')
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.custom-file-input').forEach(function(input){
-            input.addEventListener('change', function(e){
+    (function () {
+        var searchTimer = null;
+        var baseUrl = '{{ route('admin.media.index') }}';
+        var searchInput = document.getElementById('mediaSearch');
+        var typeSelect = document.getElementById('mediaType');
+        var clearBtn = document.getElementById('mediaSearchClear');
+        var resetBtn = document.getElementById('mediaSearchReset');
+        var grid = document.getElementById('mediaGrid');
+
+        // Upload form file input (top) — update label
+        var uploadFile = document.getElementById('file');
+        if (uploadFile) {
+            uploadFile.addEventListener('change', function (e) {
                 var name = e.target.files[0] ? e.target.files[0].name : 'Pilih file...';
                 e.target.nextElementSibling.textContent = name;
             });
-        });
-        document.querySelectorAll('.btn-copy-url').forEach(function(btn){
-            btn.addEventListener('click', function(){
-                var url = btn.getAttribute('data-url');
-                if(navigator.clipboard) navigator.clipboard.writeText(url).then(function(){ Swal.fire({icon:'success',title:'URL disalin!',timer:1200,showConfirmButton:false}); });
-                else { var ta=document.createElement('textarea'); ta.value=url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); Swal.fire({icon:'success',title:'URL disalin!',timer:1200,showConfirmButton:false}); }
+        }
+
+        function bindItemHandlers() {
+            grid.querySelectorAll('.custom-file-input').forEach(function (input) {
+                input.addEventListener('change', function (e) {
+                    var name = e.target.files[0] ? e.target.files[0].name : 'Pilih file...';
+                    e.target.nextElementSibling.textContent = name;
+                });
             });
-        });
-        document.querySelectorAll('.btn-pick-media').forEach(function(btn){
-            btn.addEventListener('click', function(){
-                if(window.opener && window.opener.mediaPickerCallback){
-                    window.opener.mediaPickerCallback({path: btn.dataset.path, url: btn.dataset.url, alt: btn.dataset.alt});
-                    window.close();
-                }
+            grid.querySelectorAll('.btn-copy-url').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var url = btn.getAttribute('data-url');
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(url).then(function () {
+                            Swal.fire({ icon: 'success', title: 'URL disalin!', timer: 1200, showConfirmButton: false });
+                        });
+                    } else {
+                        var ta = document.createElement('textarea');
+                        ta.value = url;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(ta);
+                        Swal.fire({ icon: 'success', title: 'URL disalin!', timer: 1200, showConfirmButton: false });
+                    }
+                });
             });
+            grid.querySelectorAll('.btn-pick-media').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (window.opener && window.opener.mediaPickerCallback) {
+                        window.opener.mediaPickerCallback({ path: btn.dataset.path, url: btn.dataset.url, alt: btn.dataset.alt });
+                        window.close();
+                    }
+                });
+            });
+        }
+
+        function fetchResults(page) {
+            var q = searchInput.value.trim();
+            var type = typeSelect.value;
+            var params = new URLSearchParams();
+            if (q) params.set('q', q);
+            if (type && type !== 'all') params.set('type', type);
+            if (page && page > 1) params.set('page', page);
+            var url = baseUrl + (params.toString() ? '?' + params.toString() : '');
+
+            clearBtn.style.display = q ? '' : 'none';
+            resetBtn.style.display = (q || (type && type !== 'all')) ? '' : 'none';
+
+            grid.innerHTML = '<p class="text-center text-muted py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Memuat...</p>';
+
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    grid.innerHTML = data.html;
+                    bindItemHandlers();
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                })
+                .catch(function () {
+                    grid.innerHTML = '<p class="text-center text-danger py-4">Gagal memuat media.</p>';
+                });
+        }
+
+        // Search as you type (debounced)
+        searchInput.addEventListener('input', function () {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(function () { fetchResults(1); }, 300);
         });
-    });
+
+        // Filter by type
+        typeSelect.addEventListener('change', function () { fetchResults(1); });
+
+        // Clear (x) button
+        clearBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            fetchResults(1);
+            searchInput.focus();
+        });
+
+        // Reset button
+        resetBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            typeSelect.value = 'all';
+            fetchResults(1);
+            searchInput.focus();
+        });
+
+        // Pagination clicks (AJAX) — delegate on grid
+        grid.addEventListener('click', function (e) {
+            var link = e.target.closest('a.page-link');
+            if (link) {
+                e.preventDefault();
+                var url = new URL(link.href, window.location.origin);
+                var page = url.searchParams.get('page') || 1;
+                fetchResults(parseInt(page, 10));
+            }
+        });
+
+        // Initial binding for copy/pick buttons
+        bindItemHandlers();
+        // Set clear/reset visibility on load if there are filters
+        var initialQ = searchInput.value.trim();
+        var initialType = typeSelect.value;
+        clearBtn.style.display = initialQ ? '' : 'none';
+        resetBtn.style.display = (initialQ || (initialType && initialType !== 'all')) ? '' : 'none';
+    })();
     </script>
     @endpush
 </x-layouts.admin>

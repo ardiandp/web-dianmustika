@@ -18,16 +18,26 @@ class MediaController extends Controller
 {
     use LogsActivity;
 
-    public function index(Request $request): View
+    public function index(Request $request): View|JsonResponse
     {
         $query = Media::query()->latest();
 
         if ($request->filled('q')) {
-            $q = $request->string('q');
-            $query->where(function ($w) use ($q) {
-                $w->where('original_name', 'like', "%{$q}%")
-                    ->orWhere('file_name', 'like', "%{$q}%")
-                    ->orWhere('alt_text', 'like', "%{$q}%");
+            $raw = strtolower(trim((string) $request->string('q')));
+            // Normalisasi: tanda pisah/underscore dianggap spasi, buang ekstensi & angka dimensi
+            $normalized = preg_replace('/[-_]+/', ' ', $raw);
+            $normalized = preg_replace('/\s*[0-9x]+\s*$/', '', $normalized);
+            $keywords = array_values(array_filter(explode(' ', $normalized)));
+
+            $query->where(function ($w) use ($keywords) {
+                foreach ($keywords as $kw) {
+                    $w->where(function ($sub) use ($kw) {
+                        $sub->whereRaw("LOWER(REPLACE(REPLACE(original_name,'-',' '),'_',' ')) LIKE ?", ["%{$kw}%"])
+                            ->orWhereRaw("LOWER(REPLACE(REPLACE(file_name,'-',' '),'_',' ')) LIKE ?", ["%{$kw}%"])
+                            ->orWhereRaw("LOWER(COALESCE(alt_text,'')) LIKE ?", ["%{$kw}%"])
+                            ->orWhereRaw("LOWER(COALESCE(caption,'')) LIKE ?", ["%{$kw}%"]);
+                    });
+                }
             });
         }
 
@@ -35,6 +45,17 @@ class MediaController extends Controller
             $type = $request->string('type');
             if ($type === 'image') {
                 $query->where('mime_type', 'like', 'image/%');
+            } elseif ($type === 'document') {
+                $query->where(function ($w) {
+                    $w->where('mime_type', 'not like', 'image/%')
+                        ->orWhere('file_name', 'like', '%.pdf')
+                        ->orWhere('file_name', 'like', '%.doc%')
+                        ->orWhere('file_name', 'like', '%.xls%')
+                        ->orWhere('file_name', 'like', '%.ppt%')
+                        ->orWhere('file_name', 'like', '%.txt')
+                        ->orWhere('file_name', 'like', '%.rtf')
+                        ->orWhere('file_name', 'like', '%.csv');
+                });
             } else {
                 $query->where('mime_type', 'like', "%{$type}%");
             }
@@ -42,13 +63,23 @@ class MediaController extends Controller
 
         $media = $query->paginate(24)->withQueryString();
 
+        // Live search: return only the grid partial for AJAX requests
+        if ($request->ajax() || $request->wantsJson()) {
+            $html = view('admin.media._grid', ['media' => $media])->render();
+            return response()->json([
+                'html' => $html,
+                'total' => $media->total(),
+                'count' => $media->count(),
+            ]);
+        }
+
         return view('admin.media.index', compact('media'));
     }
 
     public function store(Request $request): RedirectResponse|JsonResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:jpeg,png,webp,jpg,svg', 'max:5120'],
+            'file' => ['required', 'file', 'mimes:jpeg,png,webp,jpg,svg,gif,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,rtf,csv,odt', 'max:15360'],
             'alt_text' => ['nullable', 'string', 'max:255'],
             'caption' => ['nullable', 'string', 'max:255'],
         ]);
@@ -223,6 +254,14 @@ class MediaController extends Controller
                     ->orWhere('file_name', 'like', "%{$q}%");
             });
         }
+        if ($request->filled('type')) {
+            $type = $request->string('type');
+            if ($type === 'image') {
+                $query->where('mime_type', 'like', 'image/%');
+            } elseif ($type === 'document') {
+                $query->where('mime_type', 'not like', 'image/%');
+            }
+        }
         $media = $query->limit(24)->get()->map(fn (Media $m) => [
             'id' => $m->id,
             'file_path' => $m->file_path,
@@ -230,6 +269,10 @@ class MediaController extends Controller
             'thumb' => $m->thumbUrl(),
             'name' => $m->original_name,
             'alt_text' => $m->alt_text,
+            'mime_type' => $m->mime_type,
+            'is_image' => $m->isImage(),
+            'icon' => $m->fileIcon(),
+            'ext' => $m->extension(),
         ]);
 
         return response()->json($media);

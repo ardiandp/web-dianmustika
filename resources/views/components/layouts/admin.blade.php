@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function () {
             images_upload_url: '{{ route('admin.media.tinymce') }}',
             images_upload_credentials: true,
             automatic_uploads: true,
-            file_picker_types: 'image',
+            file_picker_types: 'image,file,media',
             file_picker_callback: function(callback, value, meta) {
                 if (typeof window.mediaPickerCallbackForTinyMCE === 'function') {
                     window.mediaPickerCallbackForTinyMCE(callback, value, meta);
