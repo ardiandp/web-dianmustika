@@ -98,25 +98,11 @@
                         <li class="flex items-start gap-2.5"><span class="mt-0.5 text-gold-500">●</span><span>{{ $settings['address'] }}</span></li>
                     @endif
                 </ul>
-
-                <div class="mt-5 border-t border-white/10 pt-4">
-                    <h4 class="text-xs font-semibold uppercase tracking-widest text-brand-100/50">Cabang Kami</h4>
-                    <ul class="mt-2 space-y-1.5 text-sm">
-                        @forelse ($locations as $location)
-                            <li><a href="{{ route('locations.show', $location) }}" class="transition hover:text-gold-400">{{ $location->name }}</a></li>
-                        @empty
-                            <li class="text-brand-100/60">Belum ada cabang.</li>
-                        @endforelse
-                    </ul>
-                </div>
             </div>
         </div>
 
         <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/50 sm:flex-row">
             <p>{{ $settings['copyright'] }}</p>
-            <div class="flex items-center gap-4">
-                <a href="{{ route('login') }}" class="transition hover:text-gold-400">Login Admin</a>
-            </div>
         </div>
     </div>
 </footer>

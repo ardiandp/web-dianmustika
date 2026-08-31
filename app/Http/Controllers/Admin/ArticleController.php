@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\PageView;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -19,7 +21,13 @@ class ArticleController extends Controller
             ->ordered()
             ->get();
 
-        return view('admin.articles.index', compact('articles'));
+        $articleViews = PageView::query()
+            ->select('path', DB::raw('COUNT(*) as views'))
+            ->where('path', 'like', '/artikel/%')
+            ->groupBy('path')
+            ->pluck('views', 'path');
+
+        return view('admin.articles.index', compact('articles', 'articleViews'));
     }
 
     public function create(): View

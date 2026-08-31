@@ -24,6 +24,7 @@
                         <th class="text-center">Tanggal Terbit</th>
                         <th class="text-center">Unggulan</th>
                         <th class="text-center">Status</th>
+                        <th class="text-center">Views</th>
                         <th class="text-right">Aksi</th>
                     </tr>
                 </thead>
@@ -55,6 +56,9 @@
                                     <span class="badge badge-danger">Nonaktif</span>
                                 @endif
                             </td>
+                            <td class="text-center">
+                                <span class="badge badge-info">{{ number_format($articleViews['/artikel/' . $article->slug] ?? 0) }}</span>
+                            </td>
                             <td class="text-right">
                                 <a href="{{ route('admin.articles.edit', $article) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-edit"></i>
@@ -70,7 +74,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted">Belum ada artikel.</td>
+                            <td colspan="8" class="text-center text-muted">Belum ada artikel.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -82,6 +86,7 @@
                         <th class="text-center">Tanggal Terbit</th>
                         <th class="text-center">Unggulan</th>
                         <th class="text-center">Status</th>
+                        <th class="text-center">Views</th>
                         <th class="text-right">Aksi</th>
                     </tr>
                 </tfoot>

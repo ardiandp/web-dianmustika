@@ -28,6 +28,7 @@
                         <th class="text-center">Unggulan</th>
                         <th class="text-center">Aktif</th>
                         <th class="text-center">SEO</th>
+                        <th class="text-center">Views</th>
                         <th>Updated</th>
                         <th class="text-right">Aksi</th>
                     </tr>
@@ -94,6 +95,9 @@
                                     <span class="badge badge-danger" title="SEO Belum Diisi"><i class="fas fa-times-circle mr-1"></i>Belum</span>
                                 @endif
                             </td>
+                            <td class="text-center">
+                                <span class="badge badge-info">{{ number_format($serviceViews['/layanan/' . $service->slug] ?? 0) }}</span>
+                            </td>
                             <td><small class="text-muted">{{ $service->updated_at?->format('d/m/Y H:i') }}</small></td>
                             <td class="text-right">
                                 <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-info btn-sm" title="Edit">
@@ -110,7 +114,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="12" class="text-center text-muted">Belum ada layanan.</td>
+                            <td colspan="13" class="text-center text-muted">Belum ada layanan.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -126,6 +130,7 @@
                         <th class="text-center">Unggulan</th>
                         <th class="text-center">Aktif</th>
                         <th class="text-center">SEO</th>
+                        <th class="text-center">Views</th>
                         <th>Updated</th>
                         <th class="text-right">Aksi</th>
                     </tr>
@@ -142,7 +147,7 @@
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
             language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
-            columnDefs: [{ orderable: false, targets: [1, 11] }],
+            columnDefs: [{ orderable: false, targets: [1, 12] }],
             order: [[0, 'desc']]
         });
         table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');

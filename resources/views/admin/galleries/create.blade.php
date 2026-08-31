@@ -12,7 +12,7 @@
                     <option value="aktivitas" @selected(old('category') == 'aktivitas')>Aktivitas</option>
                     <option value="promo" @selected(old('category') == 'promo')>Promo</option>
                 </x-admin.select>
-                <x-admin.image-field name="image" label="Gambar" required help="Format: JPG, PNG, atau WEBP. Maksimal 2 MB." />
+                <x-admin.image-field name="image" label="Gambar" help="Upload foto baru atau pilih dari library. Format: JPG, PNG, atau WEBP. Maksimal 2 MB." />
                 <x-admin.input name="alt_text" label="Alt Text" help="Teks alternatif untuk gambar." />
                 <x-admin.input name="caption" label="Caption" help="Contoh: Ruang terapi utama." />
                 <x-admin.checkbox name="is_active" label="Aktif" :checked="true" />

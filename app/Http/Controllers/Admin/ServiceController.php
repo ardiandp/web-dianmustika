@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Faq;
 use App\Models\Location;
+use App\Models\PageView;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServiceGallery;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ServiceController extends Controller
@@ -22,7 +24,13 @@ class ServiceController extends Controller
             ->ordered()
             ->get();
 
-        return view('admin.services.index', compact('services'));
+        $serviceViews = PageView::query()
+            ->select('path', DB::raw('COUNT(*) as views'))
+            ->where('path', 'like', '/layanan/%')
+            ->groupBy('path')
+            ->pluck('views', 'path');
+
+        return view('admin.services.index', compact('services', 'serviceViews'));
     }
 
     public function create(): View

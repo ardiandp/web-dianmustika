@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Support\MathCaptcha;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +31,20 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'captcha' => ['required', 'integer'],
         ];
+    }
+
+    /**
+     * Validate the captcha challenge after credential validation.
+     */
+    public function validateCaptcha(): void
+    {
+        if (! MathCaptcha::validate($this->input('captcha'))) {
+            throw ValidationException::withMessages([
+                'captcha' => 'Jawaban verifikasi salah. Silakan coba lagi.',
+            ]);
+        }
     }
 
     /**
@@ -40,6 +54,8 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
+        $this->validateCaptcha();
+
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
