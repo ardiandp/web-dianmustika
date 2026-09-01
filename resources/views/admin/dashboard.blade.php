@@ -68,7 +68,31 @@
                                     <span class="text-capitalize">{{ $d->device ?? 'unknown' }}</span>
                                     <span class="font-weight-bold">{{ $d->total }}</span>
                                 </div>
-        @endforeach
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-mouse-pointer mr-1"></i> Klik per Elemen</h3>
+                </div>
+                <div class="card-body p-0">
+                    @if ($clicksByElement->isEmpty())
+                        <p class="text-center text-muted py-4">Belum ada klik.</p>
+                    @else
+                        <table class="table table-sm table-hover mb-0">
+                            <thead><tr><th>Elemen</th><th class="text-right">Klik</th></tr></thead>
+                            <tbody>
+                                @foreach ($clicksByElement as $c)
+                                    <tr><td><span class="badge badge-primary">{{ $c->element }}</span></td><td class="text-right">{{ $c->total }}</td></tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
     @can('manage-consultations')
@@ -116,30 +140,6 @@
         </div>
     </div>
     @endcan
-                    @endif
-                </div>
-            </div>
-            <div class="card card-outline card-primary">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-mouse-pointer mr-1"></i> Klik per Elemen</h3>
-                </div>
-                <div class="card-body p-0">
-                    @if ($clicksByElement->isEmpty())
-                        <p class="text-center text-muted py-4">Belum ada klik.</p>
-                    @else
-                        <table class="table table-sm table-hover mb-0">
-                            <thead><tr><th>Elemen</th><th class="text-right">Klik</th></tr></thead>
-                            <tbody>
-                                @foreach ($clicksByElement as $c)
-                                    <tr><td><span class="badge badge-primary">{{ $c->element }}</span></td><td class="text-right">{{ $c->total }}</td></tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- Top pages + lokasi/browser --}}
     <div class="row">

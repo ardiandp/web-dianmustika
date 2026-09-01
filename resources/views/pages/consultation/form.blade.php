@@ -252,14 +252,22 @@
                 state[field.key] = checked;
                 return;
             }
-            // 2. Tipe lain pakai selector biasa
+            // 2. Checkbox tunggal (mis. "Saya tidak memiliki Instagram")
+            if (type === 'checkbox_single') {
+                const elCheck = document.querySelector('[name="' + field.key + '"]');
+                state[field.key] = elCheck && elCheck.checked ? '1' : '';
+                return;
+            }
+            // 3. Radio: ambil nilai opsi yang benar-benar dipilih
+            if (type === 'radio') {
+                const checkedRadio = document.querySelector('[name="' + field.key + '"]:checked');
+                state[field.key] = checkedRadio ? checkedRadio.value : '';
+                return;
+            }
+            // 4. Tipe lain pakai selector biasa
             const el = document.querySelector('[name="' + field.key + '"]');
             if (!el) return;
-            if (type === 'checkbox_single') {
-                state[field.key] = el.checked ? '1' : '';
-            } else {
-                state[field.key] = el.value;
-            }
+            state[field.key] = el.value;
         }
         function collectStep(stepIndex) {
             const state = loadState();
@@ -338,7 +346,7 @@
             if (idx === totalSteps) {
                 document.getElementById('btn-prev').style.display = '';
                 document.getElementById('btn-next').style.display = 'none';
-                document.getElementById('btn-submit').style.display = '';
+                document.getElementById('btn-submit').style.display = 'inline-flex';
                 renderReview();
             } else {
                 document.getElementById('btn-prev').style.display = idx === 0 ? 'none' : '';

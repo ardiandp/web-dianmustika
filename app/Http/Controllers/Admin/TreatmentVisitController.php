@@ -15,10 +15,15 @@ class TreatmentVisitController extends Controller
 {
     use LogsActivity;
 
-    public function create(Customer $customer, ?int $consultationId = null): View
+    public function create(Request $request, Customer $customer): View
     {
         $services = Service::active()->ordered()->get(['id', 'name']);
-        $consultation = $consultationId ? $customer->consultations()->find($consultationId) : null;
+        $consultation = null;
+
+        $consultationId = $request->integer('consultation');
+        if ($consultationId > 0) {
+            $consultation = $customer->consultations()->find($consultationId);
+        }
 
         return view('admin.treatment-visits.create', compact('customer', 'consultation', 'services'));
     }

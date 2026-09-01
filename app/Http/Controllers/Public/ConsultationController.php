@@ -67,13 +67,24 @@ class ConsultationController extends Controller
             return back()->withErrors(['form' => 'Data konsultasi kosong. Silakan isi ulang.']);
         }
 
-        // Validasi field wajib + format.
+        // Validasi field wajib + format. Hanya field yang relevan (condition terpenuhi)
+        // yang divalidasi; field tersembunyi dibuang dari data agar jawaban bersih.
         $errors = [];
-        $requiredKeys = [];
         foreach ($steps as $step) {
             foreach ($step['fields'] as $field) {
-                if (! empty($field['required'])) {
-                    $requiredKeys[] = $field['key'];
+                if (! $this->isFieldVisible($field, $data)) {
+                    unset($data[$field['key']]);
+                    continue;
+                }
+                if (empty($field['required'])) {
+                    continue;
+                }
+                $val = $data[$field['key']] ?? null;
+                if (is_array($val)) {
+                    $val = implode('', $val);
+                }
+                if (trim((string) $val) === '') {
+                    $errors[$field['key']] = 'Mohon isi jawaban ini.';
                 }
             }
         }
@@ -83,21 +94,20 @@ class ConsultationController extends Controller
             $errors['phone'] = 'Nomor WhatsApp tidak valid.';
         }
 
-        foreach ($requiredKeys as $key) {
-            $val = $data[$key] ?? null;
-            if (is_array($val)) {
-                $val = implode('', $val);
-            }
-            if (trim((string) $val) === '') {
-                $errors[$key] = 'Mohon isi jawaban ini.';
-            }
-        }
-
         if (! empty($errors)) {
             return back()->withErrors($errors);
         }
 
         $data['phone'] = $phone;
+
+        // Buang jawaban opsional yang kosong sebelum disimpan ke database.
+        $answers = array_filter($data, function ($value) {
+            if (is_array($value)) {
+                return count(array_filter($value)) > 0;
+            }
+
+            return trim((string) $value) !== '';
+        });
 
         // Buat / cari customer berdasarkan nomor WhatsApp (Business Rule 1).
         $customer = Customer::firstOrCreate(
@@ -125,7 +135,7 @@ class ConsultationController extends Controller
             'customer_id' => $customer->id,
             'flow_name' => $flow['flow_name'],
             'status' => 'baru',
-            'answers' => $data,
+            'answers' => $answers,
             'submitted_at' => now(),
             'consent_at' => now(),
         ]);
@@ -162,5 +172,28 @@ class ConsultationController extends Controller
         ]);
 
         return view('pages.consultation.success', compact('waUrl', 'consultation', 'seo'));
+    }
+
+    /**
+     * Menentukan apakah sebuah field harus ditampilkan/divalidasi
+     * berdasarkan jawaban yang dikirim. Logika disamakan dengan frontend.
+     */
+    private function isFieldVisible(array $field, array $data): bool
+    {
+        if (empty($field['condition'])) {
+            return true;
+        }
+
+        $cond = $field['condition'];
+        $actual = $data[$cond['field']] ?? '';
+        if (is_array($actual)) {
+            $actual = implode(',', $actual);
+        }
+
+        return match ($cond['operator'] ?? 'equals') {
+            'equals' => (string) $actual === (string) ($cond['value'] ?? ''),
+            'in' => is_array($cond['value'] ?? null) && in_array((string) $actual, array_map('strval', $cond['value'])),
+            default => true,
+        };
     }
 }
