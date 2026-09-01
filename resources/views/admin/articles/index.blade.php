@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($articles as $article)
+                    @foreach ($articles as $article)
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -72,11 +72,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">Belum ada artikel.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -101,7 +97,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada artikel.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
         });
         table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
     });</script>

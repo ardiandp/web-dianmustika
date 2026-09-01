@@ -35,7 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($customers as $customer)
+                    @foreach ($customers as $customer)
                         <tr>
                             <td>{{ $customer->id }}</td>
                             <td class="font-weight-bold">{{ $customer->name }}</td>
@@ -57,11 +57,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">Belum ada customer.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -86,7 +82,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada customer.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
             columnDefs: [{ orderable: false, targets: [7] }],
             order: [[0, 'desc']]
         });

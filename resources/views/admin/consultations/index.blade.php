@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($consultations as $consultation)
+                    @foreach ($consultations as $consultation)
                         <tr>
                             <td>#{{ $consultation->id }}</td>
                             <td>
@@ -87,11 +87,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-muted">Belum ada konsultasi.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -115,7 +111,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada konsultasi.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
             columnDefs: [{ orderable: false, targets: [6] }],
             order: [[0, 'desc']]
         });

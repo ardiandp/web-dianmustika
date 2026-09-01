@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($galleries as $gallery)
+                    @foreach ($galleries as $gallery)
                         <tr>
                             <td>
                                 <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->alt_text }}" class="img-circle" style="width: 50px; height: 50px; object-fit: cover;">
@@ -53,11 +53,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">Belum ada foto galeri.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -79,7 +75,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada foto galeri.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
         });
         table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
     });</script>

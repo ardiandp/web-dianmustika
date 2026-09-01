@@ -13,7 +13,7 @@
             <table id="datatable" class="table table-bordered table-striped table-hover">
                 <thead><tr><th>Role</th><th class="text-center">Jumlah Permission</th><th class="text-center">Jumlah User</th><th class="text-right">Aksi</th></tr></thead>
                 <tbody>
-                    @forelse ($roles as $role)
+                    @foreach ($roles as $role)
                         <tr>
                             <td><span class="badge badge-primary">{{ $role->name }}</span></td>
                             <td class="text-center">{{ $role->permissions_count }}</td>
@@ -28,9 +28,7 @@
                                 @endif
                             </td>
                         </tr>
-                    @empty
-                        <tr><td colspan="4" class="text-center text-muted">Belum ada role.</td></tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot><tr><th>Role</th><th class="text-center">Jumlah Permission</th><th class="text-center">Jumlah User</th><th class="text-right">Aksi</th></tr></tfoot>
             </table>
@@ -54,7 +52,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada role.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
         });
         table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
     });</script>

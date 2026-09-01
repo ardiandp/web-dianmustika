@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($services as $service)
+                    @foreach ($services as $service)
                         <tr>
                             <td>{{ $service->id }}</td>
                             <td>
@@ -112,11 +112,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="13" class="text-center text-muted">Belum ada layanan.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -146,7 +142,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada data', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada layanan.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
             columnDefs: [{ orderable: false, targets: [1, 12] }],
             order: [[0, 'desc']]
         });

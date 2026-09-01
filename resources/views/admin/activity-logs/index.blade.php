@@ -80,7 +80,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($logs as $log)
+                    @foreach ($logs as $log)
                         <tr>
                             <td><small>{{ $log->created_at->format('d/m/Y H:i:s') }}</small><br><small class="text-muted">{{ $log->created_at->diffForHumans() }}</small></td>
                             <td>
@@ -111,9 +111,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr><td colspan="7" class="text-center text-muted">Belum ada log aktivitas.</td></tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -175,7 +173,7 @@
             autoWidth: false,
             lengthChange: true,
             buttons: ["copy","csv","excel","pdf","print","colVis"],
-            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada log', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
+            language: { search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ data', info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data', emptyTable: 'Belum ada log aktivitas.', zeroRecords: 'Data tidak ditemukan', paginate: { previous: '‹', next: '›' } },
             order: [[0, 'desc']]
         });
         table.buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
