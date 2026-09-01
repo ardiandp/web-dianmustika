@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consultation;
 use App\Models\PageClick;
 use App\Models\PageView;
 use Illuminate\Http\Request;
@@ -83,8 +84,16 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // Consultation summary
+        $consultationStats = [
+            'today' => Consultation::whereDate('submitted_at', today())->count(),
+            'baru' => Consultation::where('status', 'baru')->count(),
+            'diproses' => Consultation::whereIn('status', ['dihubungi', 'menunggu_konfirmasi'])->count(),
+            'selesai' => Consultation::where('status', 'selesai')->count(),
+        ];
+
         return view('admin.dashboard', compact(
-            'period', 'start', 'end', 'summary', 'chart', 'topPages', 'clicksByElement', 'deviceStats', 'countryStats', 'browserStats'
+            'period', 'start', 'end', 'summary', 'chart', 'topPages', 'clicksByElement', 'deviceStats', 'countryStats', 'browserStats', 'consultationStats'
         ));
     }
 

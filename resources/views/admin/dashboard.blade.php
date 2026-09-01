@@ -68,8 +68,54 @@
                                     <span class="text-capitalize">{{ $d->device ?? 'unknown' }}</span>
                                     <span class="font-weight-bold">{{ $d->total }}</span>
                                 </div>
-                            @endforeach
-                        </div>
+        @endforeach
+    </div>
+
+    @can('manage-consultations')
+    {{-- Consultation summary --}}
+    <div class="row mt-2">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-primary"><i class="fas fa-clipboard-list"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Konsultasi Hari Ini</span>
+                    <span class="info-box-number">{{ number_format($consultationStats['today']) }}</span>
+                    <small class="text-muted"><a href="{{ route('admin.consultations.index') }}">Lihat semua</a></small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="fas fa-inbox"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Baru</span>
+                    <span class="info-box-number">{{ number_format($consultationStats['baru']) }}</span>
+                    <small class="text-muted">Menunggu ditindaklanjuti</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="fas fa-sync-alt"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Diproses</span>
+                    <span class="info-box-number">{{ number_format($consultationStats['diproses']) }}</span>
+                    <small class="text-muted">Dihubungi / menunggu konfirmasi</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="fas fa-check-circle"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Selesai</span>
+                    <span class="info-box-number">{{ number_format($consultationStats['selesai']) }}</span>
+                    <small class="text-muted">Konsultasi selesai</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endcan
                     @endif
                 </div>
             </div>

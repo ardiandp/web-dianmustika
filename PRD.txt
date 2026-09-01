@@ -1,0 +1,1503 @@
+PRD — Sistem Konsultasi Homecare Pascamelahirkan Dian Mustika
+
+Versi: 1.0
+Nama Produk: Dian Mustika Homecare Assessment
+Platform: Web Application, mobile-first
+Bahasa: Indonesia
+Target utama: Customer ibu pascamelahirkan dan Admin/Therapist Dian Mustika
+
+1. PRODUCT OVERVIEW
+
+Dian Mustika membutuhkan aplikasi untuk menggantikan proses konsultasi awal yang saat ini dilakukan melalui WhatsApp secara manual.
+
+Customer biasanya mendapatkan pertanyaan mengenai:
+
+data diri
+kondisi setelah melahirkan
+jenis persalinan
+kondisi ASI
+kebutuhan breastcare
+kondisi tubuh
+selulit
+stretch mark
+kulit
+aroma tubuh
+riwayat kesehatan
+tekanan darah
+Hb
+wasir
+jahitan persalinan
+diastasis recti
+pilihan massage
+gurita/bengkung/korset
+uap atau mandi
+baby massage
+
+Saat ini informasi tersebut dikirim melalui pesan WhatsApp yang panjang sehingga:
+
+customer sulit mengisi;
+admin harus membaca chat satu per satu;
+data sulit dicari kembali;
+data tidak terstruktur;
+therapist sulit melihat ringkasan kondisi customer;
+data kunjungan berikutnya tidak mudah dibandingkan.
+
+Aplikasi harus mengubah proses tersebut menjadi form konsultasi digital yang sederhana, bertahap, responsif, dan mudah digunakan melalui smartphone.
+
+2. PRODUCT GOAL
+Tujuan Utama
+
+Membangun sistem yang memungkinkan:
+
+Customer
+
+Mengisi konsultasi dengan mudah melalui smartphone.
+
+Admin
+
+Melihat data customer secara terstruktur.
+
+Therapist
+
+Memahami kebutuhan dan informasi penting customer sebelum treatment.
+
+Business
+
+Memiliki database customer yang dapat digunakan untuk kunjungan berikutnya.
+
+3. TARGET USER
+A. Customer
+
+Ibu yang:
+
+baru melahirkan;
+membutuhkan homecare;
+membutuhkan massage;
+membutuhkan breastcare;
+membutuhkan body treatment;
+membutuhkan perawatan kulit;
+membutuhkan baby massage;
+ingin berkonsultasi mengenai pilihan treatment.
+
+Customer tidak perlu login pada MVP.
+
+Customer cukup membuka link form dan mengisi data.
+
+B. Admin
+
+Admin Dian Mustika bertugas:
+
+melihat konsultasi masuk;
+mencari customer;
+melihat detail customer;
+mengubah status;
+memberikan catatan;
+melihat riwayat customer;
+melakukan follow-up;
+melihat kebutuhan treatment.
+C. Therapist
+
+Therapist dapat melihat:
+
+data customer;
+kondisi pascamelahirkan;
+kebutuhan treatment;
+informasi kesehatan yang diberikan customer;
+preferensi massage;
+catatan konsultasi;
+riwayat treatment.
+4. USER FLOW CUSTOMER
+
+Flow utama:
+
+Landing Page
+     ↓
+Mulai Konsultasi
+     ↓
+Data Ibu
+     ↓
+Persalinan
+     ↓
+Kebutuhan Perawatan
+     ↓
+ASI & Breastcare
+     ↓
+Tubuh & Kulit
+     ↓
+Riwayat Kesehatan
+     ↓
+Pilihan Treatment
+     ↓
+Review
+     ↓
+Persetujuan
+     ↓
+Submit
+     ↓
+Halaman Berhasil
+     ↓
+WhatsApp / Follow-up
+5. DESIGN PRINCIPLE
+
+Aplikasi harus:
+
+Mobile First
+clean
+premium
+feminin
+elegan
+tenang
+mudah digunakan
+tidak terlihat seperti formulir rumah sakit
+tidak terlalu banyak teks
+tidak menampilkan seluruh pertanyaan sekaligus
+
+Gunakan gaya visual yang mencerminkan Dian Mustika sebagai brand wellness ibu & bayi berbasis perawatan tradisional Indonesia.
+
+Visual direction
+
+Gunakan:
+
+white/off-white background
+warna earthy
+beige
+cream
+soft green
+gold/brown sebagai aksen
+rounded card
+whitespace yang cukup
+typography elegan
+icon sederhana
+
+Hindari:
+
+desain terlalu ramai;
+warna neon;
+terlalu banyak animasi;
+form seperti aplikasi administrasi rumah sakit;
+penggunaan istilah medis yang tidak dijelaskan.
+6. LANDING PAGE
+
+Halaman pertama:
+
+DIAN MUSTIKA
+
+Konsultasi
+Homecare Pascamelahirkan
+
+Kami membantu memahami kebutuhan
+perawatan Anda sebelum treatment.
+
+✓ Perawatan Ibu
+✓ Perawatan Bayi
+✓ Body Treatment
+✓ Breastcare & Pijat Laktasi
+
+[ Mulai Konsultasi ]
+
+Tambahkan informasi:
+
+Proses konsultasi membutuhkan beberapa menit. Mohon isi informasi dengan sebenar-benarnya agar tim Dian Mustika dapat memahami kebutuhan perawatan Anda.
+
+7. MULTI STEP FORM
+
+Form harus menggunakan sistem multi-step / wizard.
+
+Contoh:
+
+01 ─── 02 ─── 03 ─── 04 ─── 05
+Data   Persalinan  Kebutuhan  ASI   Kesehatan
+
+Atau progress bar:
+
+━━━━━━━━━━━━━━░░░░░
+60% selesai
+
+Setiap step mempunyai:
+
+nomor;
+judul;
+deskripsi singkat;
+field;
+tombol Kembali;
+tombol Lanjut.
+8. STEP 1 — DATA IBU
+Field
+Nama Lengkap
+
+Type:
+
+text
+
+Required: yes
+
+Nomor WhatsApp
+
+Type:
+
+tel
+
+Required: yes
+
+Validasi nomor Indonesia.
+
+Instagram
+
+Type:
+
+text
+
+Optional.
+
+Placeholder:
+
+@username
+
+Checkbox:
+
+Saya tidak memiliki Instagram
+
+Alamat Homecare
+
+Type:
+
+textarea
+
+Required: yes
+
+Tinggi Badan
+
+Type:
+
+number
+
+Unit:
+
+cm
+
+Berat Badan
+
+Type:
+
+number
+
+Unit:
+
+kg
+
+Kelahiran ke-
+
+Options:
+
+Pertama
+Kedua
+Ketiga
+Keempat
+Lebih dari 4
+Follow Instagram Dian Mustika
+
+Options:
+
+Sudah
+Belum
+9. STEP 2 — KONDISI PASCAMELAHIRKAN
+Sudah berapa lama setelah melahirkan?
+
+Options:
+
+0–7 hari
+8–14 hari
+15–30 hari
+1–3 bulan
+3–6 bulan
+Lebih dari 6 bulan
+Jenis persalinan
+
+Options:
+
+Normal
+Caesar
+Lainnya
+Conditional Question — Persalinan Normal
+
+Jika:
+
+jenis_persalinan = normal
+
+tampilkan:
+
+Apakah terdapat jahitan pada area perineum/vagina?
+
+Options:
+
+Tidak
+Ada
+Tidak yakin
+
+Jika Ada, tampilkan:
+
+Apakah area jahitan masih dalam proses penyembuhan?
+
+Options:
+
+Ya
+Tidak
+Tidak yakin
+Conditional Question — Caesar
+
+Jika:
+
+jenis_persalinan = caesar
+
+tampilkan:
+
+Kondisi luka operasi saat ini
+
+Options:
+
+Sudah baik
+Masih dalam proses penyembuhan
+Masih ada keluhan
+Tidak yakin
+10. STEP 3 — TUJUAN PERAWATAN
+
+Gunakan checkbox.
+
+Question:
+
+Apa tujuan utama Anda melakukan perawatan?
+
+Multiple choice:
+
+Relaksasi
+Mengurangi rasa pegal
+Membantu tubuh terasa lebih bugar
+Perawatan tubuh setelah melahirkan
+Fokus area perut
+Fokus pinggang
+Fokus paha
+Fokus lengan
+Perawatan selulit
+Perawatan stretch mark
+Perawatan kulit
+Lulur / body scrub
+Massage
+Pijat limfatik
+Breastcare / pijat laktasi
+Baby massage
+Lainnya
+
+Jika memilih Lainnya, tampilkan textarea.
+
+11. STEP 4 — ASI & BREASTCARE
+Kondisi ASI
+
+Single choice:
+
+ASI lancar
+ASI kurang lancar
+Payudara terasa penuh/keras
+Ada area yang terasa tidak nyaman
+ASI belum lancar
+Tidak memiliki keluhan ASI
+Pola pemberian ASI
+
+Options:
+
+DBF
+Pumping
+DBF + Pumping
+Tidak menyusui
+Breastcare
+
+Question:
+
+Apakah Anda ingin mendapatkan Breastcare / Pijat Laktasi?
+
+Options:
+
+Ya
+Tidak, ASI sudah lancar
+Ingin konsultasi terlebih dahulu
+Conditional Safety Screening
+
+Jika customer memilih keluhan ASI:
+
+payudara terasa sangat nyeri;
+demam;
+kemerahan signifikan;
+kondisi lain yang mengkhawatirkan;
+
+sistem menampilkan:
+
+Perhatian
+
+Informasi ini perlu dikonfirmasi terlebih dahulu oleh therapist. Jika terdapat keluhan berat atau kondisi yang mengkhawatirkan, customer disarankan mendapatkan pemeriksaan dari tenaga kesehatan.
+
+Jangan membuat aplikasi memberikan diagnosis.
+
+12. STEP 5 — TUBUH & KULIT
+Area tubuh yang ingin menjadi fokus
+
+Multiple choice:
+
+Perut
+Pinggang
+Paha
+Lengan
+Punggung
+Bokong
+Kaki
+Seluruh tubuh
+Selulit
+
+Options:
+
+Tidak ada
+Ada
+Tidak yakin
+Stretch Mark
+
+Options:
+
+Tidak ada
+Ada
+Tidak yakin
+
+Jika Ada, tampilkan:
+
+Area stretch mark
+
+Multiple:
+
+Perut
+Paha
+Pinggang
+Payudara
+Bokong
+Lengan
+Lainnya
+Kondisi kulit
+
+Options:
+
+Normal
+Kering
+Sensitif
+Mudah kemerahan
+Mudah iritasi
+Tidak yakin
+Aroma tubuh
+
+Question:
+
+Apakah ada keluhan terkait aroma tubuh?
+
+Options:
+
+Tidak
+Ada
+Ingin mendapatkan perawatan tubuh
+13. PIJAT LIMFATIK
+
+Question:
+
+Apakah Anda tertarik dengan Pijat Limfatik?
+
+Options:
+
+Ya
+Tidak
+Belum tahu
+
+Jika Ya:
+
+Area yang ingin menjadi fokus
+Perut
+Pinggang
+Paha
+Lengan
+Kaki
+Seluruh tubuh
+
+Display information:
+
+Pemilihan teknik perawatan akan disesuaikan dengan hasil konsultasi dan kondisi customer saat treatment.
+
+Jangan menggunakan klaim bahwa treatment pasti menghilangkan lemak atau menyembuhkan penyakit.
+
+14. STEP 6 — RIWAYAT KESEHATAN
+Riwayat/kondisi kesehatan
+
+Multiple choice:
+
+Tidak ada
+Hipertensi / tekanan darah tinggi
+Tekanan darah rendah
+Hb rendah / anemia
+Wasir
+Diabetes
+Kondisi jantung
+Riwayat operasi
+Alergi
+Lainnya
+
+Jika memilih Lainnya, tampilkan textarea.
+
+15. TEKANAN DARAH
+
+Question:
+
+Apakah Anda mengetahui tekanan darah terakhir?
+
+Options:
+
+Ya
+Tidak
+
+Jika Ya:
+
+Sistolik [ ___ ] mmHg
+
+Diastolik [ ___ ] mmHg
+
+Sistem hanya mencatat data, bukan melakukan diagnosis.
+
+16. HB
+
+Question:
+
+Apakah mengetahui kadar Hb terakhir?
+
+Options:
+
+Ya
+Tidak
+
+Jika Ya:
+
+Hb [ ___ ] g/dL
+17. DIASTASIS RECTI
+
+Jangan langsung menggunakan istilah tanpa penjelasan.
+
+Question:
+
+Apakah Anda pernah mendapatkan informasi/pemeriksaan mengenai Diastasis Recti (pemisahan otot perut setelah kehamilan)?
+
+Options:
+
+Ya, ada
+Ya, tetapi sudah membaik
+Tidak ada
+Belum pernah diperiksa
+Tidak tahu
+18. STEP 7 — PERAWATAN BAYI
+
+Question:
+
+Apakah ingin menambahkan Baby Massage?
+
+Options:
+
+Ya
+Tidak
+
+Jika Ya:
+
+Usia bayi
+
+Number:
+
+___ bulan
+
+Tujuan Baby Massage
+
+Multiple:
+
+Relaksasi
+Perawatan rutin
+Bayi sulit rileks
+Lainnya
+19. STEP 8 — PREFERENSI TREATMENT
+Tekanan Massage
+
+Question:
+
+Tekanan massage yang Anda sukai
+
+Options:
+
+Lembut
+
+Untuk pengalaman yang lebih ringan dan relaksasi.
+
+Sedang
+
+Tekanan seimbang dan nyaman.
+
+Lebih kuat
+
+Untuk customer yang terbiasa dengan tekanan lebih kuat.
+
+20. GURITA / BENGKUNG / KORSET
+
+Question:
+
+Apakah ingin menggunakan support setelah treatment?
+
+Options:
+
+Gurita + perekat
+Gurita + bengkung
+Korset perekat saja
+Tidak menggunakan
+Konsultasi terlebih dahulu
+21. SETELAH MASSAGE
+
+Question:
+
+Setelah massage, Anda memilih:
+
+Options:
+
+Uap
+Mandi
+Uap + mandi, jika direkomendasikan
+Tidak memilih keduanya
+Konsultasi terlebih dahulu
+22. REVIEW SEBELUM SUBMIT
+
+Sebelum submit, customer harus melihat ringkasan.
+
+Contoh:
+
+┌──────────────────────────────┐
+│ Ringkasan Konsultasi         │
+├──────────────────────────────┤
+│ Data Ibu                     │
+│ Nama: Dian                   │
+│ WhatsApp: 08xxxxxxxx         │
+│                              │
+│ Persalinan                   │
+│ Normal                       │
+│ 14 hari setelah melahirkan   │
+│                              │
+│ Fokus Perawatan              │
+│ • Relaksasi                  │
+│ • Perut                      │
+│ • Massage                    │
+│                              │
+│ ASI                          │
+│ DBF + Pumping                │
+│                              │
+│ Tekanan Massage              │
+│ Sedang                       │
+└──────────────────────────────┘
+
+Setiap section memiliki tombol:
+
+Edit
+
+agar customer dapat kembali mengubah data.
+
+23. CONSENT / PERSETUJUAN
+
+Sebelum submit:
+
+Checkbox required:
+
+Saya menyatakan bahwa informasi yang saya berikan adalah benar dan dapat digunakan oleh Dian Mustika untuk membantu proses konsultasi dan persiapan treatment.
+
+Checkbox:
+
+Saya memahami bahwa pengisian form ini bukan merupakan diagnosis medis.
+
+Tombol:
+
+🌸 Kirim Konsultasi
+
+24. SUCCESS PAGE
+
+Setelah submit:
+
+✓
+
+Konsultasi Berhasil Dikirim
+
+Terima kasih telah mengisi
+form konsultasi Dian Mustika.
+
+Data Anda telah diterima oleh
+tim kami.
+
+Admin akan membantu melakukan
+konfirmasi dan menentukan treatment
+yang sesuai.
+
+[ Hubungi Dian Mustika via WhatsApp ]
+25. WHATSAPP INTEGRATION
+
+Setelah submit, sistem dapat membuat pesan WhatsApp otomatis.
+
+Contoh:
+
+Halo Dian Mustika,
+
+Saya sudah mengisi Form Konsultasi
+Homecare Pascamelahirkan.
+
+Nama:
+[NAME]
+
+Tanggal pengisian:
+[DATE]
+
+Mohon dibantu untuk konfirmasi
+konsultasi dan treatment.
+
+Terima kasih.
+
+Jangan memasukkan seluruh informasi kesehatan customer ke URL WhatsApp.
+
+26. ADMIN DASHBOARD
+
+Admin login menggunakan authentication.
+
+Dashboard:
+
+DIAN MUSTIKA ADMIN
+
+Dashboard
+│
+├── Konsultasi
+├── Customer
+├── Treatment
+├── Therapist
+├── Follow Up
+└── Settings
+27. DASHBOARD SUMMARY
+
+Tampilkan:
+
+┌──────────────┐
+│ Konsultasi   │
+│ Hari Ini     │
+│ 12           │
+└──────────────┘
+
+┌──────────────┐
+│ Baru         │
+│ 5            │
+└──────────────┘
+
+┌──────────────┐
+│ Diproses     │
+│ 4            │
+└──────────────┘
+
+┌──────────────┐
+│ Selesai      │
+│ 3            │
+└──────────────┘
+28. STATUS KONSULTASI
+
+Status:
+
+Baru
+Dihubungi
+Menunggu Konfirmasi
+Booking
+Treatment Berlangsung
+Selesai
+Follow Up
+Dibatalkan
+
+Admin dapat mengubah status.
+
+29. DATA CUSTOMER
+
+Admin dapat mencari berdasarkan:
+
+nama;
+nomor WhatsApp;
+Instagram;
+tanggal;
+status.
+
+Customer profile:
+
+CUSTOMER
+
+Nama
+Nomor WhatsApp
+Instagram
+Alamat
+
+Riwayat Persalinan
+
+Kondisi ASI
+
+Kebutuhan Treatment
+
+Riwayat Kesehatan
+
+Preferensi Massage
+
+Riwayat Treatment
+
+Catatan Therapist
+30. CUSTOMER HISTORY
+
+Customer yang sama harus dapat memiliki beberapa konsultasi/kunjungan.
+
+Contoh:
+
+Dian Mustika Customer
+
+Kunjungan #1
+01 September 2026
+Postnatal Homecare
+Status: Selesai
+
+Kunjungan #2
+15 September 2026
+Postnatal Homecare
+Status: Booking
+
+Kunjungan #3
+30 September 2026
+Body Treatment
+Status: Follow Up
+
+Jangan membuat data customer baru setiap kali customer melakukan treatment.
+
+Pisahkan:
+
+Customer
+    ↓
+Consultation
+    ↓
+Treatment Visit
+31. CATATAN THERAPIST
+
+Setelah konsultasi, therapist/admin dapat menambahkan:
+
+Catatan Therapist
+
+Textarea.
+
+Treatment yang diberikan
+
+Multiple choice.
+
+Catatan setelah treatment
+
+Textarea.
+
+Rekomendasi kunjungan berikutnya
+
+Textarea.
+
+Follow-up date
+
+Date picker.
+
+32. MASTER DATA TREATMENT
+
+Admin dapat mengelola treatment.
+
+Field:
+
+nama treatment;
+kategori;
+deskripsi;
+durasi;
+status aktif/nonaktif;
+harga;
+catatan internal.
+
+Kategori:
+
+Postnatal
+Pregnancy
+Baby
+Breastcare
+Massage
+Body Treatment
+Slimming
+Beauty
+Herbal
+33. SMART CONDITIONAL FORM
+
+Ini adalah fitur wajib.
+
+Contoh:
+
+Jenis Persalinan
+       │
+       ├── Normal
+       │     ↓
+       │   Tanya jahitan
+       │
+       └── Caesar
+             ↓
+          Tanya kondisi luka
+
+Contoh ASI:
+
+ASI Lancar
+   ↓
+Tidak perlu pertanyaan
+keluhan ASI tambahan
+
+ASI Kurang Lancar
+   ↓
+Tampilkan screening tambahan
+
+Contoh Baby Massage:
+
+Tidak
+ ↓
+Skip semua pertanyaan bayi
+
+Ya
+ ↓
+Tampilkan usia bayi
+ ↓
+Tampilkan kebutuhan bayi
+
+Tujuannya:
+
+Customer hanya melihat pertanyaan yang relevan.
+
+34. VALIDATION
+
+Required:
+
+Nama
+WhatsApp
+Alamat
+Status persalinan
+periode setelah melahirkan
+tujuan perawatan
+persetujuan
+
+Validasi:
+
+WhatsApp
+
+Harus berupa nomor valid.
+
+Tinggi
+
+Angka positif.
+
+Berat
+
+Angka positif.
+
+Tekanan darah
+
+Angka positif.
+
+Hb
+
+Angka positif.
+
+Jangan memberikan label:
+
+"Anda aman"
+
+atau:
+
+"Anda tidak aman"
+
+berdasarkan input kesehatan.
+
+35. PRIVACY & SECURITY
+
+Karena aplikasi menyimpan data pribadi dan informasi kesehatan, sistem harus menerapkan:
+
+authentication untuk admin;
+password hashing;
+authorization;
+HTTPS pada production;
+CSRF protection;
+server-side validation;
+input sanitization;
+audit log untuk perubahan data penting;
+jangan menampilkan data customer kepada user lain;
+jangan memasukkan informasi kesehatan lengkap ke URL;
+jangan menyimpan data sensitif di localStorage jika tidak diperlukan.
+36. DATABASE CONCEPT
+
+Minimal entity:
+
+users
+customers
+consultations
+health_conditions
+consultation_health_conditions
+treatments
+consultation_treatments
+therapists
+treatment_visits
+follow_ups
+notes
+
+Relasi utama:
+
+Customer
+   │
+   ├── Consultations
+   │       │
+   │       ├── Health Conditions
+   │       ├── Treatment Preferences
+   │       └── Treatment Selection
+   │
+   └── Treatment Visits
+           │
+           ├── Therapist
+           ├── Treatment
+           └── Notes
+
+
+
+Jika aplikasi menggunakan server-rendered framework, API tidak harus dipaksakan; gunakan arsitektur yang paling sesuai dengan stack proyek.
+
+38. ADMIN FILTER
+
+Konsultasi dapat difilter berdasarkan:
+
+tanggal;
+status;
+jenis persalinan;
+kebutuhan treatment;
+cabang;
+therapist;
+customer baru/lama.
+
+Search:
+
+Cari nama / WhatsApp
+[________________________]
+39. EXPORT DATA
+
+Admin dapat export:
+
+Excel;
+CSV;
+PDF ringkasan konsultasi.
+
+Untuk MVP, Excel/CSV lebih prioritas daripada PDF.
+
+40. NOTIFICATION
+
+MVP:
+
+notifikasi dashboard ketika konsultasi baru masuk.
+
+Future:
+
+WhatsApp notification;
+email notification;
+reminder follow-up.
+41. RESPONSIVE DESIGN
+
+Prioritas:
+
+Mobile
+
+Customer kemungkinan besar mengisi dari WhatsApp/HP.
+
+Breakpoint minimal:
+
+Mobile
+Tablet
+Desktop
+
+Form harus nyaman digunakan dengan satu tangan.
+
+Button minimal:
+
+[ ← Kembali ]     [ Lanjut → ]
+
+Pada mobile, tombol dapat dibuat sticky di bagian bawah.
+
+42. UX RULES
+Jangan menggunakan textarea untuk semua pertanyaan.
+
+Gunakan:
+
+radio;
+checkbox;
+segmented button;
+card selection;
+number input;
+date picker.
+
+Contoh:
+
+❌
+
+Tuliskan apakah Anda ingin massage...
+
+Lebih baik:
+
+Apa tujuan perawatan?
+
+[ Relaksasi ]
+[ Perut ]
+[ Selulit ]
+[ Stretch Mark ]
+[ Body Treatment ]
+43. ACCESSIBILITY
+
+Pastikan:
+
+label jelas;
+ukuran font mudah dibaca;
+kontras cukup;
+button mudah ditekan;
+error message jelas;
+keyboard navigation;
+field memiliki label;
+jangan hanya menggunakan warna untuk menunjukkan error.
+44. ERROR HANDLING
+
+Jika submit gagal:
+
+Maaf, data belum berhasil dikirim.
+
+Silakan coba kembali.
+
+Jangan menghapus data yang sudah diisi.
+
+Jika koneksi terputus:
+
+Data yang telah diisi sebisa mungkin tetap dipertahankan selama sesi form.
+
+45. SEO
+
+Halaman customer form tidak perlu menjadi halaman SEO utama.
+
+Namun landing page dapat memiliki:
+
+Title:
+
+Konsultasi Homecare Pascamelahirkan | Dian Mustika
+
+Meta Description:
+
+Isi form konsultasi Dian Mustika untuk membantu menentukan kebutuhan perawatan homecare pascamelahirkan, massage, breastcare, dan perawatan ibu & bayi.
+
+46. NON-FUNCTIONAL REQUIREMENTS
+
+Aplikasi harus:
+
+cepat;
+mobile-first;
+secure;
+scalable;
+mudah dirawat;
+menggunakan reusable component;
+memiliki database relational;
+memiliki server-side validation;
+memiliki clean architecture;
+tidak hardcode pertanyaan jika memungkinkan.
+47. QUESTION CONFIGURATION
+
+Rekomendasi penting untuk OpenCode:
+
+Jangan membuat seluruh pertanyaan hardcoded di frontend.
+
+Buat struktur konfigurasi:
+
+Question
+├── id
+├── section
+├── label
+├── description
+├── type
+├── options
+├── required
+├── condition
+└── sort_order
+
+Contoh:
+
+question:
+    id: delivery_type
+    label: Jenis persalinan
+    type: radio
+    required: true
+
+options:
+    - normal
+    - caesar
+    - other
+
+Conditional:
+
+condition:
+    field: delivery_type
+    operator: equals
+    value: normal
+
+Dengan demikian admin nantinya bisa mengubah pertanyaan tanpa harus mengubah source code.
+
+48. MVP SCOPE
+WAJIB ADA
+Customer
+Landing page
+Multi-step form
+Conditional question
+Validation
+Review
+Consent
+Submit
+Success page
+WhatsApp CTA
+Admin
+Login
+Dashboard
+Consultation list
+Consultation detail
+Customer list
+Customer detail
+Status consultation
+Therapist notes
+Search
+Filter
+Database
+Customer
+Consultation
+Health data
+Treatment
+Treatment visit
+Notes
+49. PHASE 2
+
+Setelah MVP berjalan:
+
+booking calendar;
+therapist schedule;
+branch management;
+WhatsApp API;
+reminder otomatis;
+customer portal;
+QR code consultation;
+digital consent;
+treatment history;
+invoice;
+payment status;
+voucher;
+promo;
+loyalty/customer points.
+50. PHASE 3 — CRM DIAN MUSTIKA
+
+Pengembangan jangka panjang:
+
+CUSTOMER
+    ↓
+LEAD
+    ↓
+CONSULTATION
+    ↓
+BOOKING
+    ↓
+TREATMENT
+    ↓
+FOLLOW UP
+    ↓
+REPEAT ORDER
+
+Dashboard dapat menampilkan:
+
+customer baru;
+customer lama;
+conversion konsultasi → booking;
+treatment paling banyak dipilih;
+sumber customer;
+repeat customer;
+follow-up yang belum dilakukan.
+51. BUSINESS RULE PENTING
+Rule 1
+
+Customer baru dibuat berdasarkan nomor WhatsApp.
+
+Jika nomor sudah ada:
+
+Customer Existing
+
+jangan membuat duplicate customer.
+
+Rule 2
+
+Setiap pengisian form menghasilkan:
+
+Consultation Record
+
+sehingga customer dapat mempunyai banyak konsultasi.
+
+Rule 3
+
+Informasi kesehatan adalah data screening, bukan diagnosis.
+
+Sistem tidak boleh menyimpulkan:
+
+aman;
+sembuh;
+penyakit tertentu;
+treatment pasti berhasil.
+Rule 4
+
+Jika terdapat kondisi yang perlu perhatian, sistem hanya memberikan:
+
+"Perlu dikonfirmasi oleh therapist/tenaga kesehatan."
+
+Rule 5
+
+Admin dapat mengubah status konsultasi tanpa mengubah jawaban asli customer.
+
+Jika ada koreksi, simpan sebagai:
+
+Admin Note
+
+bukan overwrite data asli.
+
+52. ACCEPTANCE CRITERIA
+
+Aplikasi dianggap berhasil apabila:
+
+Customer
+dapat membuka form dari HP;
+dapat menyelesaikan form tanpa bantuan admin;
+dapat kembali ke step sebelumnya;
+jawaban tidak hilang ketika berpindah step;
+pertanyaan conditional bekerja;
+validasi berjalan;
+customer dapat melihat review;
+customer dapat submit;
+customer mendapatkan confirmation.
+Admin
+dapat login;
+dapat melihat konsultasi baru;
+dapat membuka detail;
+dapat mencari customer;
+dapat melihat riwayat;
+dapat mengubah status;
+dapat menambahkan catatan.
+Data
+tidak terjadi duplicate customer berdasarkan WhatsApp;
+setiap konsultasi tersimpan;
+timestamp tersimpan;
+data dapat difilter;
+data dapat diekspor.
+53. PRIORITAS FITUR
+
+Gunakan prioritas berikut saat development:
+
+Fitur	Prioritas
+Customer Form	🔴 P0
+Multi-step	🔴 P0
+Conditional Form	🔴 P0
+Database	🔴 P0
+Admin Login	🔴 P0
+Consultation Dashboard	🔴 P0
+Customer Detail	🔴 P0
+WhatsApp CTA	🔴 P0
+Therapist Notes	🟠 P1
+Treatment Master	🟠 P1
+Customer History	🟠 P1
+Export Excel	🟠 P1
+Booking Calendar	🟡 P2
+WhatsApp API	🟡 P2
+Payment	🟡 P2
+CRM Analytics	🟢 P3
+54. INSTRUKSI UNTUK OPENCODE
+
+Gunakan PRD ini sebagai source of truth untuk membangun aplikasi.
+
+Sebelum melakukan coding:
+
+Analisis repository yang sudah ada.
+Identifikasi framework dan database yang digunakan.
+Jangan mengganti stack yang sudah ada tanpa alasan kuat.
+Periksa struktur database yang sudah tersedia.
+Gunakan reusable components.
+Jangan membuat duplicate functionality.
+Implementasikan MVP terlebih dahulu.
+Buat migration/schema yang terstruktur.
+Implementasikan server-side validation.
+Implementasikan authorization untuk admin.
+Pastikan mobile responsive.
+Jangan hardcode conditional logic di banyak tempat.
+Gunakan konfigurasi question/form yang terstruktur.
+Buat seed data untuk treatment.
+Buat test untuk proses submit consultation.
+Test conditional questions.
+Test duplicate customer berdasarkan WhatsApp.
+Test authorization admin.
+Test responsive layout.
+Setelah MVP selesai, tampilkan daftar file yang dibuat/diubah dan ringkasan implementasi.
+
+Jangan langsung mengerjakan Phase 2 atau Phase 3 sebelum MVP selesai dan berfungsi.
+
+55. HASIL AKHIR YANG DIHARAPKAN
+
+Produk akhir MVP harus terasa seperti:
+
+"Digital Assistant Konsultasi Dian Mustika"
+
+bukan sekadar:
+
+"Form Google versi website."
+
+Customer harus merasa:
+
+Buka → Pahami → Isi → Konsultasi → Selesai.
+
+Sedangkan admin harus merasa:
+
+Terima → Lihat → Pahami → Follow-up → Booking → Treatment → Riwayat.
+
+Arsitektur produk yang saya rekomendasikan
+                    DIAN MUSTIKA
+                         │
+                ┌────────▼────────┐
+                │ Landing Page    │
+                └────────┬────────┘
+                         │
+                ┌────────▼────────┐
+                │ Customer Form   │
+                │ Multi Step      │
+                └────────┬────────┘
+                         │
+                ┌────────▼────────┐
+                │ Smart Screening │
+                │ Conditional     │
+                └────────┬────────┘
+                         │
+                ┌────────▼────────┐
+                │ Consultation    │
+                └────────┬────────┘
+                         │
+             ┌───────────┴───────────┐
+             │                       │
+      ┌──────▼──────┐       ┌────────▼────────┐
+      │   Customer  │       │ Admin Dashboard │
+      └──────┬──────┘       └────────┬────────┘
+             │                       │
+             └───────────┬───────────┘
+                         │
+                ┌────────▼────────┐
+                │ Treatment Visit │
+                └────────┬────────┘
+                         │
+                ┌────────▼────────┐
+                │ Follow Up / CRM │
+                └─────────────────┘
+
+Catatan strategis: karena Dian Mustika memiliki banyak jenis layanan ibu & bayi, desain database sebaiknya dari awal dibuat general-purpose, bukan hanya untuk "homecare pascamelahirkan". Form ini adalah modul pertama, sehingga nanti bisa diperluas menjadi sistem CRM + booking + treatment record Dian Mustika tanpa harus membangun ulang database.

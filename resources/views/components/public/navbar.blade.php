@@ -5,6 +5,7 @@
         ['label' => 'Beranda', 'patterns' => ['home']],
         ['label' => 'Tentang', 'patterns' => ['about']],
         ['label' => 'Layanan', 'patterns' => ['services.index', 'services.show']],
+        ['label' => 'Konsultasi', 'patterns' => ['consultation.landing']],
         ['label' => 'Paket', 'patterns' => ['packages.index']],
         ['label' => 'Artikel', 'patterns' => ['articles.index', 'articles.show', 'articles.category']],
         ['label' => 'Lokasi', 'patterns' => ['locations.index', 'locations.show']],
@@ -14,6 +15,7 @@
         ['label' => 'Beranda', 'patterns' => ['home']],
         ['label' => 'Tentang Kami', 'patterns' => ['about']],
         ['label' => 'Layanan', 'patterns' => ['services.index', 'services.show']],
+        ['label' => 'Konsultasi', 'patterns' => ['consultation.landing']],
         ['label' => 'Paket & Promo', 'patterns' => ['packages.index']],
         ['label' => 'Galeri', 'patterns' => ['galleries.index']],
         ['label' => 'Testimoni', 'patterns' => ['testimonials.index']],
@@ -92,6 +94,15 @@
             </div>
 
             <a
+                href="{{ route('consultation.landing') }}"
+                data-track-click="konsultasi_navbar"
+                data-track-label="Navbar Konsultasi"
+                class="hidden items-center gap-2 rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-brand-800 sm:inline-flex"
+            >
+                Konsultasi
+            </a>
+
+            <a
                 href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
                 target="_blank"
                 rel="noopener"
@@ -148,6 +159,16 @@
                     {{ $item['label'] }}
                 </a>
             @endforeach
+
+            <a
+                href="{{ route('consultation.landing') }}"
+                @click="open = false"
+                data-track-click="konsultasi_navbar_mobile"
+                data-track-label="Navbar Mobile Konsultasi"
+                class="mt-3 flex items-center justify-center gap-2 rounded-full bg-brand-700 px-5 py-3 text-sm font-semibold text-white shadow-md"
+            >
+                Mulai Konsultasi
+            </a>
 
             <a
                 href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"

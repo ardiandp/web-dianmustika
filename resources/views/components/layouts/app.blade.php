@@ -72,5 +72,7 @@
         <x-public.footer />
 
         <x-public.whatsapp-button />
+
+        @stack('scripts')
     </body>
 </html>

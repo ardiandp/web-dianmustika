@@ -30,6 +30,9 @@ class PermissionSeeder extends Seeder
             'manage-activity-logs',
             'manage-roles',
             'manage-media',
+            'manage-consultations',
+            'manage-customers',
+            'manage-treatment-visits',
         ];
 
         foreach ($modules as $perm) {

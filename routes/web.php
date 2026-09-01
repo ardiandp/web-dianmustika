@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ArticleCategoryController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ConsultationController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\GalleryController;
@@ -14,9 +16,11 @@ use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\TreatmentVisitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\ArticleController as PublicArticleController;
+use App\Http\Controllers\Public\ConsultationController as PublicConsultationController;
 use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\LocationController as PublicLocationController;
@@ -114,6 +118,11 @@ Route::get('/kontak', [PageController::class, 'contact'])->name('contact.index')
 Route::get('/cari', [SearchController::class, 'index'])->name('search.index');
 Route::get('/api/search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
 
+Route::get('/konsultasi', [PublicConsultationController::class, 'landing'])->name('consultation.landing');
+Route::get('/konsultasi/mulai', [PublicConsultationController::class, 'create'])->name('consultation.create');
+Route::post('/konsultasi', [PublicConsultationController::class, 'store'])->name('consultation.store');
+Route::get('/konsultasi/sukses', [PublicConsultationController::class, 'success'])->name('consultation.success');
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware('permission:manage-dashboard')->name('dashboard');
 
@@ -126,6 +135,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('article-categories', ArticleCategoryController::class)->middleware('permission:manage-article-categories');
     Route::resource('articles', ArticleController::class)->middleware('permission:manage-articles');
     Route::resource('faqs', FaqController::class)->middleware('permission:manage-faqs');
+
+    Route::resource('consultations', ConsultationController::class)->only(['index', 'show', 'update', 'destroy'])->middleware('permission:manage-consultations');
+    Route::resource('customers', CustomerController::class)->only(['index', 'show', 'destroy'])->middleware('permission:manage-customers');
+    Route::get('customers/{customer}/treatment-visits/create', [TreatmentVisitController::class, 'create'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.create');
+    Route::post('treatment-visits', [TreatmentVisitController::class, 'store'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.store');
+    Route::get('treatment-visits/{treatmentVisit}/edit', [TreatmentVisitController::class, 'edit'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.edit');
+    Route::put('treatment-visits/{treatmentVisit}', [TreatmentVisitController::class, 'update'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.update');
+    Route::delete('treatment-visits/{treatmentVisit}', [TreatmentVisitController::class, 'destroy'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.destroy');
 
     Route::resource('users', UserController::class)->except(['show'])->middleware('permission:manage-users');
     Route::resource('roles', RoleController::class)->except(['show'])->middleware('permission:manage-roles');

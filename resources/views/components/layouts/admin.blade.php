@@ -185,6 +185,26 @@
                     </li>
                     @endcan
 
+                    @canany(['manage-consultations','manage-customers'])
+                    <li class="nav-header">KONSULTASI</li>
+                    @endcanany
+                    @can('manage-consultations')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.consultations.index') }}" class="nav-link {{ request()->routeIs('admin.consultations.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-clipboard-list"></i>
+                            <p>Konsultasi</p>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('manage-customers')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-clock"></i>
+                            <p>Customer</p>
+                        </a>
+                    </li>
+                    @endcan
+
                     <li class="nav-header">LAINNYA</li>
 
                     @can('manage-users')
