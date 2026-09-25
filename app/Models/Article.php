@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Cache;
 
 #[Fillable([
     'article_category_id',
@@ -28,8 +29,14 @@ class Article extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
-        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('sitemap.xml'));
+        static::saved(function () {
+            Cache::forget('sitemap.xml');
+            Cache::forget('ai_chat.knowledge.v2');
+        });
+        static::deleted(function () {
+            Cache::forget('sitemap.xml');
+            Cache::forget('ai_chat.knowledge.v2');
+        });
     }
 
     protected function casts(): array

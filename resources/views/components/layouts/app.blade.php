@@ -71,7 +71,7 @@
 
         <x-public.footer />
 
-        <x-public.whatsapp-button />
+        <x-public.ai-chat />
 
         @stack('scripts')
     </body>

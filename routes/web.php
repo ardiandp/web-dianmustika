@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ArticleCategoryController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ConsultationController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -10,15 +12,15 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\Admin\ActivityLogController;
-use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\TreatmentVisitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Public\AiChatController;
 use App\Http\Controllers\Public\ArticleController as PublicArticleController;
 use App\Http\Controllers\Public\ConsultationController as PublicConsultationController;
 use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
@@ -29,8 +31,13 @@ use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\ServiceController as PublicServiceController;
 use App\Http\Controllers\Public\TestimonialController as PublicTestimonialController;
+use App\Models\PageClick;
 use App\Services\SitemapService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Jenssegers\Agent\Agent;
 
 Route::get('/sitemap.xml', function () {
     return response(SitemapService::generate())
@@ -43,7 +50,7 @@ Route::get('/robots.txt', function () {
     return response($content)->header('Content-Type', 'text/plain');
 });
 
-Route::post('/api/track/click', function (\Illuminate\Http\Request $request) {
+Route::post('/api/track/click', function (Request $request) {
     $data = $request->validate([
         'element' => ['required', 'string', 'max:100'],
         'label' => ['nullable', 'string', 'max:255'],
@@ -52,35 +59,43 @@ Route::post('/api/track/click', function (\Illuminate\Http\Request $request) {
     ]);
 
     $ua = $request->userAgent() ?? '';
-    $agent = new \Jenssegers\Agent\Agent();
+    $agent = new Agent;
     $agent->setUserAgent($ua);
     $device = 'desktop';
-    if ($agent->isTablet()) $device = 'tablet';
-    elseif ($agent->isMobile()) $device = 'mobile';
+    if ($agent->isTablet()) {
+        $device = 'tablet';
+    } elseif ($agent->isMobile()) {
+        $device = 'mobile';
+    }
 
     $ip = $request->ip() ?? '0.0.0.0';
-    $country = null; $city = null;
+    $country = null;
+    $city = null;
     if (! in_array($ip, ['127.0.0.1', '::1']) && ! str_starts_with($ip, '192.168.') && ! str_starts_with($ip, '10.')) {
-        $geo = \Illuminate\Support\Facades\Cache::remember('geo:'.$ip, 86400, function () use ($ip) {
+        $geo = Cache::remember('geo:'.$ip, 86400, function () use ($ip) {
             try {
-                $res = \Illuminate\Support\Facades\Http::timeout(1)->get('http://ip-api.com/json/'.$ip.'?fields=country,city,status');
+                $res = Http::timeout(1)->get('http://ip-api.com/json/'.$ip.'?fields=country,city,status');
                 if ($res->successful()) {
                     $d = $res->json();
-                    if (($d['status'] ?? '') === 'success') return ['country' => $d['country'] ?? null, 'city' => $d['city'] ?? null];
+                    if (($d['status'] ?? '') === 'success') {
+                        return ['country' => $d['country'] ?? null, 'city' => $d['city'] ?? null];
+                    }
                 }
-            } catch (\Throwable $e) {}
+            } catch (Throwable $e) {
+            }
+
             return null;
         });
         $country = $geo['country'] ?? null;
         $city = $geo['city'] ?? null;
     }
 
-    \App\Models\PageClick::create([
+    PageClick::create([
         'path' => $data['path'] ?? parse_url($data['url'] ?? $request->header('referer') ?? '/', PHP_URL_PATH) ?: '/',
         'url' => $data['url'] ?? $request->header('referer') ?? url()->current(),
         'element' => $data['element'],
         'label' => $data['label'] ?? null,
-        'ip_hash' => hash('sha256', $ip . config('app.key')),
+        'ip_hash' => hash('sha256', $ip.config('app.key')),
         'country' => $country,
         'city' => $city,
         'device' => $device,
@@ -92,6 +107,8 @@ Route::post('/api/track/click', function (\Illuminate\Http\Request $request) {
 
     return response()->json(['ok' => true]);
 })->middleware('throttle:120,1');
+
+Route::post('/api/chat', [AiChatController::class, 'chat'])->middleware('throttle:30,1');
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');
@@ -137,6 +154,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('faqs', FaqController::class)->middleware('permission:manage-faqs');
 
     Route::resource('consultations', ConsultationController::class)->only(['index', 'show', 'update', 'destroy'])->middleware('permission:manage-consultations');
+    Route::resource('chats', ChatController::class)->only(['index', 'show', 'destroy'])->middleware('permission:manage-chat');
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'destroy'])->middleware('permission:manage-customers');
     Route::get('customers/{customer}/treatment-visits/create', [TreatmentVisitController::class, 'create'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.create');
     Route::post('treatment-visits', [TreatmentVisitController::class, 'store'])->middleware('permission:manage-treatment-visits')->name('treatment-visits.store');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -37,6 +38,7 @@ class SettingController extends Controller
         'social_tiktok',
         'google_maps_embed',
         'footer_copyright',
+        'chat_ai_welcome',
     ];
 
     protected array $fileFields = ['logo', 'favicon', 'hero_image'];
@@ -77,6 +79,10 @@ class SettingController extends Controller
             'social_tiktok' => ['nullable', 'url', 'max:255'],
             'google_maps_embed' => ['nullable', 'string'],
             'footer_copyright' => ['nullable', 'string', 'max:255'],
+            'chat_ai_enabled' => ['nullable', 'boolean'],
+            'chat_ai_welcome' => ['nullable', 'string', 'max:1000'],
+            'chat_ai_sources' => ['nullable', 'array'],
+            'chat_ai_sources.*' => ['string', 'in:layanan,paket,faq,lokasi,artikel'],
         ]);
 
         foreach ($this->fields as $key) {
@@ -96,6 +102,7 @@ class SettingController extends Controller
                         Setting::updateOrCreate(['key' => 'hero_image'], ['value' => $libraryPath]);
                     }
                 }
+
                 continue;
             }
 
@@ -107,6 +114,10 @@ class SettingController extends Controller
 
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
+
+        Setting::updateOrCreate(['key' => 'chat_ai_enabled'], ['value' => $request->boolean('chat_ai_enabled') ? '1' : '0']);
+        Setting::updateOrCreate(['key' => 'chat_ai_sources'], ['value' => json_encode($request->input('chat_ai_sources', []))]);
+        Cache::forget('ai_chat.knowledge.v2');
 
         return redirect()
             ->route('admin.settings.edit')

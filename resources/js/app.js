@@ -1,10 +1,27 @@
 
 
 import Alpine from 'alpinejs';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 window.Alpine = Alpine;
 
 Alpine.start();
+
+marked.setOptions({ gfm: true, breaks: true });
+
+window.aiRenderMarkdown = function (text) {
+    return DOMPurify.sanitize(marked.parse(text || '', { async: false }));
+};
+
+window.aiEscapeHtml = function (text) {
+    return (text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+};
 
 // Track clicks for analytics (WA, share, CTA, all monitorable links)
 (function () {

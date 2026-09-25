@@ -32,7 +32,10 @@ class SettingsSeeder extends Seeder
             'about_heading' => 'Tentang Dian Mustika',
             'about_text' => 'Dian Mustika adalah pusat perawatan tubuh dan kecantikan yang hadir untuk membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan. Kami menggabungkan teknik perawatan modern dengan kearifan tradisional untuk memberikan pengalaman perawatan terbaik bagi setiap pelanggan.',
             'google_maps_embed' => null,
-            'footer_copyright' => '© ' . date('Y') . ' Dian Mustika. Seluruh hak cipta dilindungi.',
+            'footer_copyright' => '© '.date('Y').' Dian Mustika. Seluruh hak cipta dilindungi.',
+            'chat_ai_enabled' => '1',
+            'chat_ai_welcome' => 'Halo! Saya Mika, asisten virtual Dian Mustika. Ada yang bisa saya bantu seputar layanan, paket, promo, cara reservasi, atau jam operasional?',
+            'chat_ai_sources' => json_encode(['layanan', 'paket', 'faq', 'lokasi', 'artikel']),
         ];
 
         foreach ($settings as $key => $value) {

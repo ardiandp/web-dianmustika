@@ -185,7 +185,7 @@
                     </li>
                     @endcan
 
-                    @canany(['manage-consultations','manage-customers'])
+                    @canany(['manage-consultations','manage-customers','manage-chat'])
                     <li class="nav-header">KONSULTASI</li>
                     @endcanany
                     @can('manage-consultations')
@@ -201,6 +201,14 @@
                         <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-clock"></i>
                             <p>Customer</p>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('manage-chat')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.chats.index') }}" class="nav-link {{ request()->routeIs('admin.chats.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-robot"></i>
+                            <p>Chat AI</p>
                         </a>
                     </li>
                     @endcan

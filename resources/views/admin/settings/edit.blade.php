@@ -202,6 +202,39 @@
         </div>
 
         <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-robot mr-1"></i> Asisten AI (Chat)</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="chat_ai_enabled" id="chat_ai_enabled" value="1" @checked((bool) $settings->get('chat_ai_enabled', true))>
+                        <label class="custom-control-label" for="chat_ai_enabled">Aktifkan chat AI di halaman website</label>
+                    </div>
+                    <small class="form-text text-muted">Menampilkan widget chat asisten AI di pojok kanan bawah halaman publik. Terhubung ke Ollama di PC lokal.</small>
+                </div>
+                <x-admin.textarea name="chat_ai_welcome" label="Pesan Sambutan" rows="3" :value="$settings->get('chat_ai_welcome', config('ai-chat.welcome'))" help="Pesan pertama yang muncul saat pengunjung membuka chat." />
+                <div class="form-group">
+                    <label>Pengetahuan yang boleh diakses AI</label>
+                    @php($chatSources = (array) \App\Models\Setting::get('chat_ai_sources', config('ai-chat.sources', [])))
+                    @foreach ([
+                        'layanan' => 'Layanan — nama, harga & deskripsi treatment',
+                        'paket' => 'Paket & Promo — harga normal/promo & periode',
+                        'faq' => 'FAQ — tanya-jawab umum',
+                        'lokasi' => 'Lokasi — alamat, kontak, jam buka cabang',
+                        'artikel' => 'Artikel — konten blog/tips terbit',
+                    ] as $sourceKey => $sourceLabel)
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="chat_ai_sources[]" value="{{ $sourceKey }}" id="source_{{ $sourceKey }}" @checked(in_array($sourceKey, $chatSources, true))>
+                            <label class="custom-control-label" for="source_{{ $sourceKey }}">{{ $sourceLabel }}</label>
+                        </div>
+                    @endforeach
+                    <small class="form-text text-muted">AI hanya menjawab dari sumber yang dicentang. Profil usaha (nama, kontak, jam operasional) selalu ikut. Perubahan berlaku segera.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-outline card-primary">
             <div class="card-footer">
                 <x-admin.form-actions :cancel="route('admin.dashboard')" />
             </div>

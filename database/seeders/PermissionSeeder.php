@@ -6,13 +6,14 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
         // Reset cached roles/permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $modules = [
             'manage-dashboard',
@@ -33,6 +34,7 @@ class PermissionSeeder extends Seeder
             'manage-consultations',
             'manage-customers',
             'manage-treatment-visits',
+            'manage-chat',
         ];
 
         foreach ($modules as $perm) {
