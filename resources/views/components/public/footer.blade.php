@@ -58,6 +58,8 @@
                     <li><a href="{{ route('about') }}" class="transition hover:text-gold-400">Tentang Kami</a></li>
                     <li><a href="{{ route('services.index') }}" class="transition hover:text-gold-400">Layanan</a></li>
                     <li><a href="{{ route('packages.index') }}" class="transition hover:text-gold-400">Paket & Promo</a></li>
+                    <li><a href="{{ route('consultation.landing') }}" class="transition hover:text-gold-400">Konsultasi Homecare</a></li>
+                    <li><a href="{{ route('locations.index') }}" class="transition hover:text-gold-400">Lokasi Cabang</a></li>
                     <li><a href="{{ route('galleries.index') }}" class="transition hover:text-gold-400">Galeri</a></li>
                     <li><a href="{{ route('testimonials.index') }}" class="transition hover:text-gold-400">Testimoni</a></li>
                     <li><a href="{{ route('articles.index') }}" class="transition hover:text-gold-400">Artikel</a></li>
@@ -98,6 +100,21 @@
                         <li class="flex items-start gap-2.5"><span class="mt-0.5 text-gold-500">●</span><span>{{ $settings['address'] }}</span></li>
                     @endif
                 </ul>
+
+                @if ($locations->isNotEmpty())
+                    <div class="mt-6 border-t border-white/10 pt-4">
+                        <h4 class="text-xs font-semibold uppercase tracking-wider text-gold-400">Cabang Lokasi</h4>
+                        <ul class="mt-2.5 space-y-1.5 text-sm">
+                            @foreach ($locations as $loc)
+                                <li>
+                                    <a href="{{ route('locations.show', $loc) }}" class="transition hover:text-gold-400">
+                                        {{ $loc->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
 

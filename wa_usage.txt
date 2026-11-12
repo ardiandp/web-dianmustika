@@ -1,0 +1,17 @@
+﻿powershell : At line:1 char:192
+At line:1 char:1
++ powershell -NoProfile -Command "Set-Location 'C:\laragon\www\web-dian ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (At line:1 char:192:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
++ ...  -Pattern 'WhatsAppService' -ErrorAction SilentlyContinue;  | % { wri ...
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:257
++ ... | % { write-output (.Path + '|' + .LineNumber + '|' + .Line.Trim()) }
++                                                                      ~
+An expression was expected after '('.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : EmptyPipeElement
+ 

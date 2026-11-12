@@ -67,13 +67,26 @@ class ServiceController extends Controller
         // Related articles via pivot
         $relatedArticles = $service->articles->take(3);
 
+        $crumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Layanan', 'url' => route('services.index')],
+        ];
+
+        if ($service->category) {
+            $crumbs[] = [
+                'label' => $service->category->name,
+                'url' => route('services.index', ['kategori' => $service->category->slug]),
+            ];
+        }
+
+        $crumbs[] = [
+            'label' => $service->name,
+            'url' => route('services.show', $service),
+        ];
+
         $seo = SeoService::for($service, [
             'schema' => [
-                SeoService::breadcrumbs([
-                    ['label' => 'Beranda', 'url' => route('home')],
-                    ['label' => 'Layanan', 'url' => route('services.index')],
-                    ['label' => $service->name, 'url' => route('services.show', $service)],
-                ]),
+                SeoService::breadcrumbs($crumbs),
                 SeoService::service($service),
             ],
         ]);

@@ -11,10 +11,11 @@ class SettingsSeeder extends Seeder
     {
         $settings = [
             'site_name' => 'Dian Mustika',
-            'site_tagline' => 'Perawatan Tubuh & Kecantikan',
-            'site_description' => 'Dian Mustika adalah pusat perawatan tubuh dan kecantikan yang membantu Anda merawat diri dengan layanan profesional, nyaman, dan elegan.',
-            'default_meta_title' => 'Dian Mustika | Perawatan Tubuh & Kecantikan di Tangerang Selatan',
-            'default_meta_description' => 'Pusat perawatan tubuh dan kecantikan Dian Mustika: massage tradisional, lulur, facial, body slimming, dan treatment kecantikan profesional. Konsultasi gratis via WhatsApp.',
+            'site_tagline' => 'Homecare Pascamelahirkan, Pijat Laktasi & Perawatan Ibu Bayi',
+            'site_description' => 'Dian Mustika adalah pusat perawatan homecare pascamelahirkan, pijat laktasi, perawatan nifas, dan spa ibu & bayi profesional yang menghadirkan terapis berpengalaman langsung ke rumah Anda.',
+            'default_meta_title' => 'Dian Mustika | Homecare Pascamelahirkan, Pijat Laktasi & Perawatan Ibu Bayi',
+            'default_meta_description' => 'Layanan homecare pascamelahirkan profesional Dian Mustika: perawatan nifas tradisional & modern, pijat laktasi/breastcare, baby massage, dan spa ibu hamil di rumah Anda. Konsultasi gratis via WhatsApp.',
+            'default_meta_keywords' => 'homecare pascamelahirkan, pijat nifas, pijat laktasi, breastcare, baby massage, bengkung tradisional, bidan homecare, dian mustika, spa ibu hamil',
             'default_og_image' => null,
             'logo' => null,
             'favicon' => null,

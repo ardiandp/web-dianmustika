@@ -14,17 +14,20 @@ class SitemapService
     public static function generate(): string
     {
         return Cache::remember('sitemap.xml', now()->addHours(24), function () {
+            $staticLastmod = now()->toDateString();
+
             $urls = collect([
-                ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily'],
-                ['loc' => route('about'), 'priority' => '0.8', 'changefreq' => 'monthly'],
-                ['loc' => route('services.index'), 'priority' => '0.9', 'changefreq' => 'weekly'],
-                ['loc' => route('packages.index'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-                ['loc' => route('galleries.index'), 'priority' => '0.5', 'changefreq' => 'monthly'],
-                ['loc' => route('testimonials.index'), 'priority' => '0.5', 'changefreq' => 'monthly'],
-                ['loc' => route('articles.index'), 'priority' => '0.9', 'changefreq' => 'daily'],
-                ['loc' => route('locations.index'), 'priority' => '0.9', 'changefreq' => 'monthly'],
-                ['loc' => route('faqs.index'), 'priority' => '0.6', 'changefreq' => 'monthly'],
-                ['loc' => route('contact.index'), 'priority' => '0.7', 'changefreq' => 'yearly'],
+                ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => $staticLastmod],
+                ['loc' => route('about'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => $staticLastmod],
+                ['loc' => route('services.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $staticLastmod],
+                ['loc' => route('packages.index'), 'priority' => '0.8', 'changefreq' => 'weekly', 'lastmod' => $staticLastmod],
+                ['loc' => route('consultation.landing'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $staticLastmod],
+                ['loc' => route('galleries.index'), 'priority' => '0.5', 'changefreq' => 'monthly', 'lastmod' => $staticLastmod],
+                ['loc' => route('testimonials.index'), 'priority' => '0.6', 'changefreq' => 'weekly', 'lastmod' => $staticLastmod],
+                ['loc' => route('articles.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => $staticLastmod],
+                ['loc' => route('locations.index'), 'priority' => '0.9', 'changefreq' => 'monthly', 'lastmod' => $staticLastmod],
+                ['loc' => route('faqs.index'), 'priority' => '0.6', 'changefreq' => 'monthly', 'lastmod' => $staticLastmod],
+                ['loc' => route('contact.index'), 'priority' => '0.7', 'changefreq' => 'yearly', 'lastmod' => $staticLastmod],
             ]);
 
             $services = Service::active()->ordered()->get()->map(
@@ -34,6 +37,8 @@ class SitemapService
                     'changefreq' => 'monthly',
                     'lastmod' => $service->updated_at?->toDateString(),
                     'image' => $service->image ? url('/storage/' . ltrim($service->image, '/')) : null,
+                    'image_title' => $service->name,
+                    'image_caption' => $service->short_description,
                 ]
             );
 
@@ -44,6 +49,8 @@ class SitemapService
                     'changefreq' => 'monthly',
                     'lastmod' => $package->updated_at?->toDateString(),
                     'image' => $package->image ? url('/storage/' . ltrim($package->image, '/')) : null,
+                    'image_title' => $package->name,
+                    'image_caption' => $package->description,
                 ]
             );
 
@@ -63,6 +70,8 @@ class SitemapService
                     'changefreq' => 'weekly',
                     'lastmod' => $article->updated_at?->toDateString(),
                     'image' => $article->featured_image ? url('/storage/' . ltrim($article->featured_image, '/')) : null,
+                    'image_title' => $article->title,
+                    'image_caption' => $article->excerpt,
                 ]
             );
 
@@ -73,6 +82,8 @@ class SitemapService
                     'changefreq' => 'monthly',
                     'lastmod' => $location->updated_at?->toDateString(),
                     'image' => $location->image ? url('/storage/' . ltrim($location->image, '/')) : null,
+                    'image_title' => $location->name,
+                    'image_caption' => $location->address,
                 ]
             );
 
@@ -97,9 +108,15 @@ class SitemapService
                 }
                 $xml .= '    <priority>' . e($url['priority']) . "</priority>\n";
                 if (! empty($url['image'])) {
-                    $xml .= '    <image:image>' . "\n";
+                    $xml .= "    <image:image>\n";
                     $xml .= '      <image:loc>' . e($url['image']) . "</image:loc>\n";
-                    $xml .= '    </image:image>' . "\n";
+                    if (! empty($url['image_title'])) {
+                        $xml .= '      <image:title>' . e($url['image_title']) . "</image:title>\n";
+                    }
+                    if (! empty($url['image_caption'])) {
+                        $xml .= '      <image:caption>' . e(str($url['image_caption'])->stripTags()->limit(200)->toString()) . "</image:caption>\n";
+                    }
+                    $xml .= "    </image:image>\n";
                 }
                 $xml .= "  </url>\n";
             }

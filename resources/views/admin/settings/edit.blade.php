@@ -72,6 +72,56 @@
 
         <div class="card card-outline card-primary">
             <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-search mr-1"></i> Pengaturan SEO & Meta Tag Default</h3>
+            </div>
+            <div class="card-body">
+                <small class="text-muted d-block mb-3">Pengaturan meta tag global yang akan digunakan sebagai default di seluruh halaman website.</small>
+
+                <div class="form-group">
+                    <label>Default Meta Title</label>
+                    <input type="text" name="default_meta_title" id="default_meta_title" class="form-control" value="{{ old('default_meta_title', $settings->get('default_meta_title', 'Dian Mustika | Homecare Pascamelahirkan, Pijat Laktasi & Perawatan Ibu Bayi')) }}" placeholder="Judul default website di Google">
+                    <small class="form-text text-muted">Disarankan 50–60 karakter untuk hasil optimal di Google SERP.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Default Meta Description</label>
+                    <textarea name="default_meta_description" id="default_meta_description" class="form-control" rows="3" placeholder="Deskripsi ringkas yang muncul di hasil pencarian Google">{{ old('default_meta_description', $settings->get('default_meta_description', 'Layanan homecare pascamelahirkan profesional Dian Mustika: perawatan nifas tradisional & modern, pijat laktasi/breastcare, baby massage, dan spa ibu hamil di rumah Anda. Konsultasi gratis via WhatsApp.')) }}</textarea>
+                    <small class="form-text text-muted">Disarankan 150–160 karakter agar tidak terpotong di hasil pencarian.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Default Keywords</label>
+                    <input type="text" name="default_meta_keywords" class="form-control" value="{{ old('default_meta_keywords', $settings->get('default_meta_keywords', 'homecare pascamelahirkan, pijat nifas, pijat laktasi, breastcare, baby massage, bengkung tradisional, bidan homecare, dian mustika')) }}" placeholder="Kata kunci dipisahkan dengan koma">
+                    <small class="form-text text-muted">Pisahkan dengan koma.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Default Share Image (OpenGraph / WhatsApp Preview)</label>
+                    @if ($settings->get('default_og_image'))
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $settings->get('default_og_image')) }}" alt="Default OG Image" class="img-thumbnail" style="max-height: 140px;">
+                        </div>
+                    @endif
+                    <div class="custom-file">
+                        <input type="file" name="default_og_image" id="default_og_image" accept="image/*" class="custom-file-input">
+                        <label class="custom-file-label" for="default_og_image">Pilih gambar preview share...</label>
+                    </div>
+                    <input type="hidden" name="default_og_image_library" id="default_og_image_library" value="{{ $settings->get('default_og_image', '') }}">
+                    <div class="mt-2 d-flex align-items-center" style="gap: 8px;">
+                        <button type="button" class="btn btn-sm btn-outline-primary btn-pick-from-library" data-field="default_og_image"><i class="fas fa-images mr-1"></i> Pilih dari Library</button>
+                        <small class="text-muted">Dipilih: <span id="default_og_image_library_label" class="font-weight-bold">—</span></small>
+                    </div>
+                    <img id="default_og_image_preview" src="" alt="" class="img-thumbnail mt-2" style="max-width: 150px; display: none;">
+                    <small class="form-text text-muted">Ukuran ideal: 1200×630 px (format JPG/PNG/WebP, maks 2MB). Gambar ini akan otomatis muncul sebagai thumbnail saat link website dibagikan ke WhatsApp, Telegram, Facebook, atau Twitter.</small>
+                    @error('default_og_image')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-outline card-primary">
+            <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-home mr-1"></i> Hero / Banner Utama</h3>
             </div>
             <div class="card-body">

@@ -115,6 +115,21 @@
                         @endif
                     </dl>
                 </div>
+
+                @php $coverage = App\Services\SeoService::locationAreaServed($location); @endphp
+                @if (! empty($coverage))
+                    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
+                        <h3 class="font-display text-lg font-semibold text-brand-800">Jangkauan Homecare</h3>
+                        <p class="mt-2 text-xs leading-relaxed text-ink/60">Terapis kami melayani kunjungan langsung ke rumah untuk area di sekitar cabang ini:</p>
+                        <div class="mt-3.5 flex flex-wrap gap-1.5">
+                            @foreach ($coverage as $area)
+                                <span class="rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-800 ring-1 ring-brand-100">
+                                    {{ $area }}
+                                </span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </aside>
         </div>
     </section>

@@ -25,6 +25,10 @@ class TestimonialController extends Controller
             ],
         ]);
 
+        if ($testimonials->isNotEmpty()) {
+            $seo['schema'][] = SeoService::testimonials($testimonials->getCollection());
+        }
+
         return view('pages.testimonials.index', compact('testimonials', 'seo'));
     }
 }

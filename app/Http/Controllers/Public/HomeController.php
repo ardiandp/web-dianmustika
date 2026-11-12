@@ -23,12 +23,18 @@ class HomeController extends Controller
         $articles = Article::published()->active()->with('category')->ordered()->limit(3)->get();
         $galleries = Gallery::active()->ordered()->limit(8)->get();
 
+        $schemas = [
+            SeoService::webSite(),
+            SeoService::organization(),
+        ];
+
+        if ($testimonials->isNotEmpty()) {
+            $schemas[] = SeoService::testimonials($testimonials);
+        }
+
         $seo = SeoService::forPage([
             'description' => \App\Models\Setting::get('default_meta_description', \App\Models\Setting::get('site_description', '')),
-            'schema' => [
-                SeoService::webSite(),
-                SeoService::organization(),
-            ],
+            'schema' => $schemas,
         ]);
 
         return view('pages.home', compact('services', 'packages', 'locations', 'testimonials', 'articles', 'galleries', 'seo'));

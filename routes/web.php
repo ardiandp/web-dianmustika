@@ -45,7 +45,30 @@ Route::get('/sitemap.xml', function () {
 });
 
 Route::get('/robots.txt', function () {
-    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /profile\n\nSitemap: ".url('/sitemap.xml')."\n";
+    if (! app()->isProduction()) {
+        $content = "User-agent: *\nDisallow: /\n";
+    } else {
+        $disallow = [
+            '/admin',
+            '/profile',
+            '/api/',
+            '/login',
+            '/register',
+            '/forgot-password',
+            '/reset-password',
+            '/konsultasi/sukses',
+        ];
+
+        $lines = ["User-agent: *", "Allow: /"];
+        foreach ($disallow as $path) {
+            $lines[] = "Disallow: {$path}";
+        }
+        $lines[] = "";
+        $lines[] = "Sitemap: " . url('/sitemap.xml');
+        $lines[] = "";
+
+        $content = implode("\n", $lines);
+    }
 
     return response($content)->header('Content-Type', 'text/plain');
 });

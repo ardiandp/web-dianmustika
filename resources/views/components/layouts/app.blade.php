@@ -35,10 +35,20 @@
         <meta name="robots" content="{{ $robots }}">
         <link rel="canonical" href="{{ $canonical }}">
 
-        @php $favicon = App\Models\Setting::get('favicon'); @endphp
+        @php
+            $favicon = App\Models\Setting::get('favicon');
+            $shareImage = $og['image']
+                ?? App\Services\SeoService::absoluteImage(App\Models\Setting::get('default_og_image'))
+                ?? App\Services\SeoService::absoluteImage(App\Models\Setting::get('hero_image'))
+                ?? App\Services\SeoService::absoluteImage(App\Models\Setting::get('logo'));
+        @endphp
         @if ($favicon)
             <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $favicon) }}">
+            <link rel="apple-touch-icon" href="{{ asset('storage/' . $favicon) }}">
+        @else
+            <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
         @endif
+        <meta name="theme-color" content="#6f3a43">
 
         <meta property="og:type" content="{{ $og['type'] }}">
         <meta property="og:site_name" content="{{ $og['site_name'] }}">
@@ -46,16 +56,18 @@
         <meta property="og:description" content="{{ $og['description'] }}">
         <meta property="og:url" content="{{ $og['url'] }}">
         <meta property="og:locale" content="{{ $og['locale'] }}">
-        @if ($og['image'])
-            <meta property="og:image" content="{{ $og['image'] }}">
+        @if ($shareImage)
+            <meta property="og:image" content="{{ $shareImage }}">
             <meta property="og:image:alt" content="{{ $og['title'] }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
         @endif
 
-        <meta name="twitter:card" content="{{ $og['image'] ? 'summary_large_image' : 'summary' }}">
+        <meta name="twitter:card" content="{{ $shareImage ? 'summary_large_image' : 'summary' }}">
         <meta name="twitter:title" content="{{ $og['title'] }}">
         <meta name="twitter:description" content="{{ $og['description'] }}">
-        @if ($og['image'])
-            <meta name="twitter:image" content="{{ $og['image'] }}">
+        @if ($shareImage)
+            <meta name="twitter:image" content="{{ $shareImage }}">
         @endif
 
         @foreach ($schemas as $schema)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Service;
 use App\Services\SeoService;
 use Illuminate\View\View;
 
@@ -40,7 +41,18 @@ class ArticleController extends Controller
     {
         abort_unless($article->is_active && $article->published_at && $article->published_at->isPast(), 404);
 
-        $article->load(['category', 'author']);
+        $article->load([
+            'category',
+            'author',
+            'services' => fn ($q) => $q->active()->ordered(),
+        ]);
+
+        $relevantServices = $article->services;
+        if ($relevantServices->isEmpty()) {
+            $relevantServices = Service::active()->where('is_featured', true)->ordered()->limit(2)->get();
+        } else {
+            $relevantServices = $relevantServices->take(2);
+        }
 
         $related = Article::published()
             ->active()
@@ -51,19 +63,31 @@ class ArticleController extends Controller
             ->limit(3)
             ->get();
 
+        $crumbs = [
+            ['label' => 'Beranda', 'url' => route('home')],
+            ['label' => 'Artikel', 'url' => route('articles.index')],
+        ];
+
+        if ($article->category) {
+            $crumbs[] = [
+                'label' => $article->category->name,
+                'url' => route('articles.category', $article->category),
+            ];
+        }
+
+        $crumbs[] = [
+            'label' => $article->title,
+            'url' => route('articles.show', $article),
+        ];
+
         $seo = SeoService::for($article, [
             'schema' => [
-                SeoService::breadcrumbs([
-                    ['label' => 'Beranda', 'url' => route('home')],
-                    ['label' => 'Artikel', 'url' => route('articles.index')],
-                    ['label' => $article->category?->name ?? 'Artikel', 'url' => $article->category ? route('articles.category', $article->category) : route('articles.index')],
-                    ['label' => $article->title, 'url' => route('articles.show', $article)],
-                ]),
+                SeoService::breadcrumbs($crumbs),
                 SeoService::article($article),
             ],
         ]);
 
-        return view('pages.articles.show', compact('article', 'related', 'seo'));
+        return view('pages.articles.show', compact('article', 'related', 'relevantServices', 'seo'));
     }
 
     public function category(ArticleCategory $category): View

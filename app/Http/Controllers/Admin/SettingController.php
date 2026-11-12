@@ -39,9 +39,13 @@ class SettingController extends Controller
         'google_maps_embed',
         'footer_copyright',
         'chat_ai_welcome',
+        'default_meta_title',
+        'default_meta_description',
+        'default_meta_keywords',
+        'default_og_image',
     ];
 
-    protected array $fileFields = ['logo', 'favicon', 'hero_image'];
+    protected array $fileFields = ['logo', 'favicon', 'hero_image', 'default_og_image'];
 
     public function edit(): View
     {
@@ -79,6 +83,11 @@ class SettingController extends Controller
             'social_tiktok' => ['nullable', 'url', 'max:255'],
             'google_maps_embed' => ['nullable', 'string'],
             'footer_copyright' => ['nullable', 'string', 'max:255'],
+            'default_meta_title' => ['nullable', 'string', 'max:255'],
+            'default_meta_description' => ['nullable', 'string', 'max:500'],
+            'default_meta_keywords' => ['nullable', 'string', 'max:500'],
+            'default_og_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'default_og_image_library' => ['nullable', 'string', 'max:500'],
             'chat_ai_enabled' => ['nullable', 'boolean'],
             'chat_ai_welcome' => ['nullable', 'string', 'max:1000'],
             'chat_ai_sources' => ['nullable', 'array'],
@@ -101,6 +110,11 @@ class SettingController extends Controller
                     if ($libraryPath !== '') {
                         Setting::updateOrCreate(['key' => 'hero_image'], ['value' => $libraryPath]);
                     }
+                } elseif ($key === 'default_og_image' && $request->filled('default_og_image_library')) {
+                    $libraryPath = trim($request->input('default_og_image_library'));
+                    if ($libraryPath !== '') {
+                        Setting::updateOrCreate(['key' => 'default_og_image'], ['value' => $libraryPath]);
+                    }
                 }
 
                 continue;
@@ -118,6 +132,7 @@ class SettingController extends Controller
         Setting::updateOrCreate(['key' => 'chat_ai_enabled'], ['value' => $request->boolean('chat_ai_enabled') ? '1' : '0']);
         Setting::updateOrCreate(['key' => 'chat_ai_sources'], ['value' => json_encode($request->input('chat_ai_sources', []))]);
         Cache::forget('ai_chat.knowledge.v2');
+        \App\Services\SitemapService::clear();
 
         return redirect()
             ->route('admin.settings.edit')

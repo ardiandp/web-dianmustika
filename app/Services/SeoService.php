@@ -8,6 +8,7 @@ use App\Models\Location;
 use App\Models\Package;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Models\Testimonial;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -75,7 +76,7 @@ class SeoService
             'description' => $description,
             'canonical' => $canonical,
             'robots' => $overrides['robots'] ?? $seo?->robots ?? 'index, follow',
-            'keywords' => $overrides['keywords'] ?? $seo?->keywords ?? '',
+            'keywords' => $overrides['keywords'] ?? $seo?->keywords ?? Setting::get('default_meta_keywords', ''),
             'type' => $overrides['type'] ?? 'website',
             'og' => [
                 'site_name' => $siteName,
@@ -195,22 +196,52 @@ class SeoService
     public static function organization(): array
     {
         $name = Setting::get('site_name', config('app.name'));
+        $logo = self::absoluteImage(Setting::get('logo'));
+        $phone = Setting::get('phone') ?: Setting::get('whatsapp');
+        $address = Setting::get('address', '');
 
-        return [
+        $sameAs = array_values(array_filter([
+            Setting::get('social_instagram'),
+            Setting::get('social_facebook'),
+            Setting::get('social_tiktok'),
+        ]));
+
+        $schema = [
             '@context' => 'https://schema.org',
-            '@type' => 'Organization',
+            '@type' => 'HealthAndBeautyBusiness',
             'name' => $name,
             'url' => url('/'),
             'description' => Setting::get('site_description', ''),
             'email' => Setting::get('email'),
-            'telephone' => Setting::get('phone'),
+            'telephone' => $phone,
             'address' => [
                 '@type' => 'PostalAddress',
                 'addressCountry' => 'ID',
                 'addressLocality' => 'Tangerang Selatan',
-                'streetAddress' => Setting::get('address', ''),
+                'streetAddress' => $address,
+            ],
+            'contactPoint' => [
+                '@type' => 'ContactPoint',
+                'telephone' => $phone,
+                'contactType' => 'customer service',
+                'areaServed' => 'ID',
+                'availableLanguage' => ['id', 'en'],
             ],
         ];
+
+        if ($logo) {
+            $schema['logo'] = [
+                '@type' => 'ImageObject',
+                'url' => $logo,
+            ];
+            $schema['image'] = $logo;
+        }
+
+        if (! empty($sameAs)) {
+            $schema['sameAs'] = $sameAs;
+        }
+
+        return $schema;
     }
 
     /**
@@ -218,11 +249,21 @@ class SeoService
      */
     public static function webSite(): array
     {
+        $siteName = Setting::get('site_name', config('app.name'));
+
         return [
             '@context' => 'https://schema.org',
             '@type' => 'WebSite',
-            'name' => Setting::get('site_name', config('app.name')),
+            'name' => $siteName,
             'url' => url('/'),
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => [
+                    '@type' => 'EntryPoint',
+                    'urlTemplate' => url('/cari').'?q={search_term_string}',
+                ],
+                'query-input' => 'required name=search_term_string',
+            ],
         ];
     }
 
@@ -380,13 +421,78 @@ class SeoService
     }
 
     /**
+     * @param  Collection<int, Testimonial>  $testimonials
+     * @param  float|null  $ratingValue
+     * @param  int|null  $reviewCount
+     * @return array<string, mixed>
+     */
+    public static function testimonials(Collection $testimonials, ?float $ratingValue = null, ?int $reviewCount = null): array
+    {
+        $siteName = Setting::get('site_name', config('app.name'));
+        $total = $reviewCount ?? max(Testimonial::active()->count(), $testimonials->count(), 1);
+        $avg = $ratingValue ?? (float) (Testimonial::active()->avg('rating') ?: 5.0);
+        $avgFormatted = number_format(round($avg, 1), 1, '.', '');
+
+        $reviews = $testimonials->map(function (Testimonial $testimonial) use ($siteName) {
+            $rating = (int) ($testimonial->rating ?: 5);
+
+            return [
+                '@type' => 'Review',
+                'itemReviewed' => [
+                    '@type' => 'LocalBusiness',
+                    'name' => $siteName,
+                ],
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $testimonial->customer_name ?: 'Pelanggan Dian Mustika',
+                ],
+                'datePublished' => $testimonial->created_at?->toDateString() ?: now()->toDateString(),
+                'reviewBody' => str($testimonial->content)->stripTags()->limit(300)->toString(),
+                'reviewRating' => [
+                    '@type' => 'Rating',
+                    'ratingValue' => (string) $rating,
+                    'bestRating' => '5',
+                    'worstRating' => '1',
+                ],
+            ];
+        })->values()->all();
+
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'LocalBusiness',
+            'name' => $siteName,
+            'url' => url('/'),
+            'image' => self::absoluteImage(Setting::get('logo')) ?: self::absoluteImage(Setting::get('default_og_image')),
+            'telephone' => Setting::get('phone') ?: Setting::get('whatsapp'),
+            'priceRange' => Setting::get('price_range', 'Rp 100.000 - Rp 1.500.000'),
+            'address' => [
+                '@type' => 'PostalAddress',
+                'addressCountry' => 'ID',
+                'streetAddress' => Setting::get('address', 'Indonesia'),
+            ],
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => $avgFormatted,
+                'bestRating' => '5',
+                'worstRating' => '1',
+                'ratingCount' => (string) $total,
+                'reviewCount' => (string) $total,
+            ],
+            'review' => $reviews,
+        ];
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public static function beautySalon(Location $location): array
     {
+        $coords = self::locationCoordinates($location);
+        $areas = self::locationAreaServed($location);
+
         $schema = [
             '@context' => 'https://schema.org',
-            '@type' => 'BeautySalon',
+            '@type' => ['HealthAndBeautyBusiness', 'BeautySalon'],
             'name' => $location->name,
             'description' => $location->description,
             'url' => url()->current(),
@@ -396,22 +502,181 @@ class SeoService
                 'addressCountry' => 'ID',
                 'streetAddress' => $location->address,
             ],
+            'geo' => [
+                '@type' => 'GeoCoordinates',
+                'latitude' => $coords['lat'],
+                'longitude' => $coords['lng'],
+            ],
             'image' => self::generateImage($location),
+            'priceRange' => Setting::get('price_range', 'Rp 100.000 - Rp 1.500.000'),
         ];
+
+        if (! empty($areas)) {
+            $schema['areaServed'] = array_map(fn ($area) => [
+                '@type' => 'City',
+                'name' => $area,
+            ], $areas);
+        }
 
         if ($location->google_maps_url) {
             $schema['hasMap'] = $location->google_maps_url;
         }
 
-        if ($hours = self::openingHours($location->opening_hours)) {
+        if ($specs = self::openingHoursSpecifications($location->opening_hours)) {
+            $schema['openingHoursSpecification'] = $specs;
+        } elseif ($hours = self::openingHours($location->opening_hours)) {
             $schema['openingHours'] = $hours;
         }
 
-        if ($priceRange = Setting::get('price_range')) {
-            $schema['priceRange'] = $priceRange;
+        return $schema;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function locationAreaServed(Location $location): array
+    {
+        $slug = $location->slug ?? '';
+        $name = strtolower($location->name ?? '');
+
+        if (str_contains($slug, 'bintaro') || str_contains($name, 'bintaro')) {
+            return [
+                'Bintaro Jaya',
+                'Tangerang Selatan',
+                'Pondok Aren',
+                'Ciputat',
+                'Ciputat Timur',
+                'Pamulang',
+                'Serpong',
+                'BSD City',
+                'Pesanggrahan',
+                'Kebayoran Lama',
+                'Jakarta Selatan',
+            ];
         }
 
-        return $schema;
+        if (str_contains($slug, 'tangerang') || str_contains($name, 'tangerang') || str_contains($slug, 'karawaci')) {
+            return [
+                'Kota Tangerang',
+                'Karawaci',
+                'Gading Serpong',
+                'Alam Sutera',
+                'Cikokol',
+                'Cipondoh',
+                'Pinang',
+                'Periuk',
+                'Kabupaten Tangerang',
+            ];
+        }
+
+        if (str_contains($slug, 'balikpapan') || str_contains($name, 'balikpapan')) {
+            return [
+                'Balikpapan',
+                'Balikpapan Kota',
+                'Balikpapan Selatan',
+                'Balikpapan Tengah',
+                'Balikpapan Utara',
+                'Balikpapan Barat',
+            ];
+        }
+
+        return [
+            'Tangerang Selatan',
+            'Jakarta Selatan',
+            'Jabodetabek',
+        ];
+    }
+
+    /**
+     * @return array{lat: float, lng: float}
+     */
+    public static function locationCoordinates(Location $location): array
+    {
+        $url = $location->google_maps_url ?? '';
+        $embed = $location->google_maps_embed ?? '';
+        $combined = $url.' '.$embed;
+
+        if (preg_match('/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/', $combined, $matches)) {
+            return ['lat' => (float) $matches[1], 'lng' => (float) $matches[2]];
+        }
+
+        if (preg_match('/q=(-?\d+\.\d+),(-?\d+\.\d+)/', $combined, $matches)) {
+            return ['lat' => (float) $matches[1], 'lng' => (float) $matches[2]];
+        }
+
+        if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $combined, $matches)) {
+            return ['lat' => (float) $matches[1], 'lng' => (float) $matches[2]];
+        }
+
+        $slug = $location->slug ?? '';
+        $name = strtolower($location->name ?? '');
+
+        if (str_contains($slug, 'bintaro') || str_contains($name, 'bintaro')) {
+            return ['lat' => -6.2842, 'lng' => 106.7265];
+        }
+
+        if (str_contains($slug, 'tangerang') || str_contains($name, 'tangerang')) {
+            return ['lat' => -6.2238, 'lng' => 106.6111];
+        }
+
+        if (str_contains($slug, 'balikpapan') || str_contains($name, 'balikpapan')) {
+            return ['lat' => -1.2654, 'lng' => 116.8312];
+        }
+
+        return ['lat' => -6.2842, 'lng' => 106.7265];
+    }
+
+    /**
+     * Convert Indonesian opening hours map to schema.org OpeningHoursSpecification.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected static function openingHoursSpecifications(?array $hours): array
+    {
+        if (! $hours) {
+            return [];
+        }
+
+        $dayMap = [
+            'Senin' => ['Monday'],
+            'Selasa' => ['Tuesday'],
+            'Rabu' => ['Wednesday'],
+            'Kamis' => ['Thursday'],
+            'Jumat' => ['Friday'],
+            'Sabtu' => ['Saturday'],
+            'Minggu' => ['Sunday'],
+            'Senin - Jumat' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            'Sabtu - Minggu' => ['Saturday', 'Sunday'],
+            'Setiap Hari' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        ];
+
+        $specs = [];
+        foreach ($hours as $range => $time) {
+            $key = trim($range);
+            $days = $dayMap[$key] ?? null;
+            if (! $days || ! $time) {
+                continue;
+            }
+
+            $timeParts = explode('-', $time);
+            if (count($timeParts) !== 2) {
+                continue;
+            }
+
+            $opens = str_replace('.', ':', trim($timeParts[0]));
+            $closes = str_replace('.', ':', trim($timeParts[1]));
+
+            if (strlen($opens) === 5 && strlen($closes) === 5) {
+                $specs[] = [
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => $days,
+                    'opens' => $opens,
+                    'closes' => $closes,
+                ];
+            }
+        }
+
+        return $specs;
     }
 
     /**
