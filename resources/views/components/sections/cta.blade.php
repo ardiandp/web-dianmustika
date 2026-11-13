@@ -1,4 +1,14 @@
-@props(['title' => 'Siap Merawat Diri?', 'description' => 'Konsultasikan kebutuhan perawatan Anda dengan tim kami melalui WhatsApp. Kami siap membantu Anda menemukan perawatan yang paling sesuai.'])
+@props([
+    'title' => 'Siap Merawat Diri?',
+    'description' => 'Konsultasikan kebutuhan perawatan Anda dengan tim kami melalui WhatsApp. Kami siap membantu Anda menemukan perawatan yang paling sesuai.',
+    'whatsapp' => null,
+    'message' => null,
+])
+
+@php
+    $ctaMessage = $message ?: 'Halo Dian Mustika, saya ingin konsultasi perawatan.';
+    $ctaWaUrl = App\Services\WhatsAppService::url($ctaMessage, $whatsapp);
+@endphp
 
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 px-6 py-14 text-center shadow-xl sm:px-12">
@@ -8,7 +18,7 @@
             <p class="mx-auto mt-4 max-w-2xl text-brand-100/80">{{ $description }}</p>
             <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a
-                    href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin konsultasi perawatan.') }}"
+                    href="{{ $ctaWaUrl }}"
                     target="_blank"
                     rel="noopener"
                     class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-95 sm:w-auto"

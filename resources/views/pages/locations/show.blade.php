@@ -23,7 +23,7 @@
                         <p class="mt-4 max-w-xl leading-relaxed text-brand-100/70">{{ $location->description }}</p>
                     @endif
                     <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin reservasi.') }}" target="_blank" rel="noopener" data-track-click="whatsapp_lokasi_hero" data-track-label="{{ $location->name }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
+                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin reservasi.', $location->whatsapp) }}" target="_blank" rel="noopener" data-track-click="whatsapp_lokasi_hero" data-track-label="{{ $location->name }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-95">
                             WhatsApp {{ $location->name }}
                         </a>
                         @if ($location->google_maps_url)
@@ -82,7 +82,7 @@
                         @if ($location->whatsapp)
                             <div class="flex justify-between gap-4">
                                 <dt class="text-ink/50">WhatsApp</dt>
-                                <dd><a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.'!') }}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:text-brand-600">{{ App\Services\WhatsAppService::display() }}</a></dd>
+                                <dd><a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.'!', $location->whatsapp) }}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:text-brand-600">{{ App\Services\WhatsAppService::display($location->whatsapp) }}</a></dd>
                             </div>
                         @endif
                         @if ($location->phone)
@@ -134,5 +134,10 @@
         </div>
     </section>
 
-    <x-sections.cta :title="'Kunjungi '.$location->name" :description="'Hubungi '.$location->name.' melalui WhatsApp untuk reservasi atau informasi lebih lanjut.'" />
+    <x-sections.cta
+        :title="'Kunjungi '.$location->name"
+        :description="'Hubungi '.$location->name.' melalui WhatsApp untuk reservasi atau informasi lebih lanjut.'"
+        :whatsapp="$location->whatsapp"
+        :message="'Halo Dian Mustika '.$location->name.', saya ingin reservasi perawatan.'"
+    />
 </x-layouts.app>

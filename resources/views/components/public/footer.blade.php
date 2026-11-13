@@ -106,10 +106,15 @@
                         <h4 class="text-xs font-semibold uppercase tracking-wider text-gold-400">Cabang Lokasi</h4>
                         <ul class="mt-2.5 space-y-1.5 text-sm">
                             @foreach ($locations as $loc)
-                                <li>
+                                <li class="flex items-center justify-between gap-2">
                                     <a href="{{ route('locations.show', $loc) }}" class="transition hover:text-gold-400">
                                         {{ $loc->name }}
                                     </a>
+                                    @if ($loc->whatsapp)
+                                        <a href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$loc->name.'!', $loc->whatsapp) }}" target="_blank" rel="noopener" class="text-xs text-[#25D366] hover:underline" title="Chat WA {{ $loc->name }}">
+                                            Chat WA
+                                        </a>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>

@@ -21,13 +21,13 @@
                 <p class="flex items-center gap-2"><span class="text-gold-600">🕒</span> {{ $firstHours }}</p>
             @endif
             @if ($location->whatsapp)
-                <p class="flex items-center gap-2"><span class="text-gold-600">☎</span> {{ App\Services\WhatsAppService::display() }}</p>
+                <p class="flex items-center gap-2"><span class="text-gold-600">☎</span> {{ App\Services\WhatsAppService::display($location->whatsapp) }}</p>
             @endif
         </div>
         <div class="mt-4 flex gap-2 border-t border-ink/5 pt-4">
             <a href="{{ route('locations.show', $location) }}" class="flex-1 rounded-full border border-brand-200 px-4 py-2 text-center text-sm font-semibold text-brand-700 transition hover:bg-brand-50">Detail</a>
             <a
-                href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin bertanya.') }}"
+                href="{{ App\Services\WhatsAppService::url('Halo Dian Mustika '.$location->name.', saya ingin bertanya.', $location->whatsapp) }}"
                 target="_blank"
                 rel="noopener"
                 class="flex-1 rounded-full bg-brand-700 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-brand-800"

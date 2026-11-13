@@ -263,7 +263,7 @@
                         <p class="mt-2 text-sm text-brand-100/70">Pilih lokasi untuk reservasi via WhatsApp.</p>
                         <div class="mt-4 space-y-2">
                             @foreach ($service->locations as $location)
-                                @php $locWa = App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin reservasi layanan '.$service->name.' di '.$location->name.'.'); @endphp
+                                @php $locWa = App\Services\WhatsAppService::url('Halo Dian Mustika, saya ingin reservasi layanan '.$service->name.' di '.$location->name.'.', $location->whatsapp); @endphp
                                 <a href="{{ $locWa }}" target="_blank" rel="noopener" data-track-click="whatsapp_lokasi_service" data-track-label="{{ $service->name }} - {{ $location->name }}" class="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 text-sm font-medium transition hover:bg-white/20">
                                     <span>{{ $location->name }}</span>
                                     <span class="text-xs opacity-60">WhatsApp →</span>
