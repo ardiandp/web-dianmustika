@@ -172,7 +172,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('locations', LocationController::class)->middleware('permission:manage-locations');
     Route::resource('galleries', GalleryController::class)->middleware('permission:manage-galleries');
     Route::resource('testimonials', TestimonialController::class)->middleware('permission:manage-testimonials');
-    Route::resource('article-categories', ArticleCategoryController::class)->middleware('permission:manage-article-categories');
+    Route::resource('article-categories', ArticleCategoryController::class)
+        ->parameters(['article-categories' => 'category'])
+        ->middleware('permission:manage-article-categories');
     Route::resource('articles', ArticleController::class)->middleware('permission:manage-articles');
     Route::resource('faqs', FaqController::class)->middleware('permission:manage-faqs');
 
